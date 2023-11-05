@@ -22,12 +22,13 @@ module.exports = {
     extensions: [".js", ".ts", ".tsx", ".json"],
   },
   module: {
-    rules: [    
+    rules: [
       {
-      test: /.tsx?$/,
-      exclude: /node_modules/,
-      use: "babel-loader",
-    },
+        test: /.tsx?$/,
+        exclude: /node_modules/,
+        use: "babel-loader",
+      },
+      { test: /\.css$/, use: ["style-loader", "css-loader"] },
     ],
   },
   plugins: [
