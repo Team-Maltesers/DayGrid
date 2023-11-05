@@ -10,7 +10,7 @@ module.exports = {
   },
   target: "web",
   devServer: {
-    port: "5000",
+    port: "5001",
     static: {
       directory: path.join(__dirname, "public"),
     },
@@ -19,20 +19,15 @@ module.exports = {
     liveReload: true,
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".json"],
+    extensions: [".js", ".ts", ".tsx", ".json"],
   },
   module: {
-    rules: [
+    rules: [    
       {
-        test: /.tsx?$/,
-        exclude: /node_modules/,
-        use: "babel-loader",
-      },
-      {
-        test: /.tsx?$/,
-        exclude: /node_modules/,
-        use: "ts-loader",
-      },
+      test: /.tsx?$/,
+      exclude: /node_modules/,
+      use: "babel-loader",
+    },
     ],
   },
   plugins: [
