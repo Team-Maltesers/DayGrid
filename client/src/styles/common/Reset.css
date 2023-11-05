@@ -1,0 +1,167 @@
+@charset "utf-8";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css");
+
+body * {
+  outline: none;
+  box-sizing: border-box;
+}
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+div,
+p,
+blockquote,
+pre,
+code,
+address,
+ul,
+ol,
+li,
+menu,
+nav,
+section,
+article,
+aside,
+dl,
+dt,
+dd,
+table,
+thead,
+tbody,
+tfoot,
+label,
+caption,
+th,
+td,
+form,
+fieldset,
+legend,
+hr,
+input,
+button,
+textarea,
+object,
+figure,
+figcaption {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #fff;
+  -webkit-text-size-adjust: none;
+  word-wrap: break-word;
+  word-break: keep-all;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 500;
+}
+body,
+input,
+select,
+textarea,
+pre {
+  border: none;
+  font-size: 16px;
+  font-family: "Pretendard", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #444;
+  margin: 0 auto;
+}
+button {
+  border: none;
+  font-family: "Pretendard", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #fff;
+  outline: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+ul,
+ol,
+li {
+  list-style: none;
+}
+table {
+  border-spacing: 0;
+}
+img,
+fieldset {
+  border: 0;
+}
+address,
+cite,
+code,
+em {
+  font-style: normal;
+  font-weight: normal;
+}
+label,
+img,
+input,
+select,
+textarea,
+button {
+  vertical-align: middle;
+}
+.hide,
+legend {
+  overflow: hidden;
+  display: block;
+  position: absolute;
+  border: 0;
+  width: 1px;
+  height: 1px;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+hr {
+  display: none;
+}
+main,
+header,
+section,
+nav,
+footer,
+aside,
+article,
+figure {
+  display: block;
+}
+a {
+  color: #444;
+  text-decoration: none;
+}
+pre {
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #444;
+  line-height: 30px;
+}
+#root {
+  min-width: 768px;
+  padding-top: 70px;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #fff inset;
+  -webkit-text-fill-color: #000;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}
+textarea:focus,
+input:focus {
+  border-color: #4270cf !important;
+  transition: 0.3s;
+}
