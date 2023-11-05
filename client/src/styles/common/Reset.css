@@ -132,7 +132,7 @@ figure {
   display: block;
 }
 a {
-  color: #444;
+  color: #414141;
   text-decoration: none;
 }
 pre {
@@ -141,14 +141,8 @@ pre {
   white-space: -o-pre-wrap;
   white-space: pre-wrap;
   word-wrap: break-word;
-  color: #444;
+  color: #414141;
   line-height: 30px;
-}
-#root {
-  min-width: 768px;
-  padding-top: 70px;
-  max-width: 1920px;
-  margin: 0 auto;
 }
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px #fff inset;
@@ -162,6 +156,6 @@ input:-webkit-autofill:active {
 }
 textarea:focus,
 input:focus {
-  border-color: #4270cf !important;
+  border: #5a94e0 solid 2px !important;
   transition: 0.3s;
 }
