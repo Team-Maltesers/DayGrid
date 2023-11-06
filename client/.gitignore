@@ -14,7 +14,7 @@ dist/*
 /build
 
 # misc
-.DS_Store
+*.DS_Store
 .env
 .env.sample
 .env.local
