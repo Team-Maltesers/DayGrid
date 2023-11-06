@@ -77,9 +77,13 @@ button {
   font-family: "Pretendard", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   color: #fff;
+  font-size: 18px;
+  font-weight: 600;
   outline: none;
   cursor: pointer;
-  background-color: transparent;
+  background-color: #4f709c;
+  border-radius: 4px;
+  padding: 8px 23px;
 }
 ul,
 ol,
