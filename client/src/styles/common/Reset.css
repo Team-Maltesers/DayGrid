@@ -69,8 +69,13 @@ pre {
   font-size: 16px;
   font-family: "Pretendard", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  color: #444;
+  color: #414141;
   margin: 0 auto;
+}
+input {
+  border: 1px solid #4f709c;
+  border-radius: 4px;
+  padding: 7px 10px;
 }
 button {
   border: none;
