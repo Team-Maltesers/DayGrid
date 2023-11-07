@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import classes from "../../styles/common/Header.module.css";
-import logoList from "../../assets/logo";
-import logoName from "../../assets/logo-name.svg";
-import hamburger from "../../assets/hamburger.svg";
+import logoList from "../../assets/header/logo";
+import logoName from "../../assets/header/logo-name.svg";
+import hamburger from "../../assets/header/hamburger.svg";
 
 const Header = (): JSX.Element => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
