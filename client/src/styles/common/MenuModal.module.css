@@ -1,0 +1,45 @@
+.menu__con {
+  width: 19.0625rem;
+  height: 24.875rem;
+  border-radius: 10px;
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2rem;
+  padding-top: 2.8125rem;
+}
+
+.menu__link_con {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.625rem;
+}
+
+.menu__link_con div {
+  cursor: pointer;
+  padding: 0 0.3125rem 0.25rem 0.3125rem;
+  box-shadow: 0 0 0 #c7c7c7 inset;
+  transition: all 0.3s;
+}
+
+.menu__link_con div:hover {
+  box-shadow: 0 -2px 0 #c7c7c7 inset;
+  color: #344e74;
+  transition: all 0.3s;
+}
+
+.menu__bottom {
+  width: 100%;
+  height: 3.375rem;
+  border-radius: 0 0 10px 10px;
+  color: #ffffff;
+  background-color: var(--sub-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.125rem;
+  font-weight: 400;
+}
