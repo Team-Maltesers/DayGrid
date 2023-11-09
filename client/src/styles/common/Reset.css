@@ -168,3 +168,12 @@ input:focus {
   border: #5a94e0 solid 2px !important;
   transition: 0.3s;
 }
+
+:root {
+  --main-color: #eff1f3;
+  --sub-color: #4f709c;
+  --point-color: #213555;
+  --warning-color: #ed4337;
+  --font-color-gray: #70757a;
+  --font-color-black: #414141;
+}
