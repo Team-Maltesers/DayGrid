@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       },
       { path: "/diary-write", element: <DiaryWrite /> },
       { path: "/diary-list", element: <DiaryList /> },
-      { path: "my-page", element: <MyPage /> },
+      { path: "/my-page", element: <MyPage /> },
       { path: "*", element: <Navigate to="/404" replace /> },
       { path: "/404", element: <Error /> },
     ],
