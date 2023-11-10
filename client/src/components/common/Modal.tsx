@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "../../styles/common/Modal.module.css";
-import { toggleModal } from "../../store/modal/modalSlice";
+import { closeModal } from "../../store/modal/modalSlice";
 import { useDispatch } from "react-redux";
 
 interface ModalProp {
@@ -8,13 +8,13 @@ interface ModalProp {
 }
 const Modal = ({ children }: ModalProp): JSX.Element => {
   const dispatch = useDispatch();
-  const closeModal = (event: React.MouseEvent<HTMLElement>) => {
-    if (event.target === event.currentTarget) dispatch(toggleModal()); // 클릭 시 모달 상태를 토글합니다.
+  const closeModalHandler = (event: React.MouseEvent<HTMLElement>) => {
+    if (event.target === event.currentTarget) dispatch(closeModal()); // 클릭 시 모달 상태를 토글합니다.
   };
   return (
-    <div className={classes.modal} onClick={closeModal}>
+    <div className={classes.modal} onClick={closeModalHandler}>
       <section className={classes.modal__section}>
-        <button className={classes.modal__button} onClick={() => dispatch(toggleModal())}>
+        <button className={classes.modal__button} onClick={() => dispatch(closeModal())}>
           <svg
             width="31"
             height="31"
