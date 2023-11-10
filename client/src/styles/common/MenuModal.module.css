@@ -1,15 +1,31 @@
 .menu__bg {
+  position: fixed;
   width: 100vw;
   height: 100vh;
   background-color: transparent;
+  z-index: 10000;
+}
+
+.menu__show {
+  opacity: 1;
+  animation: FadeIn 0.3s ease-in;
+}
+
+.menu__hidden {
+  opacity: 0;
+  pointer-events: none;
+  animation: FadeOut 0.3s ease-out;
 }
 
 .menu__con {
+  position: absolute;
+  top: 4.6875rem;
+  right: 20px;
   width: 19.0625rem;
   height: 24.875rem;
   background-color: #ffffff;
   border-radius: 10px 10px 13px 13px;
-  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -25,16 +41,17 @@
   gap: 1.625rem;
 }
 
-.menu__link_con div {
+.menu__link_con a {
+  display: block;
   cursor: pointer;
   padding: 0 0.3125rem 0.25rem 0.3125rem;
   box-shadow: 0 0 0 #c7c7c7 inset;
   transition: all 0.3s;
 }
 
-.menu__link_con div:hover {
-  box-shadow: 0 -2px 0 #c7c7c7 inset;
+.menu__link_con a:hover {
   color: #344e74;
+  box-shadow: 0 -2px 0 #c7c7c7 inset;
   transition: all 0.3s;
 }
 
@@ -49,4 +66,21 @@
   align-items: center;
   font-size: 1.125rem;
   font-weight: 400;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

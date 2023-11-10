@@ -14,18 +14,10 @@ const MenuModal = (): JSX.Element => {
     <div className={classes.menu__bg} onClick={(event) => toggleMenu(event)}>
       <div className={classes.menu__con}>
         <div className={classes.menu__link_con}>
-          <div>
-            <a href="/#">달력</a>
-          </div>
-          <div>
-            <a href="/#">마이페이지</a>
-          </div>
-          <div>
-            <a href="/#">다이어리</a>
-          </div>
-          <div>
-            <a href="/#">로그아웃</a>
-          </div>
+          <a href="/#">달력</a>
+          <a href="/#">마이페이지</a>
+          <a href="/#">다이어리</a>
+          <a href="/#">로그아웃</a>
         </div>
         <div className={classes.menu__bottom}>Made by. Team Maltesers 🐶</div>
       </div>
