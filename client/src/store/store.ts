@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import modalReducer from "./modal/modalSlice";
+import menuModalReducer from "./modal/menuModalSlice";
 
 const store = configureStore({
   reducer: {
     modal: modalReducer, // 스토어에 모달 리듀서를 추가합니다.
+    menuModal: menuModalReducer,
   },
 });
 

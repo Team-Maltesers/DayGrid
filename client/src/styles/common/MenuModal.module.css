@@ -1,7 +1,14 @@
+.menu__bg {
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+}
+
 .menu__con {
   width: 19.0625rem;
   height: 24.875rem;
-  border-radius: 10px;
+  background-color: #ffffff;
+  border-radius: 10px 10px 13px 13px;
   box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
