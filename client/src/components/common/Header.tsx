@@ -19,7 +19,7 @@ const Header = (): JSX.Element => {
 
   return (
     <>
-      {isModalOpen ? <MenuModal /> : null}
+      <MenuModal isModalOpen={isModalOpen} />
       <div className={classes.header__bg}>
         <div className={classes.header__empty}></div>
         <div className={classes.header__logo_con}>
