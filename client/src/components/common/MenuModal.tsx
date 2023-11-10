@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenuModal, menuModalState } from "../../store/modal/menuModalSlice";
 import classes from "../../styles/common/MenuModal.module.css";
@@ -6,7 +7,6 @@ import classes from "../../styles/common/MenuModal.module.css";
 type ModalStyle = {
   opacity: number;
   visibility: string;
-  transition: string;
 };
 
 type Visibility = "visible" | "hidden" | "collapse" | "initial" | "inherit";
@@ -15,9 +15,8 @@ const MenuModal = (): JSX.Element => {
   const [modalStyle, setModalStyle] = useState<ModalStyle>({
     opacity: 0,
     visibility: "hidden",
-    transition: "all 0.3s",
   });
-  const { opacity, visibility, transition } = modalStyle;
+  const { opacity, visibility } = modalStyle;
   const dispatch = useDispatch();
   const menuState = useSelector(menuModalState);
 
@@ -27,14 +26,12 @@ const MenuModal = (): JSX.Element => {
         ...modalStyle,
         opacity: 1,
         visibility: "visible",
-        transition: "all 0.3s",
       });
     } else {
       setModalStyle({
         ...modalStyle,
         opacity: 0,
         visibility: "hidden",
-        transition: "all 0.3s",
       });
     }
   }, [menuState]);
@@ -46,15 +43,15 @@ const MenuModal = (): JSX.Element => {
   return (
     <div
       className={classes.menu__bg}
-      style={{ opacity: opacity, visibility: visibility as Visibility, transition: transition }}
+      style={{ opacity: opacity, visibility: visibility as Visibility }}
       onClick={(event) => toggleMenu(event)}
     >
       <div className={classes.menu__con}>
         <div className={classes.menu__link_con}>
-          <a href="/#">달력</a>
-          <a href="/#">마이페이지</a>
-          <a href="/#">다이어리</a>
-          <a href="/#">로그아웃</a>
+          <Link to="/calendar">달력</Link>
+          <Link to="/diary-list">마이페이지</Link>
+          <Link to="/my-page">다이어리</Link>
+          <div>로그아웃</div>
         </div>
         <div className={classes.menu__bottom}>Made by. Team Maltesers 🐶</div>
       </div>

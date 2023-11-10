@@ -4,7 +4,7 @@
   height: 100vh;
   background-color: transparent;
   z-index: 10000;
-  transition: "all 0.3s";
+  transition: all 0.3s;
 }
 
 .menu__con {
@@ -31,7 +31,8 @@
   gap: 1.625rem;
 }
 
-.menu__link_con a {
+.menu__link_con a,
+.menu__link_con div {
   display: block;
   cursor: pointer;
   padding: 0 0.3125rem 0.25rem 0.3125rem;
@@ -39,7 +40,8 @@
   transition: all 0.3s;
 }
 
-.menu__link_con a:hover {
+.menu__link_con a:hover,
+.menu__link_con div:hover {
   color: #344e74;
   box-shadow: 0 -2px 0 #c7c7c7 inset;
   transition: all 0.3s;

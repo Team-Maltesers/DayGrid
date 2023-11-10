@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleMenuModal, menuModalState } from "../../store/modal/menuModalSlice";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { toggleMenuModal } from "../../store/modal/menuModalSlice";
 import MenuModal from "./MenuModal";
 import classes from "../../styles/common/Header.module.css";
 import logoList from "../../assets/header/logo";
@@ -9,17 +9,11 @@ import hamburger from "../../assets/header/hamburger.svg";
 
 const Header = (): JSX.Element => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const menuState = useSelector(menuModalState);
-
-  useEffect(() => {
-    setIsModalOpen(menuState);
-  }, [menuState]);
 
   return (
     <>
-      <MenuModal isModalOpen={isModalOpen} />
+      <MenuModal />
       <div className={classes.header__bg}>
         <div className={classes.header__empty}></div>
         <div className={classes.header__logo_con}>
