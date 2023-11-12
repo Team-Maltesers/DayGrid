@@ -6,6 +6,7 @@ import hamburger from "../../assets/header/hamburger.svg";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/modal/modalSlice";
 import SignUpModal from "../SignUp";
+import LoginModal from "../Login";
 
 const Header = (): JSX.Element => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
@@ -34,6 +35,7 @@ const Header = (): JSX.Element => {
           <button onClick={() => dispatch(openModal("signup"))}>회원가입</button>
         </div>
       )}
+      <LoginModal></LoginModal>
       <SignUpModal></SignUpModal>
     </div>
   );

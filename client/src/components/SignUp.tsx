@@ -3,7 +3,7 @@ import React from "react";
 import { useMutation } from "@tanstack/react-query";
 import SignUpForm, { FormData } from "./SignUpForm";
 import Modal from "./common/Modal";
-import { createNewEvent, queryClient } from "../utils/http";
+import { signup, queryClient } from "../utils/http";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store.js";
 
@@ -11,10 +11,10 @@ export default function SignUpModal() {
   const navigate = useNavigate();
 
   const { mutate } = useMutation({
-    mutationFn: createNewEvent,
+    mutationFn: signup,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
-      navigate("/events");
+      navigate("/");
     },
   });
 
@@ -23,7 +23,7 @@ export default function SignUpModal() {
   }
   const isOpen = useSelector((state: RootState) => state.modal.modalType); // 현재 모달 상태(열림/닫힘)를 가져옵니다.
 
-  if (!isOpen) {
+  if (!(isOpen === "signup")) {
     return null; // 모달 상태가 '닫힘'이면 렌더링하지 않습니다.
   }
 
