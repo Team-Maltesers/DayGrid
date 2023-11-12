@@ -1,69 +1,72 @@
-.signup__form{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 46.875rem;
-    > input {
-        margin-top: 0.625rem;
-        margin-bottom: 0.625rem;
-        width: 360px;
-    }
-    > button {
-        margin-top: 2.5rem; 
-        width: 12.5rem;
-        height: 2.875rem;
-        font-size: 1.4375rem;
-        margin-bottom: 6.25rem;
-    }
+.signup__form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 46.875rem;
+  > input {
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+    width: 22.5rem;
+    height: 2.5rem;
+  }
+  > button {
+    margin-top: 2.5rem;
+    width: 12.5rem;
+    height: 2.875rem;
+    font-size: 1.4375rem;
+    margin-bottom: 6.25rem;
+  }
 }
 
-.signup__birthDate{
-    display: flex;
-    flex-direction: column;
+.signup__birthDate {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
+  width: 360px;
+  > input {
+    margin: 0;
     margin-top: 0.625rem;
-    margin-bottom: 0.625rem;        
-    width: 360px;
-    > input {
-        margin: 0;
-        margin-top: 0.625rem;
-    }
+    height: 2.5rem;
+  }
 }
 
 .signup__title {
-    font-size: 2.1875rem;
-    margin: 2rem;
+  font-size: 2.1875rem;
+  margin: 2rem;
 }
 
 .signup__tos {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
-.signup__checkbox{
-    width: 25px; 
-    height: 25px;
-    margin-right: 10px;
-    appearance: none;
-    border: none; 
-    background-image : url('../assets/image/uncheck.png');
-    cursor: pointer;
+.signup__checkbox {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  appearance: none;
+  border: none;
+  background-image: url("../assets/image/uncheck.png");
+  cursor: pointer;
 }
 
-.signup__checkbox:focus{
-    border: none !important; 
-    outline: none; 
-    transition: 0.3s;
+.signup__checkbox:focus {
+  box-shadow: none;
+  border: none !important;
+  outline: none;
+  transition: 0.3s;
 }
 
-.signup__checkbox:checked{
-    background-image : url('../assets/image/check.png');
+.signup__checkbox:checked {
+  background-image: url("../assets/image/check.png");
 }
 
-.signup__warning{
-    border: var(--warning-color) solid 1px;
+.signup__warning {
+  border: var(--warning-color) solid 1px;
 }
 
-.signup__error{
-    font-size: 0.7rem;
-    color: var(--warning-color);
+.signup__error {
+  font-size: 0.7rem;
+  color: var(--warning-color);
 }

@@ -165,7 +165,8 @@ input:-webkit-autofill:active {
 }
 textarea:focus,
 input:focus {
-  border: #5a94e0 solid 2px !important;
+  box-shadow: 0 0 0 2px #5a94e0;
+  box-shadow: 0 0 0 2px inset #5a94e0;
   transition: 0.3s;
 }
 
