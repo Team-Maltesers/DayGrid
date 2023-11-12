@@ -1,0 +1,28 @@
+.login__link {
+  font-size: 14px;
+  color: var(--font-color-gray);
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--font-color-gray);
+}
+
+.login__text {
+  font-size: 14px;
+  color: var(--font-color-gray);
+}
+  
+.login__textBox {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 4rem;
+  > div{
+      margin-top: 0.3rem;
+      margin-left: 0.1rem;
+      margin-right: 0.1rem;
+  }
+}
+.login__createAccount {
+  border-bottom: 0.5px solid var(--font-color-gray);
+  font-size: 14px;
+  color: var(--font-color-gray);
+  cursor: pointer;
+}

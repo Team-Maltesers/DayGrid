@@ -6,7 +6,6 @@ import classes from "../../styles/common/Header.module.css";
 import smallLogoList from "../../assets/header/logo-small";
 import logoName from "../../assets/header/logo-name.svg";
 import hamburger from "../../assets/header/hamburger.svg";
-import { useDispatch } from "react-redux";
 import { openModal } from "../../store/modal/modalSlice";
 import SignUpModal from "../SignUp";
 import LoginModal from "../Login";
@@ -14,7 +13,7 @@ import LoginModal from "../Login";
 const Header = (): JSX.Element => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
   const dispatch = useDispatch();
-  
+
   return (
     <>
       <MenuModal />
@@ -26,7 +25,7 @@ const Header = (): JSX.Element => {
             <img src={logoName} />
           </div>
         </div>
-        {isLoggedIn ? (
+        {!isLoggedIn ? (
           <div className={classes.header__menu_con}>
             <img
               src={hamburger}
@@ -36,8 +35,8 @@ const Header = (): JSX.Element => {
           </div>
         ) : (
           <div className={classes.header__btn_con}>
-            <button 
-              onClick={() => dispatch(openModal("login"))} 
+            <button
+              onClick={() => dispatch(openModal("login"))}
               className={classes.header__btn_reverse}
             >
               로그인
@@ -49,7 +48,6 @@ const Header = (): JSX.Element => {
         <SignUpModal></SignUpModal>
       </div>
     </>
-
   );
 };
 
