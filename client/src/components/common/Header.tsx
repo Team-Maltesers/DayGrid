@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { toggleMenuModal } from "../../store/modal/menuModalSlice";
 import MenuModal from "./MenuModal";
 import classes from "../../styles/common/Header.module.css";
-import logoList from "../../assets/header/logo";
+import smallLogoList from "../../assets/header/logo-small";
 import logoName from "../../assets/header/logo-name.svg";
 import hamburger from "../../assets/header/hamburger.svg";
 import { useDispatch } from "react-redux";
@@ -21,7 +21,7 @@ const Header = (): JSX.Element => {
       <div className={classes.header__bg}>
         <div className={classes.header__empty}></div>
         <div className={classes.header__logo_con}>
-          <div className={classes.header__logo}>{logoList[0].logo()}</div>
+          <div className={classes.header__logo}>{smallLogoList[0].logo()}</div>
           <div className={classes.header__logo_name}>
             <img src={logoName} />
           </div>
