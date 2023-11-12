@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .login__form{
     display: flex;
     align-items: center;
@@ -29,3 +30,37 @@
     font-size: 0.7rem;
     color: var(--warning-color);
 }
+=======
+.login__form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 46.875rem;
+  > input {
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+    width: 22.5rem;
+    height: 2.5rem;
+  }
+  > button {
+    margin-top: 2rem;
+    width: 12.5rem;
+    height: 2.875rem;
+    font-size: 1.4375rem;
+    margin-bottom: 1.9rem;
+  }
+}
+.login__title {
+  font-size: 2.1875rem;
+  margin: 2rem;
+}
+.login__warning {
+  border: var(--warning-color) solid 1px;
+}
+
+.login__error {
+  font-size: 0.7rem;
+  color: var(--warning-color);
+}
+>>>>>>> 56d420b (💄 Design: 회원가입 input 스타일 수정)
