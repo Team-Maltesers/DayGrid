@@ -11,7 +11,7 @@ import SignUpModal from "../SignUp";
 import LoginModal from "../Login";
 
 const Header = (): JSX.Element => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   return (
@@ -41,7 +41,9 @@ const Header = (): JSX.Element => {
             >
               로그인
             </button>
-            <button onClick={() => dispatch(openModal("signup"))}>회원가입</button>
+            <button onClick={() => dispatch(openModal("signup"))} className={classes.header__btn}>
+              회원가입
+            </button>
           </div>
         )}
         <LoginModal></LoginModal>
