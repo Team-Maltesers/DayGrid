@@ -1,0 +1,60 @@
+/* CalendarHead 컴포넌트 스타일 */
+.calendar__head_con {
+  width: 92.8125rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.4375rem;
+}
+
+.calendar__head_left {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 2.25rem;
+}
+
+.calendar__head_left img {
+  cursor: pointer;
+}
+
+.calendar__head_right {
+  display: flex;
+  align-items: center;
+  gap: 0.8125rem;
+}
+
+.calendar__head_today {
+  width: 8.125rem;
+  height: 3.125rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background-color: var(--main-color);
+  font-size: 1.375rem;
+  cursor: pointer;
+}
+
+.calendar__head_today:hover {
+  background-color: #e8ebee;
+}
+
+.calendar__head_format {
+  width: 174px;
+  height: 3.125rem;
+  border-radius: 4px;
+  font-size: 24px;
+  border: 1px solid var(--sub-color);
+  text-align: center;
+  cursor: pointer;
+  /* select 태그 화살표 모양 변경을 위한 속성 */
+  -webkit-appearance: none; /* for chrome */
+  -moz-appearance: none; /*for firefox*/
+  appearance: none;
+  background: url(../../assets/image/arrow-down.png) no-repeat 100% 50%/50px auto;
+}
+
+select::-ms-expand {
+  display: none; /*for IE10,11*/
+}
