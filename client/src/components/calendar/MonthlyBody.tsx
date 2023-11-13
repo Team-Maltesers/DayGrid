@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { currentDateState } from "../../store/modal/calendarSlice";
 import {
   startOfMonth,
   endOfMonth,
@@ -11,9 +13,9 @@ import {
 import classes from "../../styles/calendar/MonthlyCalendar.module.css";
 
 const MonthlyBody = (): JSX.Element => {
-  const today = new Date();
-  const monthStart = startOfMonth(today);
-  const monthEnd = endOfMonth(today);
+  const currentDate = useSelector(currentDateState);
+  const monthStart = startOfMonth(currentDate);
+  const monthEnd = endOfMonth(currentDate);
   const calendarStart = startOfWeek(monthStart);
   const calendarEnd = endOfWeek(monthEnd);
 
@@ -35,7 +37,7 @@ const MonthlyBody = (): JSX.Element => {
 
     if (!isSameMonth(curDay, monthStart)) {
       style.fontColor = "var(--font-color-gray)";
-    } else if (isSameDay(curDay, today)) {
+    } else if (isSameDay(curDay, new Date())) {
       style.fontColor = "#FFFFFF";
       style.fontWeight = "500";
       style.background = "var(--sub-color)";
