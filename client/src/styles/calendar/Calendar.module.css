@@ -53,6 +53,7 @@
   -moz-appearance: none; /*for firefox*/
   appearance: none;
   background: url(../../assets/image/arrow-down.png) no-repeat 100% 50%/50px auto;
+  padding-right: 30px;
 }
 
 select::-ms-expand {
