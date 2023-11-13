@@ -25,7 +25,7 @@ const Header = (): JSX.Element => {
             <img src={logoName} />
           </div>
         </div>
-        {!isLoggedIn ? (
+        {isLoggedIn ? (
           <div className={classes.header__menu_con}>
             <img
               src={hamburger}
