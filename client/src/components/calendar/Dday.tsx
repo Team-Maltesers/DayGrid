@@ -8,16 +8,6 @@ const Dday = (): JSX.Element => {
       <div className={classes.dday__title}>D - DAY</div>
       <div className={classes.dday__contents}>
         <DdayCard />
-        <DdayCard />
-        <DdayCard />
-        <DdayCard />
-        <DdayCard />
-        <DdayCard />
-        <DdayCard />
-        <DdayCard />
-        <DdayCard />
-        <DdayCard />
-        <DdayCard />
       </div>
     </div>
   );
