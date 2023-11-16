@@ -13,7 +13,7 @@ export default function SignUpModal() {
   const { mutate } = useMutation({
     mutationFn: signup,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: ["signup"] });
       navigate("/");
     },
   });
