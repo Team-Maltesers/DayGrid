@@ -5,6 +5,7 @@ module.exports = {
   entry: "./src/index.tsx",
   mode: "development",
   output: {
+    publicPath: '/',
     path: path.resolve(__dirname, "./dist"),
     filename: "index_bundle.js",
   },
@@ -18,6 +19,9 @@ module.exports = {
     hot: true,
     liveReload: true,
     historyApiFallback: true,
+    devMiddleware: {
+      publicPath: '/',
+    },
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".json"],
