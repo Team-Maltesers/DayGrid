@@ -1,37 +1,53 @@
 import { QueryClient } from "@tanstack/react-query";
 import { FormData } from "../components/SignUpForm";
 import { LoginFormData } from "../components/LoginForm";
+import axios from "axios";
 
 export const queryClient = new QueryClient();
 
 export async function signup(eventData: FormData) {
-  const response = await fetch(`http://localhost:3000/signup`, {
-    method: "POST",
-    body: JSON.stringify(eventData),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  if (!response.ok) {
-    const error = new Error("An error occurred while creating the event");
+  try {
+    const response = await axios.post(`http://localhost:3000/signup`, eventData);
+    return response.data;
+  } catch (error) {
     throw error;
   }
-  const event = await response.json();
-  return event;
 }
 
 export async function login(eventData: LoginFormData) {
-  const response = await fetch(`http://localhost:3000/login`, {
-    method: "POST",
-    body: JSON.stringify(eventData),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  if (!response.ok) {
-    const error = new Error("An error occurred while creating the event");
+  try {
+    const response = await axios.post(`http://localhost:3000/login`, eventData);
+    return response.data;
+  } catch (error) {
     throw error;
   }
-  const event = await response.json();
-  return event;
+}
+
+export async function diarydetail({ id, signal }: { id: string | undefined; signal: AbortSignal }) {
+  if (!id) {
+    throw new Error("id is required");
+  }
+  try {
+    const response = await axios.get(`http://localhost:3000/diary/${id}`, { signal });
+    const content = {
+      title: response.data.title,
+      date: response.data.date,
+      content: response.data.content,
+    };
+    return content;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteDiary({ id }: { id: string | undefined }) {
+  if (!id) {
+    throw new Error("id is required");
+  }
+  try {
+    const response = await axios.delete(`http://localhost:3000/diary/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 }
