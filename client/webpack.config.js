@@ -20,14 +20,14 @@ module.exports = {
     historyApiFallback: true,
   },
   resolve: {
-    extensions: [".js", ".ts", ".tsx", ".json"],
+    extensions: [".tsx", ".ts", ".js", ".json"],
   },
   module: {
     rules: [
       {
-        test: /.tsx?$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: "babel-loader",
+        use: ["babel-loader", "ts-loader"],
       },
       { test: /\.css$/, use: ["style-loader", "css-loader"] },
       {
