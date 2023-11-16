@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 46.875rem;
+    width: 100%;
     > input {
         margin-top: 0.625rem;
         margin-bottom: 0.625rem;
