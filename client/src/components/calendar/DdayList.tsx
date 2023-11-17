@@ -2,7 +2,7 @@ import React from "react";
 import DdayCard from "./DdayCard";
 import classes from "../../styles/calendar/Dday.module.css";
 
-const DdayList = (): JSX.Element => {
+function DdayList(): JSX.Element {
   return (
     <div className={classes.dday__con}>
       <div className={classes.dday__title}>D - DAY</div>
@@ -11,6 +11,6 @@ const DdayList = (): JSX.Element => {
       </div>
     </div>
   );
-};
+}
 
 export default DdayList;

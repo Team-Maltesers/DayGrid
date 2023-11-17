@@ -10,7 +10,7 @@ import classes from "../../styles/calendar/Calendar.module.css";
 import leftArrow from "../../assets/image/arrow-left.png";
 import rightArrow from "../../assets/image/arrow-right.png";
 
-const CalendarHead = (): JSX.Element => {
+function CalendarHead(): JSX.Element {
   const currentDate = useSelector(currentDateState);
   const dispatch = useDispatch();
 
@@ -48,6 +48,6 @@ const CalendarHead = (): JSX.Element => {
       </div>
     </div>
   );
-};
+}
 
 export default CalendarHead;

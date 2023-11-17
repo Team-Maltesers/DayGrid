@@ -12,7 +12,7 @@ import {
 } from "date-fns";
 import classes from "../../styles/calendar/MonthlyCalendar.module.css";
 
-const MonthlyBody = (): JSX.Element => {
+function MonthlyBody(): JSX.Element {
   const currentDate = useSelector(currentDateState);
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
@@ -30,9 +30,6 @@ const MonthlyBody = (): JSX.Element => {
       fontColor: "",
       fontWeight: "",
       background: "",
-      width: "",
-      height: "",
-      borderRadius: "",
     };
 
     if (!isSameMonth(curDay, monthStart)) {
@@ -75,6 +72,6 @@ const MonthlyBody = (): JSX.Element => {
       ))}
     </div>
   );
-};
+}
 
 export default MonthlyBody;

@@ -12,7 +12,7 @@ const formatCaption: DateFormatter = (date, options) => {
   return <>{format(date, "yyyy년 LLLL", { locale: options?.locale })}</>;
 };
 
-const MiniCalendar = (): JSX.Element => {
+function MiniCalendar(): JSX.Element {
   const today = new Date();
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(today);
   const dispatch = useDispatch();
@@ -30,6 +30,6 @@ const MiniCalendar = (): JSX.Element => {
       onSelect={setSelectedDay}
     />
   );
-};
+}
 
 export default MiniCalendar;
