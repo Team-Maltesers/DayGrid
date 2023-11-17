@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { subMonths, addMonths } from "date-fns";
 
@@ -15,9 +15,13 @@ const calendarSlice = createSlice({
     moveToToday: () => {
       return new Date();
     },
+    moveToSelectedDay: (state, action: PayloadAction<Date | undefined>) => {
+      return action.payload;
+    },
   },
 });
 
-export const { moveToPrevMonth, moveToNextMonth, moveToToday } = calendarSlice.actions;
+export const { moveToPrevMonth, moveToNextMonth, moveToToday, moveToSelectedDay } =
+  calendarSlice.actions;
 export const currentDateState = (state: RootState) => state.currentDate;
 export default calendarSlice.reducer;
