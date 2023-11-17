@@ -1,3 +1,27 @@
+/* Calendar 페이지 스타일 */
+.calendar__bg {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 4.375rem;
+}
+
+.calendar__con {
+  height: 55.625rem;
+  display: flex;
+  align-items: center;
+  gap: 4.125rem;
+}
+
+.calendar__side,
+.calendar__main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 /* CalendarHead 컴포넌트 스타일 */
 .calendar__head_con {
   width: 92.8125rem;
