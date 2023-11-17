@@ -3,7 +3,7 @@ import classes from "../styles/Info.module.css";
 import bigLogoList from "../assets/header/logo-big";
 import logoName from "../assets/header/logo-name.svg";
 
-function Info() {
+function InfoPage() {
   return (
     <div className={classes.info__bg}>
       <div>
@@ -31,4 +31,4 @@ function Info() {
   );
 }
 
-export default Info;
+export default InfoPage;

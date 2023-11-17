@@ -1,7 +1,7 @@
 import React from "react";
 
-function Calendar() {
+function ErrorPage() {
   return <div></div>;
 }
 
-export default Calendar;
+export default ErrorPage;
