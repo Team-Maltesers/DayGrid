@@ -1,7 +1,7 @@
 import React from "react";
 
-function DiaryWrite() {
+function ErrorPage() {
   return <div></div>;
 }
 
-export default DiaryWrite;
+export default ErrorPage;
