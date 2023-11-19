@@ -59,8 +59,8 @@ function MonthlyBody(): JSX.Element {
           newDummy.map((v) => <MonthlyPlanCard planTitle={v.title} color={v.color} />)
         ) : (
           <>
-            <MonthlyPlanCard planTitle={newDummy[0].title} color={dummy[0].color} />
-            <MonthlyPlanCard planTitle={newDummy[1].title} color={dummy[1].color} />
+            <MonthlyPlanCard planTitle={newDummy[0].title} color={newDummy[0].color} />
+            <MonthlyPlanCard planTitle={newDummy[1].title} color={newDummy[1].color} />
             <MonthlyPlanCard planTitle={`+${newDummy.length - 2} 일정`} />
           </>
         )}
