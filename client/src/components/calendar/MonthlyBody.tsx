@@ -12,39 +12,7 @@ import {
 } from "date-fns";
 import classes from "../../styles/calendar/MonthlyCalendar.module.css";
 import MonthlyPlanCard from "./MonthlyPlanCard";
-
-const dummy = [
-  {
-    start: new Date(2023, 11, 2, 17, 28, 0),
-    end: new Date(2023, 11, 2, 20, 12, 0),
-    title: "테스트 일정1",
-    color: "lightcoral",
-  },
-  {
-    start: new Date(2023, 11, 2, 17, 28, 0),
-    end: new Date(2023, 11, 2, 20, 12, 0),
-    title: "테스트 일정1",
-    color: "lightcoral",
-  },
-  {
-    start: new Date(2023, 11, 2, 17, 28, 0),
-    end: new Date(2023, 11, 2, 20, 12, 0),
-    title: "테스트 일정1",
-    color: "lightcoral",
-  },
-  {
-    start: new Date(2023, 11, 2, 17, 28, 0),
-    end: new Date(2023, 11, 2, 20, 12, 0),
-    title: "테스트 일정1",
-    color: "lightcoral",
-  },
-  {
-    start: new Date(2023, 11, 16, 14, 24, 0),
-    end: new Date(2023, 11, 16, 16, 51, 0),
-    title: "테스트 일정2",
-    color: "lightcoral",
-  },
-];
+import dummy from "../../assets/dummy";
 
 function MonthlyBody(): JSX.Element {
   const currentDate = new Date(useSelector(currentDateState));
@@ -91,9 +59,9 @@ function MonthlyBody(): JSX.Element {
           newDummy.map((v) => <MonthlyPlanCard planTitle={v.title} color={v.color} />)
         ) : (
           <>
-            <MonthlyPlanCard planTitle={dummy[0].title} color={dummy[0].color} />
-            <MonthlyPlanCard planTitle={dummy[1].title} color={dummy[1].color} />
-            <MonthlyPlanCard planTitle={`+${dummy.length - 2} 일정`} />
+            <MonthlyPlanCard planTitle={newDummy[0].title} color={dummy[0].color} />
+            <MonthlyPlanCard planTitle={newDummy[1].title} color={dummy[1].color} />
+            <MonthlyPlanCard planTitle={`+${newDummy.length - 2} 일정`} />
           </>
         )}
       </div>,

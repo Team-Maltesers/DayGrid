@@ -3,21 +3,15 @@ import { isSameWeek } from "date-fns";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { currentDateState } from "../../store/modal/calendarSlice";
 import classes from "../../styles/calendar/WeeklyCalendar.module.css";
+import dummy from "../../assets/dummy";
 
-const dummy = [
-  {
-    start: new Date(2023, 10, 2, 17, 28, 0),
-    end: new Date(2023, 10, 2, 20, 12, 0),
-    title: "테스트 일정1",
-    color: "lightcoral",
-  },
-  {
-    start: new Date(2023, 10, 16, 14, 24, 0),
-    end: new Date(2023, 10, 16, 16, 51, 0),
-    title: "테스트 일정2",
-    color: "lightcoral",
-  },
-];
+interface ArrangeTime {
+  [key: string]: number;
+}
+
+interface ArrangeBoxes {
+  [key: string]: ArrangeTime;
+}
 
 function WeeklyBody(): JSX.Element {
   const currentDate = new Date(useSelector(currentDateState));
@@ -36,11 +30,50 @@ function WeeklyBody(): JSX.Element {
   const gridItemArr = Array.from({ length: 168 }, (_, i) => i + 1);
 
   const newDummy = [];
+  const arrangeBoxes: ArrangeBoxes = {
+    "0": {},
+    "1": {},
+    "2": {},
+    "3": {},
+    "4": {},
+    "5": {},
+    "6": {},
+  };
   for (let i = 0; i < dummy.length; i++) {
     const top = `${dummy[i].start.getHours() * 60 + dummy[i].start.getMinutes()}px`;
-    const left = `${dummy[i].start.getDay() * 194.9}px`;
     const height = `${(dummy[i].end.getTime() - dummy[i].start.getTime()) / 1000 / 60}px`;
-    newDummy.push({ ...dummy[i], top: top, left: left, height: height });
+
+    const today = dummy[i].start.getDay().toString();
+    const hour = dummy[i].start.getHours().toString();
+    arrangeBoxes[today][hour] ? arrangeBoxes[today][hour]++ : (arrangeBoxes[today][hour] = 1);
+
+    const width = `${193 / arrangeBoxes[today][hour]}px`;
+    let left = `${dummy[i].start.getDay() * 194.9}px`;
+    let index = 2;
+
+    if (dummy[i].end.getHours() - dummy[i].start.getHours() > 3) {
+      index = 1;
+    }
+    if (dummy[i].end.getHours() - dummy[i].start.getHours() > 5) {
+      index = 0;
+    }
+
+    if (arrangeBoxes[today][hour] > 1) {
+      left = `${
+        dummy[i].start.getDay() * 194.9 +
+        (193 / arrangeBoxes[today][hour]) * (arrangeBoxes[today][hour] - 1)
+      }px`;
+      index += arrangeBoxes[today][hour];
+    }
+
+    newDummy.push({
+      ...dummy[i],
+      top: top,
+      left: left,
+      height: height,
+      width: width,
+      index: index,
+    });
   }
 
   return (
@@ -66,6 +99,8 @@ function WeeklyBody(): JSX.Element {
                 left: v.left,
                 height: v.height,
                 backgroundColor: v.color,
+                width: v.width,
+                zIndex: v.index,
               }}
             >
               {v.title}
