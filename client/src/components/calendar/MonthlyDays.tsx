@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "../../styles/calendar/MonthlyCalendar.module.css";
 
-const MonthlyDays = (): JSX.Element => {
+function MonthlyDays(): JSX.Element {
   const days = ["일", "월", "화", "수", "목", "금", "토"];
 
   return (
@@ -15,6 +15,6 @@ const MonthlyDays = (): JSX.Element => {
       })}
     </div>
   );
-};
+}
 
 export default MonthlyDays;

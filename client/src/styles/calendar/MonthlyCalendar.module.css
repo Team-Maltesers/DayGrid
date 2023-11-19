@@ -48,13 +48,17 @@
 
 .monthly__body_cell {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px;
 }
 
 .monthly__body_cell:not(:last-child) {
   border-right: 1px solid var(--sub-color);
 }
 
-.monthly__body_cell > div {
+.monthly__body_cell_number {
   width: 1.875rem;
   height: 1.875rem;
   border-radius: 50%;
@@ -68,8 +72,17 @@
   transition: all 0.2s;
 }
 
-.monthly__body_cell > div:hover {
+.monthly__body_cell_number:hover {
   cursor: pointer;
   background-color: #e3eaf1;
   transition: all 0.2s;
+}
+
+/* MonthlyPlanCard 컴포넌트 스타일 */
+.monthly__plan_card {
+  width: 100%;
+  border-radius: 4px;
+  font-size: 1.125rem;
+  padding: 0.1875rem;
+  background-color: #bae7ab;
 }

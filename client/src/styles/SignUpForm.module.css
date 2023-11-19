@@ -1,22 +1,21 @@
-
-.signup__form{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
-    > input 
-        margin-top: 0.625rem;
-        margin-bottom: 0.625rem;
-        width: 360px;
-    }
-    > button {
-        margin-top: 2.5rem; 
-        width: 12.5rem;
-        height: 2.875rem;
-        font-size: 1.4375rem;
-        margin-bottom: 6.25rem;
-    }
+.signup__form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  > input {
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+    width: 360px;
+  }
+  > button {
+    margin-top: 2.5rem;
+    width: 12.5rem;
+    height: 2.875rem;
+    font-size: 1.4375rem;
+    margin-bottom: 6.25rem;
+  }
 }
 
 .signup__birthDate {

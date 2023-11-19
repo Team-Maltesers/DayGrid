@@ -11,9 +11,11 @@ import {
   isSameDay,
 } from "date-fns";
 import classes from "../../styles/calendar/MonthlyCalendar.module.css";
+import MonthlyPlanCard from "./MonthlyPlanCard";
+import dummy from "../../assets/dummy";
 
-const MonthlyBody = (): JSX.Element => {
-  const currentDate = useSelector(currentDateState);
+function MonthlyBody(): JSX.Element {
+  const currentDate = new Date(useSelector(currentDateState));
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
   const calendarStart = startOfWeek(monthStart);
@@ -25,14 +27,12 @@ const MonthlyBody = (): JSX.Element => {
   let key = 0;
 
   while (curDay <= calendarEnd) {
+    const newDummy = dummy.filter((v) => isSameDay(curDay, v.start));
     const day = curDay.getDate();
     const style = {
       fontColor: "",
       fontWeight: "",
       background: "",
-      width: "",
-      height: "",
-      borderRadius: "",
     };
 
     if (!isSameMonth(curDay, monthStart)) {
@@ -51,9 +51,19 @@ const MonthlyBody = (): JSX.Element => {
             fontWeight: style.fontWeight,
             backgroundColor: style.background,
           }}
+          className={classes.monthly__body_cell_number}
         >
           {day}
         </div>
+        {newDummy.length < 4 ? (
+          newDummy.map((v) => <MonthlyPlanCard planTitle={v.title} color={v.color} />)
+        ) : (
+          <>
+            <MonthlyPlanCard planTitle={newDummy[0].title} color={newDummy[0].color} />
+            <MonthlyPlanCard planTitle={newDummy[1].title} color={newDummy[1].color} />
+            <MonthlyPlanCard planTitle={`+${newDummy.length - 2} 일정`} />
+          </>
+        )}
       </div>,
     );
 
@@ -75,6 +85,6 @@ const MonthlyBody = (): JSX.Element => {
       ))}
     </div>
   );
-};
+}
 
 export default MonthlyBody;

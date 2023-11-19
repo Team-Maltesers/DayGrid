@@ -2,7 +2,7 @@ import React from "react";
 import classes from "../../styles/calendar/Dday.module.css";
 import cake from "../../assets/image/d-day/cake.png";
 
-const DdayCard = (): JSX.Element => {
+function DdayCard(): JSX.Element {
   return (
     <div className={classes.dday__card_con}>
       <div className={classes.dday__card_top}>
@@ -12,6 +12,6 @@ const DdayCard = (): JSX.Element => {
       <div className={classes.dday__card_bottom}>D-day Content</div>
     </div>
   );
-};
+}
 
 export default DdayCard;

@@ -1,3 +1,52 @@
+/* Calendar 페이지 스타일 */
+.calendar__bg {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 4.375rem;
+}
+
+.calendar__con {
+  height: 55.625rem;
+  display: flex;
+  align-items: center;
+  gap: 4.125rem;
+}
+
+.calendar__side,
+.calendar__main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.calendar__main {
+  position: relative;
+}
+
+.calendar__add_btn {
+  position: absolute;
+  width: 6.25rem;
+  height: 6.25rem;
+  border-radius: 50%;
+  background-color: var(--sub-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 3px 2px 9px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  bottom: 0.6875rem;
+  right: 0.6875rem;
+  transition: all 0.3s;
+}
+
+.calendar__add_btn:hover {
+  box-shadow: 4px 3px 20px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s;
+}
+
 /* CalendarHead 컴포넌트 스타일 */
 .calendar__head_con {
   width: 92.8125rem;

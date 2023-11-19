@@ -1,29 +1,49 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  moveToPrevMonth,
-  moveToNextMonth,
-  moveToToday,
+  changeCurrentDate,
+  changeCalendarType,
   currentDateState,
+  calendarTypeState,
 } from "../../store/modal/calendarSlice";
 import classes from "../../styles/calendar/Calendar.module.css";
+import { addMonths, subMonths, addWeeks, subWeeks } from "date-fns";
 import leftArrow from "../../assets/image/arrow-left.png";
 import rightArrow from "../../assets/image/arrow-right.png";
 
-const CalendarHead = (): JSX.Element => {
-  const currentDate = useSelector(currentDateState);
+function CalendarHead(): JSX.Element {
+  const currentDate = new Date(useSelector(currentDateState));
+  const calendarType = useSelector(calendarTypeState);
   const dispatch = useDispatch();
 
   function handlePrevMonthBtn() {
-    dispatch(moveToPrevMonth());
+    let newDate;
+    if (calendarType === "월") {
+      newDate = subMonths(currentDate, 1);
+    } else {
+      newDate = subWeeks(currentDate, 1);
+    }
+
+    dispatch(changeCurrentDate(newDate.toISOString()));
   }
 
   function handleNextMonthBtn() {
-    dispatch(moveToNextMonth());
+    let newDate;
+    if (calendarType === "월") {
+      newDate = addMonths(currentDate, 1);
+    } else {
+      newDate = addWeeks(currentDate, 1);
+    }
+
+    dispatch(changeCurrentDate(newDate.toISOString()));
   }
 
   function handleTodayBtn() {
-    dispatch(moveToToday());
+    dispatch(changeCurrentDate(new Date().toISOString()));
+  }
+
+  function handleCalendarTypeChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    dispatch(changeCalendarType(e.target.value));
   }
 
   return (
@@ -41,13 +61,16 @@ const CalendarHead = (): JSX.Element => {
         <div className={classes.calendar__head_today} onClick={handleTodayBtn}>
           오늘
         </div>
-        <select className={classes.calendar__head_format}>
+        <select
+          className={classes.calendar__head_format}
+          onChange={(e) => handleCalendarTypeChange(e)}
+        >
           <option>월</option>
           <option>주</option>
         </select>
       </div>
     </div>
   );
-};
+}
 
 export default CalendarHead;

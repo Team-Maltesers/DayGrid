@@ -1,23 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { subMonths, addMonths } from "date-fns";
+
+interface CalendarState {
+  currentDate: string;
+  calendarType: string;
+}
+
+const initialState: CalendarState = {
+  currentDate: new Date().toISOString(),
+  calendarType: "월",
+};
 
 const calendarSlice = createSlice({
   name: "currentDate",
-  initialState: new Date(),
+  initialState,
   reducers: {
-    moveToPrevMonth: (state) => {
-      return subMonths(state, 1);
+    changeCurrentDate: (state, action: PayloadAction<string>) => {
+      state.currentDate = action.payload;
     },
-    moveToNextMonth: (state) => {
-      return addMonths(state, 1);
-    },
-    moveToToday: () => {
-      return new Date();
+    changeCalendarType: (state, action: PayloadAction<string>) => {
+      state.calendarType = action.payload;
     },
   },
 });
 
-export const { moveToPrevMonth, moveToNextMonth, moveToToday } = calendarSlice.actions;
-export const currentDateState = (state: RootState) => state.currentDate;
+export const { changeCurrentDate, changeCalendarType } = calendarSlice.actions;
+export const currentDateState = (state: RootState) => state.currentDate.currentDate;
+export const calendarTypeState = (state: RootState) => state.currentDate.calendarType;
 export default calendarSlice.reducer;

@@ -3,6 +3,7 @@ import modalReducer from "./modal/modalSlice";
 import menuModalReducer from "./modal/menuModalSlice";
 import diaryReducer from "./diary/diarySlice";
 import calendarReducer from "./modal/calendarSlice";
+import diaryReducer from "./diary/diarySlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,8 @@ const store = configureStore({
     menuModal: menuModalReducer,
     diaryId: diaryReducer,
     currentDate: calendarReducer,
+    calendarType: calendarReducer,
+    diaryId: diaryReducer,
   },
 });
 

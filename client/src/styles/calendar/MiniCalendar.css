@@ -1,5 +1,6 @@
 /* css module로 하면 일일이 속성을 Daypicker 어트리뷰트로 지정해주어야 하기 때문에 기존 css 파일을 바로 덮어쓸 수 있도록 .css 파일로 작성하였음. */
 .rdp {
+  --rdp-cell-size: 2.1875rem;
   margin: 0;
 }
 
@@ -13,7 +14,7 @@
 }
 
 .rdp-cell {
-  padding: 4px;
+  padding: 0.25rem;
 }
 
 .rdp-day_selected {

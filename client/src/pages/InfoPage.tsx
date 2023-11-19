@@ -3,7 +3,7 @@ import classes from "../styles/Info.module.css";
 import bigLogoList from "../assets/header/logo-big";
 import logoName from "../assets/header/logo-name.svg";
 
-function InfoPage() {
+function InfoPage(): JSX.Element {
   return (
     <div className={classes.info__bg}>
       <div>
