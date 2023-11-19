@@ -49,14 +49,7 @@ function WeeklyBody(): JSX.Element {
 
     const width = `${193 / arrangeBoxes[today][hour]}px`;
     let left = `${dummy[i].start.getDay() * 194.9}px`;
-    let index = 2;
-
-    if (dummy[i].end.getHours() - dummy[i].start.getHours() > 3) {
-      index = 1;
-    }
-    if (dummy[i].end.getHours() - dummy[i].start.getHours() > 5) {
-      index = 0;
-    }
+    let index = 23 - (dummy[i].end.getHours() - dummy[i].start.getHours());
 
     if (arrangeBoxes[today][hour] > 1) {
       left = `${
