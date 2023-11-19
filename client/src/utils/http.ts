@@ -23,7 +23,13 @@ export async function login(eventData: LoginFormData) {
   }
 }
 
-export async function diarydetail({ id, signal }: { id: string | undefined; signal: AbortSignal }) {
+export async function fetchDiaryDetail({
+  id,
+  signal,
+}: {
+  id: number | undefined;
+  signal: AbortSignal;
+}) {
   if (!id) {
     throw new Error("id is required");
   }
@@ -40,12 +46,20 @@ export async function diarydetail({ id, signal }: { id: string | undefined; sign
   }
 }
 
-export async function deleteDiary({ id }: { id: string | undefined }) {
+export async function deleteDiary({ id }: { id: number | undefined }) {
   if (!id) {
     throw new Error("id is required");
   }
   try {
     const response = await axios.delete(`http://localhost:3000/diary/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function fetchDiaryList({ page, signal }: { page: number; signal: AbortSignal }) {
+  try {
+    const response = await axios.get(`http://localhost:3000/diary?page=${page}`, { signal });
     return response.data;
   } catch (error) {
     throw error;
