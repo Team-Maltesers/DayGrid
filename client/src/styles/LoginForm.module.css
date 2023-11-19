@@ -18,14 +18,14 @@
     }
 }
 .login__title {
-    font-size: 2.1875rem;
-    margin: 2rem;
+  font-size: 2.1875rem;
+  margin: 2rem;
 }
-.login__warning{
-    border: var(--warning-color) solid 1px;
+.login__warning {
+  border: var(--warning-color) solid 1px;
 }
 
-.login__error{
-    font-size: 0.7rem;
-    color: var(--warning-color);
+.login__error {
+  font-size: 0.7rem;
+  color: var(--warning-color);
 }
