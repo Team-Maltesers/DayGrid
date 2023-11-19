@@ -1,20 +1,18 @@
 import React, { ReactElement } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Modal from "./common/Modal";
-import { diarydetail, deleteDiary } from "../utils/http";
+import { fetchDiaryDetail, deleteDiary } from "../utils/http";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store.js";
 import DiaryData from "./DiaryData";
 
 export default function DiaryDetailModal() {
   const navigate = useNavigate();
-  const params = useParams(); // URL에서 다이어리의 ID를 가져옵니다.
-  const diaryId = params.id; // 가져온 ID를 diaryId 변수에 저장합니다.
-
+  const diaryId = useSelector((state: RootState) => state.diaryId.diaryId);
   const { data: diaryData, isPending } = useQuery({
     queryKey: ["diarydetail", diaryId],
-    queryFn: ({ signal }) => diarydetail({ signal, id: diaryId }),
+    queryFn: ({ signal }) => fetchDiaryDetail({ signal, id: diaryId }),
   });
 
   const { mutate } = useMutation({

@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import modalReducer from "./modal/modalSlice";
 import menuModalReducer from "./modal/menuModalSlice";
 import calendarReducer from "./modal/calendarSlice";
+import diaryReducer from "./diary/diarySlice";
 
 const store = configureStore({
   reducer: {
@@ -9,6 +10,7 @@ const store = configureStore({
     menuModal: menuModalReducer,
     currentDate: calendarReducer,
     calendarType: calendarReducer,
+    diaryId: diaryReducer,
   },
 });
 
