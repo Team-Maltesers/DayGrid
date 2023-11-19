@@ -9,6 +9,7 @@ import hamburger from "../../assets/header/hamburger.svg";
 import { openModal } from "../../store/modal/modalSlice";
 import SignUpModal from "../SignUp";
 import LoginModal from "../Login";
+import DiaryDetailModal from "../DiaryDetail";
 
 const Header = (): JSX.Element => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -48,6 +49,7 @@ const Header = (): JSX.Element => {
         )}
         <LoginModal></LoginModal>
         <SignUpModal></SignUpModal>
+        <DiaryDetailModal></DiaryDetailModal>
       </div>
     </>
   );
