@@ -11,9 +11,43 @@ import {
   isSameDay,
 } from "date-fns";
 import classes from "../../styles/calendar/MonthlyCalendar.module.css";
+import MonthlyPlanCard from "./MonthlyPlanCard";
+
+const dummy = [
+  {
+    start: new Date(2023, 11, 2, 17, 28, 0),
+    end: new Date(2023, 11, 2, 20, 12, 0),
+    title: "테스트 일정1",
+    color: "lightcoral",
+  },
+  {
+    start: new Date(2023, 11, 2, 17, 28, 0),
+    end: new Date(2023, 11, 2, 20, 12, 0),
+    title: "테스트 일정1",
+    color: "lightcoral",
+  },
+  {
+    start: new Date(2023, 11, 2, 17, 28, 0),
+    end: new Date(2023, 11, 2, 20, 12, 0),
+    title: "테스트 일정1",
+    color: "lightcoral",
+  },
+  {
+    start: new Date(2023, 11, 2, 17, 28, 0),
+    end: new Date(2023, 11, 2, 20, 12, 0),
+    title: "테스트 일정1",
+    color: "lightcoral",
+  },
+  {
+    start: new Date(2023, 11, 16, 14, 24, 0),
+    end: new Date(2023, 11, 16, 16, 51, 0),
+    title: "테스트 일정2",
+    color: "lightcoral",
+  },
+];
 
 function MonthlyBody(): JSX.Element {
-  const currentDate = useSelector(currentDateState);
+  const currentDate = new Date(useSelector(currentDateState));
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
   const calendarStart = startOfWeek(monthStart);
@@ -25,6 +59,7 @@ function MonthlyBody(): JSX.Element {
   let key = 0;
 
   while (curDay <= calendarEnd) {
+    const newDummy = dummy.filter((v) => isSameDay(curDay, v.start));
     const day = curDay.getDate();
     const style = {
       fontColor: "",
@@ -48,9 +83,19 @@ function MonthlyBody(): JSX.Element {
             fontWeight: style.fontWeight,
             backgroundColor: style.background,
           }}
+          className={classes.monthly__body_cell_number}
         >
           {day}
         </div>
+        {newDummy.length < 4 ? (
+          newDummy.map((v) => <MonthlyPlanCard planTitle={v.title} color={v.color} />)
+        ) : (
+          <>
+            <MonthlyPlanCard planTitle={dummy[0].title} color={dummy[0].color} />
+            <MonthlyPlanCard planTitle={dummy[1].title} color={dummy[1].color} />
+            <MonthlyPlanCard planTitle={`+${dummy.length - 2} 일정`} />
+          </>
+        )}
       </div>,
     );
 

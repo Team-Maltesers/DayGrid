@@ -8,6 +8,7 @@ const store = configureStore({
     modal: modalReducer, // 스토어에 모달 리듀서를 추가합니다.
     menuModal: menuModalReducer,
     currentDate: calendarReducer,
+    calendarType: calendarReducer,
   },
 });
 

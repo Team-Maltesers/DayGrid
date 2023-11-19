@@ -5,7 +5,7 @@ import { startOfWeek, endOfWeek, addDays, isSameDay } from "date-fns";
 import classes from "../../styles/calendar/WeeklyCalendar.module.css";
 
 function WeeklyHead(): JSX.Element {
-  const currentDate = useSelector(currentDateState);
+  const currentDate = new Date(useSelector(currentDateState));
   const weekStart = startOfWeek(currentDate);
   const weekEnd = endOfWeek(currentDate);
 

@@ -91,6 +91,7 @@
 }
 
 .weekly__body_planner {
+  position: relative;
   height: 90rem;
   width: calc(100% - 7.5rem);
   display: grid;
@@ -104,4 +105,12 @@
 
 .weekly__body_planner_grid:not(:nth-child(7n)) {
   border-right: 1px solid #d4d4d4;
+}
+
+.weekly__body_plan {
+  position: absolute;
+  width: 12.0625rem;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 1.25rem;
 }

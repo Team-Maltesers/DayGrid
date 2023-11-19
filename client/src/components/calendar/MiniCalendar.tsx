@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { moveToSelectedDay } from "../../store/modal/calendarSlice";
+import { changeCurrentDate } from "../../store/modal/calendarSlice";
 import { DayPicker, DateFormatter } from "react-day-picker";
 import { ko } from "date-fns/locale";
 import { format } from "date-fns";
@@ -18,8 +18,10 @@ function MiniCalendar(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(moveToSelectedDay(selectedDay));
-  });
+    if (selectedDay !== undefined) {
+      dispatch(changeCurrentDate(selectedDay.toISOString()));
+    }
+  }, [selectedDay]);
 
   return (
     <DayPicker
