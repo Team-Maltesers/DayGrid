@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleMenuModal, menuModalState } from "../../store/modal/menuModalSlice";
 import classes from "../../styles/common/MenuModal.module.css";
 
-type ModalStyle = {
+interface ModalStyle {
   opacity: number;
   visibility: string;
-};
+}
 
 type Visibility = "visible" | "hidden" | "collapse" | "initial" | "inherit";
 

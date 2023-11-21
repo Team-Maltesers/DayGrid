@@ -108,3 +108,42 @@
 select::-ms-expand {
   display: none; /*for IE10,11*/
 }
+
+/* AddPlanModal 컴포넌트 스타일 */
+.add_plan_modal_con {
+  /* 모달창 스타일 */
+  position: absolute;
+  bottom: 6.875rem;
+  right: 2.1875rem;
+  width: 18.75rem;
+  height: 12.5rem;
+  border: 1px solid var(--main-color);
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  background-color: #ffffff;
+  z-index: 100;
+
+  /* 모달창 내부 컨텐츠 스타일 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.875rem;
+  gap: 0.3125rem;
+
+  transition: all 0.3s;
+}
+
+.add_plan_modal_con div {
+  width: 100%;
+  padding: 0.9375rem;
+  text-align: center;
+}
+
+.add_plan_modal_con div:hover {
+  background-color: var(--main-color);
+}
+
+.add_plan_modal_con > a {
+  width: 100%;
+}
