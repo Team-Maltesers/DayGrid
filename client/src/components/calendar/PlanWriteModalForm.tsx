@@ -40,7 +40,7 @@ export default function PlanWriteModalForm({
   const [displayDate, setDisplayDate] = useState<string>("");
   const [selectedTime, setSelectedTime] = useState({ date: new Date(), time: 0 });
   const [selectedColor, setSelectedColor] = useState<string>("#BAE7AB");
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [ddayChecked, setDdayChecked] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
     title: "",
     date: "",
@@ -124,10 +124,11 @@ export default function PlanWriteModalForm({
     e.preventDefault();
     console.log({
       ...formData,
+      date: new Date(displayDate).toISOString(),
       color: selectedColor,
-      startTime: timeOptions[displayStartTime].text,
-      endTime: timeOptions[displayEndTime].text,
-      isChecked: isChecked,
+      startTime: [timeOptions[displayStartTime].text, displayStartTime],
+      endTime: [timeOptions[displayEndTime].text, displayEndTime],
+      ddayChecked: ddayChecked,
     });
     // onSubmit({ ...formData });
   }
@@ -236,7 +237,7 @@ export default function PlanWriteModalForm({
           type="checkbox"
           className={classes.planwrite__checkbox}
           onChange={(e) => {
-            setIsChecked(!isChecked);
+            setDdayChecked(!ddayChecked);
             handleChange(e);
           }}
         />

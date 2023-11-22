@@ -73,7 +73,7 @@
 }
 
 .monthly__body_cell_number:hover {
-  cursor: pointer;
+  cursor: default;
   background-color: #e3eaf1;
   transition: all 0.2s;
 }
@@ -85,4 +85,5 @@
   font-size: 1.125rem;
   padding: 0.1875rem;
   background-color: #bae7ab;
+  cursor: pointer;
 }

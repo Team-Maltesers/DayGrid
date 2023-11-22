@@ -2,7 +2,11 @@ import React from "react";
 import { isSameWeek } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../store/modal/modalSlice";
-import { currentDateState, changeClickedTime } from "../../store/modal/calendarSlice";
+import {
+  currentDateState,
+  changeClickedTime,
+  selectedPlanId,
+} from "../../store/modal/calendarSlice";
 import classes from "../../styles/calendar/WeeklyCalendar.module.css";
 import dummy from "../../assets/dummy";
 
@@ -59,23 +63,23 @@ function WeeklyBody(): JSX.Element {
     "6": {},
   };
   for (let i = 0; i < dummy.length; i++) {
-    const top = `${dummy[i].start.getHours() * 60 + dummy[i].start.getMinutes()}px`;
-    const height = `${(dummy[i].end.getTime() - dummy[i].start.getTime()) / 1000 / 60}px`;
+    const top = `${dummy[i].startTime[1] * 15}px`;
+    const height = `${(dummy[i].endTime[1] - dummy[i].startTime[1]) * 15}px`;
 
-    const today = dummy[i].start.getDay().toString();
-    const hour = dummy[i].start.getHours().toString();
+    const today = new Date(dummy[i].date).getDay().toString();
+    const hour = dummy[i].startTime[1];
     arrangeBoxes[today][hour] ? arrangeBoxes[today][hour]++ : (arrangeBoxes[today][hour] = 1);
 
     const width = `${193 / arrangeBoxes[today][hour]}px`;
-    let left = `${dummy[i].start.getDay() * 194.9}px`;
-    let index = 23 - (dummy[i].end.getHours() - dummy[i].start.getHours());
+    let left = `${new Date(dummy[i].date).getDay() * 194.9}px`;
+    let index = 96 - (dummy[i].endTime[1] - dummy[i].startTime[1]);
 
     if (arrangeBoxes[today][hour] > 1) {
       left = `${
-        dummy[i].start.getDay() * 194.9 +
+        new Date(dummy[i].date).getDay() * 194.9 +
         (193 / arrangeBoxes[today][hour]) * (arrangeBoxes[today][hour] - 1)
       }px`;
-      index += arrangeBoxes[today][hour];
+      index = 96 - (dummy[i - 1].endTime[1] - dummy[i - 1].startTime[1]) + 1;
     }
 
     newDummy.push({
@@ -105,7 +109,7 @@ function WeeklyBody(): JSX.Element {
           </div>
         ))}
         {newDummy.map((v, i) =>
-          isSameWeek(v.start, currentDate) ? (
+          isSameWeek(new Date(v.date), currentDate) ? (
             <div
               className={classes.weekly__body_plan}
               style={{
@@ -117,6 +121,10 @@ function WeeklyBody(): JSX.Element {
                 zIndex: v.index,
               }}
               key={i}
+              onClick={() => {
+                dispatch(selectedPlanId(v.id));
+                dispatch(openModal("planCheck"));
+              }}
             >
               {v.title}
             </div>

@@ -6,7 +6,7 @@ import Modal from "../common/Modal";
 import PlanWriteModalForm from "./PlanWriteModalForm";
 import classes from "../../styles/calendar/PlanWriteModal.module.css";
 
-export default function PlanWriteModal() {
+export default function PlanWriteModal(): JSX.Element | null {
   const [isStartTimeSelected, setIsStartTimeSelected] = useState<boolean>(false);
   const [isEndTimeSelected, setIsEndTimeSelected] = useState<boolean>(false);
   const [isColorOptionOpened, setIsColorOptionOpened] = useState<boolean>(false);

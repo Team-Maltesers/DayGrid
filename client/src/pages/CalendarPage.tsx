@@ -9,6 +9,7 @@ import MonthlyCalendar from "../components/calendar/MonthlyCalendar";
 import WeeklyCalendar from "../components/calendar/WeeklyCalendar";
 import AddPlanModal from "../components/calendar/AddPlanModal";
 import PlanWriteModal from "../components/calendar/PlanWriteModal";
+import PlanCheckModal from "../components/calendar/PlanCheckModal";
 import plus from "../assets/image/plus.png";
 
 function CalendarPage(): JSX.Element {
@@ -43,6 +44,7 @@ function CalendarPage(): JSX.Element {
         </div>
       </div>
       <PlanWriteModal />
+      <PlanCheckModal />
     </>
   );
 }

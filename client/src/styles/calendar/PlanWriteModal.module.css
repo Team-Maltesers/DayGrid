@@ -1,3 +1,4 @@
+/* PlanWriteModal 컴포넌트 스타일 */
 .planwrite__con {
   display: flex;
   flex-direction: column;
@@ -9,6 +10,32 @@
   margin-bottom: 1.25rem;
 }
 
+.planwrite__btn_con {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2.375rem;
+}
+
+.planwrite__btn_con > button {
+  width: 8.5625rem;
+  height: 3.625rem;
+  font-size: 1.4375rem;
+}
+
+.planwrite__btn_reverse {
+  color: var(--font-color-gray);
+  background-color: transparent;
+  transition: all 0.3s;
+}
+
+.planwrite__btn_reverse:hover {
+  background-color: var(--main-color);
+}
+
+/* PlanWriteModalForm 컴포넌트 스타일 */
 .planwrite__title_input_con {
   display: flex;
   align-items: end;
@@ -17,7 +44,7 @@
 }
 
 .planwrite__title_input {
-  width: 451px;
+  width: 28.1875rem;
   height: 3.6875rem;
   border: none;
   border-bottom: 0.8px solid var(--sub-color);
@@ -203,29 +230,4 @@
 .planwrite__checkbox_label {
   font-size: 1.4375rem;
   font-weight: 400;
-}
-
-.planwrite__btn_con {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 1.25rem;
-  margin-bottom: 2.375rem;
-}
-
-.planwrite__btn_con > button {
-  width: 137px;
-  height: 58px;
-  font-size: 23px;
-}
-
-.planwrite__btn_reverse {
-  color: var(--font-color-gray);
-  background-color: transparent;
-  transition: all 0.3s;
-}
-
-.planwrite__btn_reverse:hover {
-  background-color: var(--main-color);
 }
