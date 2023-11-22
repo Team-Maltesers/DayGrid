@@ -65,3 +65,26 @@ export async function fetchDiaryList({ page, signal }: { page: number; signal: A
     throw error;
   }
 }
+export async function imageApi({ img }: { img: File }) {
+  // FormData 객체 생성
+  const formData = new FormData();
+  formData.append("img", img);
+
+  // 서버로 이미지 업로드
+  const response = await axios.post(`http://localhost:3000/upload`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  // 서버로부터 이미지 URL 응답 받기
+  return response;
+}
+
+export async function postDiary({ title, content }: { title: string; content: string }) {
+  const response = await axios.post("http://localhost:3000/diary", {
+    title: title,
+    content: content,
+  });
+  return response.data;
+}
