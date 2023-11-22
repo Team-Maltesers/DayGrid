@@ -1,0 +1,40 @@
+.diaryWrite__form {
+    display: flex;
+    width: 50vw;
+    height: auto;
+    overflow: auto;
+    flex-direction: column;
+    > input{
+        font-size:xx-large;
+        width: 100%;
+        padding: 2rem 3rem;
+        border: none;
+    }
+  }
+  .diaryWrite__button-group{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    margin-top: 66px;
+    padding: 10px;
+    height: auto;
+    width: 50vw;
+    justify-content: space-between;
+    background-color: var(--main-color);
+}
+.diaryWrite__preview{
+    overflow: auto;
+}
+.diaryWrite__preview__title{
+    padding-top: 3rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    width: 48vw;
+}
+.diaryWrite__preview__content{
+    padding: 3rem;
+    overflow: auto;
+    width: 48vw;
+    height: 80vh;
+}
