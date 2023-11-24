@@ -1,22 +1,26 @@
 import React, { useMemo, useRef, useState } from "react";
-import ReactQuill from "react-quill"; // Quill 추가
+import ReactQuill from "react-quill";
 import classes from "../styles/DiaryWrite.module.css";
 import "quill/dist/quill.snow.css";
-import { imageApi, postDiary, queryClient } from "../utils/http";
+import { postDiary, queryClient } from "../utils/http";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import useImageUpload from "../hooks/useImageUpload";
 
 function DiaryWrite() {
-  const quillRef = useRef<ReactQuill | null>(null); // 타입 변경
+  const navigate = useNavigate();
+  const quillRef = useRef<ReactQuill | null>(null);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [previewText, setPreviewText] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
+  const imageHandler = useImageUpload(quillRef);
   const { mutate } = useMutation({
     mutationFn: postDiary,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["diary"] });
-      // 성공 시 처리 로직(예: 페이지 이동) 추가
+      navigate("/diary-list");
     },
   });
   const submitHandler = () => {
@@ -32,32 +36,6 @@ function DiaryWrite() {
       setPreviewText(value);
       setIsUpdating(false);
     }, 500);
-  };
-
-  const imageHandler = () => {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
-    input.click();
-    input.addEventListener("change", async () => {
-      const file = input.files ? input.files[0] : null;
-      if (!file) {
-        return;
-      }
-      try {
-        const res = await imageApi({ img: file });
-        const imgUrl = res.data.imgUrl;
-        const editor = quillRef.current?.getEditor();
-        if (editor) {
-          const range = editor?.getSelection();
-          if (range) {
-            editor.insertEmbed(range.index, "image", imgUrl);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    });
   };
 
   const TitleChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,15 +70,24 @@ function DiaryWrite() {
         />
         <ReactQuill
           ref={quillRef}
-          style={{ width: "50vw", height: "60vh" }}
+          style={{ width: "50vw", height: "68vh" }}
           modules={modules}
           value={text}
           theme="snow"
           onChange={ContentChangeHandler}
         />
         <div className={classes["diaryWrite__button-group"]}>
-          <button>나가기</button>
-          <button onClick={submitHandler}>제출하기</button>
+          <button
+            type="button"
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            나가기
+          </button>
+          <button type="button" onClick={submitHandler}>
+            제출하기
+          </button>
         </div>
       </div>
       <div className={classes.diaryWrite__preview}>
