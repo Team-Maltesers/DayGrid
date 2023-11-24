@@ -1,14 +1,17 @@
 import React, { ReactElement } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Modal from "./common/Modal";
 import { fetchDiaryDetail, deleteDiary } from "../utils/http";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store.js";
 import DiaryData from "./DiaryData";
+import { closeModal } from "../store/modal/modalSlice";
 
 export default function DiaryDetailModal() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const diaryId = useSelector((state: RootState) => state.diaryId.diaryId);
   const { data: diaryData, isPending } = useQuery({
     queryKey: ["diarydetail", diaryId],
@@ -18,7 +21,9 @@ export default function DiaryDetailModal() {
   const { mutate } = useMutation({
     mutationFn: deleteDiary,
     onSuccess: () => {
-      navigate("/diaries");
+      dispatch(closeModal());
+      queryClient.invalidateQueries({ queryKey: ["diarylist"] });
+      navigate("/diary-list");
     },
   });
 
