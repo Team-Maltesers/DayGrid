@@ -23,7 +23,13 @@
     justify-content: space-between;
 }
 .diary__content{
+    max-width: 60vw;
+    max-height: 80vh;
     padding: 1.6875rem;
+     
+}
+.diary__content img {
+    max-width: 100%;
 }
 .diary__delete{
     object-fit:none;

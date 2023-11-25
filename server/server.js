@@ -1,5 +1,6 @@
 const fs = require('fs/promises'); 
 const express = require('express');
+const sanitizeHtml = require('sanitize-html');
 const multer = require('multer');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -15,19 +16,6 @@ app.post('/signup', async (req, res) => {
     if (!newData) {
       return res.status(400).json({ message: 'newData is required' });
     }
-  
-    console.log(newData);
-  
-    // if (
-    //   !formData.title?.trim() ||
-    //   !formData.description?.trim() ||
-    //   !formData.date?.trim() ||
-    //   !formData.time?.trim() ||
-    //   !formData.image?.trim() ||
-    //   !formData.location?.trim()
-    // ) {
-    //   return res.status(400).json({ message: 'Invalid data provided.' });
-    // }
   
     const formDataFileContent = await fs.readFile('./data/signup.json');
     const formData = JSON.parse(formDataFileContent);
@@ -125,8 +113,8 @@ app.post('/upload', upload.single('img'), (req, res) => {
 
 app.post('/diary', async (req, res) => {
   const { title, content } = req.body;
-
-  if (!title || !content) {
+  const cleanContent = sanitizeHtml(content,{allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])});
+  if (!title || !cleanContent) {
     return res.status(400).json({ message: 'Title and content are required' });
   }
 
@@ -136,7 +124,8 @@ app.post('/diary', async (req, res) => {
   const newDiary = {
     id: Math.round(Math.random() * 10000).toString(),
     title: title,
-    content: content,
+    content: cleanContent,
+    hasImage: cleanContent.includes('<img'),
     // 필요한 경우 추가 필드를 여기에 추가할 수 있습니다.
   };
 
@@ -146,6 +135,38 @@ app.post('/diary', async (req, res) => {
 
   res.json({ diary: newDiary });
 });
+
+app.get('/diary-with-images', async (req, res) => {
+  // 데이터 파일에서 다이어리 정보를 읽어옵니다.
+  const diaryFileContent = await fs.readFile(path.join(__dirname, './data/diary.json'));
+  const diaries = JSON.parse(diaryFileContent);
+
+  // 'hasImage' 필드가 'true'인 다이어리만 필터링합니다.
+  const diariesWithImages = diaries.filter((diary) => diary.hasImage);
+  // 페이지 계산
+  const entriesPerPage = 6; // 한 페이지에 6개의 게시물을 보여줍니다.
+  const totalPages = Math.ceil(diariesWithImages.length / entriesPerPage);
+
+  // 기본 페이지는 1로 설정
+  let page = parseInt(req.query.page) || 1;
+
+  // 페이지 범위 체크
+  page = Math.max(1, Math.min(page, totalPages));
+
+  // 시작과 끝 인덱스 계산
+  const startIndex = (page - 1) * entriesPerPage;
+  const endIndex = startIndex + entriesPerPage;
+
+  // 현재 페이지에 해당하는 다이어리 가져오기
+  const diariesOnPage = diariesWithImages.slice(startIndex, endIndex);
+
+  res.json({
+    total_pages: totalPages,
+    current_page: page,
+    data: diariesOnPage
+  });
+});
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));

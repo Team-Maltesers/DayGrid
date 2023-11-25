@@ -33,6 +33,9 @@
 }
 
 .modal__content {
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
   display: flex;
   align-items: center;
   justify-content: center;
