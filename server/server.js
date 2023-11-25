@@ -1,11 +1,13 @@
 const fs = require('fs/promises'); 
 const express = require('express');
+const multer = require('multer');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const app = express();
 app.use(cors()); 
 app.use(bodyParser.json());
+app.use('/uploads', express.static('uploads'));
 app.use(express.static(path.join(__dirname, 'build')));
 app.post('/signup', async (req, res) => {
     const newData = req.body;
@@ -101,6 +103,48 @@ app.get('/diary', async (req, res) => {
     current_page: page,
     data: diariesOnPage
   });
+});
+// 이미지를 서버에 저장하는 경로와 파일 이름 설정
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads');
+  },
+  filename: function (req, file, cb) {
+    const extension = path.extname(file.originalname);
+    const timestamp = Date.now();
+    const randomNumber = Math.floor(Math.random() * 1000); // 0-999 사이의 랜덤한 숫자 생성
+    cb(null, `${timestamp}-${randomNumber}${extension}`);
+  }});
+
+const upload = multer({ storage: storage });
+
+app.post('/upload', upload.single('img'), (req, res) => {
+  // 이미지가 서버에 저장된 후 해당 이미지의 URL을 클라이언트에게 반환
+  res.json({ imgUrl: `http://localhost:3000/uploads/${req.file.filename}` });
+});
+
+app.post('/diary', async (req, res) => {
+  const { title, content } = req.body;
+
+  if (!title || !content) {
+    return res.status(400).json({ message: 'Title and content are required' });
+  }
+
+  const diaryFileContent = await fs.readFile('./data/diary.json');
+  const diaries = JSON.parse(diaryFileContent);
+
+  const newDiary = {
+    id: Math.round(Math.random() * 10000).toString(),
+    title: title,
+    content: content,
+    // 필요한 경우 추가 필드를 여기에 추가할 수 있습니다.
+  };
+
+  diaries.push(newDiary);
+
+  await fs.writeFile('./data/diary.json', JSON.stringify(diaries));
+
+  res.json({ diary: newDiary });
 });
 
 app.get('*', (req, res) => {

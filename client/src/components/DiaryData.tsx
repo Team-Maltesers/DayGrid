@@ -28,7 +28,7 @@ const DiaryData: React.FC<DiaryDataProps> = ({ diaryData, onDelete, onEdit }) =>
         </div>
       </div>{" "}
       <div className={classes.diary__line}></div>
-      <div className={classes.diary__content}>{content}</div>
+      <div className={classes.diary__content} dangerouslySetInnerHTML={{ __html: content }} />
     </article>
   );
 };
