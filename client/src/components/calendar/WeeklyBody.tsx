@@ -1,7 +1,12 @@
 import React from "react";
 import { isSameWeek } from "date-fns";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { currentDateState } from "../../store/modal/calendarSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal } from "../../store/modal/modalSlice";
+import {
+  currentDateState,
+  changeClickedTime,
+  selectedPlanId,
+} from "../../store/modal/calendarSlice";
 import classes from "../../styles/calendar/WeeklyCalendar.module.css";
 import dummy from "../../assets/dummy";
 
@@ -15,6 +20,7 @@ interface ArrangeBoxes {
 
 function WeeklyBody(): JSX.Element {
   const currentDate = new Date(useSelector(currentDateState));
+  const dispatch = useDispatch();
 
   function time(): string[] {
     const timeArr = [];
@@ -27,7 +33,24 @@ function WeeklyBody(): JSX.Element {
     }
     return timeArr;
   }
-  const gridItemArr = Array.from({ length: 168 }, (_, i) => i + 1);
+
+  function handleModalOpen(e: React.MouseEvent<HTMLDivElement>) {
+    const target = e.target as HTMLElement;
+    if (target.dataset.day && target.dataset.hour) {
+      dispatch(changeClickedTime([1, +target.dataset.day, +target.dataset.hour]));
+    }
+
+    dispatch(openModal("planWrite"));
+  }
+
+  const weekCellArr = [];
+  for (let i = 0; i < 7; i++) {
+    const tmp = [];
+    for (let j = 0; j < 24; j++) {
+      tmp.push(<div key={j} data-day={i} data-hour={j} onClick={(e) => handleModalOpen(e)}></div>);
+    }
+    weekCellArr.push(tmp);
+  }
 
   const newDummy = [];
   const arrangeBoxes: ArrangeBoxes = {
@@ -40,23 +63,23 @@ function WeeklyBody(): JSX.Element {
     "6": {},
   };
   for (let i = 0; i < dummy.length; i++) {
-    const top = `${dummy[i].start.getHours() * 60 + dummy[i].start.getMinutes()}px`;
-    const height = `${(dummy[i].end.getTime() - dummy[i].start.getTime()) / 1000 / 60}px`;
+    const top = `${dummy[i].startTime[1] * 15}px`;
+    const height = `${(dummy[i].endTime[1] - dummy[i].startTime[1]) * 15}px`;
 
-    const today = dummy[i].start.getDay().toString();
-    const hour = dummy[i].start.getHours().toString();
+    const today = new Date(dummy[i].date).getDay().toString();
+    const hour = dummy[i].startTime[1];
     arrangeBoxes[today][hour] ? arrangeBoxes[today][hour]++ : (arrangeBoxes[today][hour] = 1);
 
     const width = `${193 / arrangeBoxes[today][hour]}px`;
-    let left = `${dummy[i].start.getDay() * 194.9}px`;
-    let index = 23 - (dummy[i].end.getHours() - dummy[i].start.getHours());
+    let left = `${new Date(dummy[i].date).getDay() * 194.9}px`;
+    let index = 96 - (dummy[i].endTime[1] - dummy[i].startTime[1]);
 
     if (arrangeBoxes[today][hour] > 1) {
       left = `${
-        dummy[i].start.getDay() * 194.9 +
+        new Date(dummy[i].date).getDay() * 194.9 +
         (193 / arrangeBoxes[today][hour]) * (arrangeBoxes[today][hour] - 1)
       }px`;
-      index += arrangeBoxes[today][hour];
+      index = 96 - (dummy[i - 1].endTime[1] - dummy[i - 1].startTime[1]) + 1;
     }
 
     newDummy.push({
@@ -80,11 +103,13 @@ function WeeklyBody(): JSX.Element {
         ))}
       </div>
       <div className={classes.weekly__body_planner}>
-        {gridItemArr.map((v) => (
-          <div className={classes.weekly__body_planner_grid} key={v}></div>
+        {weekCellArr.map((v, i) => (
+          <div className={classes.weekly__body_planner_flex} key={i}>
+            {v}
+          </div>
         ))}
-        {newDummy.map((v) =>
-          isSameWeek(v.start, currentDate) ? (
+        {newDummy.map((v, i) =>
+          isSameWeek(new Date(v.date), currentDate) ? (
             <div
               className={classes.weekly__body_plan}
               style={{
@@ -94,6 +119,11 @@ function WeeklyBody(): JSX.Element {
                 backgroundColor: v.color,
                 width: v.width,
                 zIndex: v.index,
+              }}
+              key={i}
+              onClick={() => {
+                dispatch(selectedPlanId(v.id));
+                dispatch(openModal("planCheck"));
               }}
             >
               {v.title}

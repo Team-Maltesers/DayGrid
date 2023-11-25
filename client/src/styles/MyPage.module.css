@@ -1,0 +1,101 @@
+/* MyPage 스타일 */
+.mypage__bg {
+  width: 100vw;
+  height: 100vh;
+  padding-top: 4.375rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mypage__con {
+  width: 80.3125rem;
+  height: 45.625rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--sub-color);
+  padding: 1.0625rem 1.75rem 0 1.75rem;
+  color: #000000;
+}
+
+.mypage__title {
+  padding: 2.4375rem 1.5rem;
+  font-size: 2rem;
+  width: 100%;
+  border-bottom: 1.5px solid rgba(79, 112, 156, 0.5);
+  margin-bottom: 2.8125rem;
+}
+
+.mypage__account_delete_con {
+  width: 100%;
+  padding-top: 4.6875rem;
+  margin-top: 0.9375rem;
+  border-top: 1.5px solid rgba(79, 112, 156, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mypage__account_delete_con > button {
+  padding: 0.625rem 2.625rem;
+  font-size: 1.5rem;
+  background-color: var(--warning-color);
+  margin-bottom: 3.4375rem;
+}
+
+.mypage__account_delete_con > span {
+  font-size: 1.1875rem;
+  color: var(--warning-color);
+  cursor: default;
+}
+
+/* MyPageForm 컴포넌트 스타일 */
+.mypage__info_con {
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  font-size: 1.25rem;
+}
+
+.mypage__info_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.875rem;
+}
+
+.mypage__info_row > img {
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
+
+.mypage__info {
+  display: flex;
+  align-items: center;
+}
+
+.mypage__info div:first-child {
+  width: 10.875rem;
+  font-weight: 600;
+}
+
+.mypage__info div:last-child {
+  max-width: 58.75rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.mypage__input {
+  height: 2.5rem;
+  font-size: 1.125rem;
+}
+
+.mypage__edit_btn_con {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mypage__edit_btn_con > img {
+  cursor: pointer;
+}

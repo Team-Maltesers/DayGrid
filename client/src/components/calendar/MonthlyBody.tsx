@@ -27,7 +27,7 @@ function MonthlyBody(): JSX.Element {
   let key = 0;
 
   while (curDay <= calendarEnd) {
-    const newDummy = dummy.filter((v) => isSameDay(curDay, v.start));
+    const newDummy = dummy.filter((v) => isSameDay(curDay, new Date(v.date)));
     const day = curDay.getDate();
     const style = {
       fontColor: "",
@@ -56,12 +56,29 @@ function MonthlyBody(): JSX.Element {
           {day}
         </div>
         {newDummy.length < 4 ? (
-          newDummy.map((v) => <MonthlyPlanCard planTitle={v.title} color={v.color} />)
+          newDummy.map((v, i) => (
+            <MonthlyPlanCard id={v.id} planTitle={v.title} color={v.color} key={i} />
+          ))
         ) : (
           <>
-            <MonthlyPlanCard planTitle={newDummy[0].title} color={newDummy[0].color} />
-            <MonthlyPlanCard planTitle={newDummy[1].title} color={newDummy[1].color} />
-            <MonthlyPlanCard planTitle={`+${newDummy.length - 2} 일정`} />
+            <MonthlyPlanCard
+              planTitle={newDummy[0].title}
+              id={newDummy[0].id}
+              color={newDummy[0].color}
+              key="1"
+            />
+            <MonthlyPlanCard
+              planTitle={newDummy[1].title}
+              id={newDummy[1].id}
+              color={newDummy[1].color}
+              key="2"
+            />
+            <MonthlyPlanCard
+              planTitle={`+${newDummy.length - 2} 일정`}
+              curDay={curDay}
+              moveToWeekly={true}
+              key="3"
+            />
           </>
         )}
       </div>,

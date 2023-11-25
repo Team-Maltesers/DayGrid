@@ -94,17 +94,22 @@
   position: relative;
   height: 90rem;
   width: calc(100% - 7.5rem);
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(24, 1fr);
+  display: flex;
+  justify-content: space-evenly;
 }
 
-.weekly__body_planner_grid:not(:nth-last-child(-n + 7)) {
-  border-bottom: 1px solid #d4d4d4;
-}
-
-.weekly__body_planner_grid:not(:nth-child(7n)) {
+.weekly__body_planner_flex {
+  height: 90rem;
+  width: 100%;
   border-right: 1px solid #d4d4d4;
+}
+
+.weekly__body_planner_flex > div {
+  height: 3.75rem;
+}
+
+.weekly__body_planner_flex > div:not(:last-child) {
+  border-bottom: 1px solid #d4d4d4;
 }
 
 .weekly__body_plan {
@@ -114,4 +119,5 @@
   padding: 0.5rem;
   font-size: 1.25rem;
   border: 1px solid #ffffff;
+  cursor: pointer;
 }
