@@ -88,3 +88,20 @@ export async function postDiary({ title, content }: { title: string; content: st
   });
   return response.data;
 }
+
+export async function fetchDiaryWithImages({
+  page,
+  signal,
+}: {
+  page: number;
+  signal: AbortSignal;
+}) {
+  try {
+    const response = await axios.get(`http://localhost:3000/diary-with-images?page=${page}`, {
+      signal,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
