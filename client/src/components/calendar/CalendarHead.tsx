@@ -63,10 +63,11 @@ function CalendarHead(): JSX.Element {
         </div>
         <select
           className={classes.calendar__head_format}
+          value={calendarType}
           onChange={(e) => handleCalendarTypeChange(e)}
         >
-          <option>월</option>
-          <option>주</option>
+          <option value="월">월</option>
+          <option value="주">주</option>
         </select>
       </div>
     </div>

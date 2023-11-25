@@ -46,7 +46,7 @@ function PlanCheckModal(): JSX.Element | null {
         </div>
         {planData.ddayChecked && (
           <div className={classes.plancheck__dday}>
-            {dday > 0 ? `D - ${Math.abs(dday)}` : `D + ${Math.abs(dday)}`}
+            {dday > 0 ? `D + ${Math.abs(dday)}` : `D - ${Math.abs(dday)}`}
           </div>
         )}
         <div className={classes.plancheck__desc}>{planData.description}</div>
