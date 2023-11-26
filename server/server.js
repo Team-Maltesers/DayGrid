@@ -1,4 +1,4 @@
-const fs = require('fs/promises'); 
+const fs = require('fs/promises');
 const express = require('express');
 const sanitizeHtml = require('sanitize-html');
 const multer = require('multer');
@@ -6,93 +6,91 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const app = express();
-app.use(cors()); 
+
+app.use(cors());
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
 app.use(express.static(path.join(__dirname, 'build')));
+
+async function readDiaryFile() {
+  const diaryFileContent = await fs.readFile(path.join(__dirname, './data/diary.json'));
+  return JSON.parse(diaryFileContent);
+}
+
 app.post('/signup', async (req, res) => {
+  try {
     const newData = req.body;
-  
     if (!newData) {
       return res.status(400).json({ message: 'newData is required' });
     }
-  
+    
     const formDataFileContent = await fs.readFile('./data/signup.json');
     const formData = JSON.parse(formDataFileContent);
-  
+    
     const newFormData = {
       id: Math.round(Math.random() * 10000).toString(),
       ...newData,
     };
-  
+    
     formData.push(newFormData);
-  
+    
     await fs.writeFile('./data/signup.json', JSON.stringify(formData));
-  
+    
     res.json({ formData: newFormData });
-  });
+  } catch (error) {
+    res.status(500).send({ error: 'Server error' });
+  }
+});
+
 app.get('/diary/:id', async (req, res) => {
-  const { id } = req.params;
-
-  // 데이터 파일에서 다이어리 정보를 읽어옵니다.
-  const diaryFileContent = await fs.readFile(path.join(__dirname, './data/diary.json'));
-  const diaries = JSON.parse(diaryFileContent);
-
-  // id가 일치하는 다이어리를 찾습니다.
-  const diary = diaries.find((d) => d.id === id);
-  
-  if (!diary) {
+  try {
+    const { id } = req.params;
+    const diaries = await readDiaryFile();
+    const diary = diaries.find((d) => d.id === id);
+    if (!diary) {
       return res.status(404).json({ message: 'Diary not found' });
     }
-
-  res.json(diary);
-});
-app.delete('/diary/:id', async (req, res) => {
-  const { id } = req.params;
-
-  // 데이터 파일에서 다이어리 정보를 읽어옵니다.
-  const diaryFileContent = await fs.readFile(path.join(__dirname, './data/diary.json'));
-  const diaries = JSON.parse(diaryFileContent);
-
-  // id가 일치하는 다이어리를 찾아서 삭제합니다.
-  const diaryIndex = diaries.findIndex((d) => d.id === id);
-  if (diaryIndex === -1) {
-    return res.status(404).json({ message: 'Diary not found' });
+    res.json(diary);
+  } catch (error) {
+    res.status(500).send({ error: 'Server error' });
   }
-  diaries.splice(diaryIndex, 1);
-  await fs.writeFile(path.join(__dirname, './data/diary.json'), JSON.stringify(diaries));
-  res.json({ message: 'Diary deleted successfully' });
 });
 
+app.delete('/diary/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const diaries = await readDiaryFile();
+    const diaryIndex = diaries.findIndex((d) => d.id === id);
+    if (diaryIndex === -1) {
+      return res.status(404).json({ message: 'Diary not found' });
+    }
+    diaries.splice(diaryIndex, 1);
+    await fs.writeFile(path.join(__dirname, './data/diary.json'), JSON.stringify(diaries));
+    res.json({ message: 'Diary deleted successfully' });
+  } catch (error) {
+    res.status(500).send({ error: 'Server error' });
+  }
+});
 app.get('/diary', async (req, res) => {
-  // 데이터 파일에서 다이어리 정보를 읽어옵니다.
-  const diaryFileContent = await fs.readFile(path.join(__dirname, './data/diary.json'));
-  const diaries = JSON.parse(diaryFileContent);
-
-  // 페이지 계산
-  const entriesPerPage = 10;
-  const totalPages = Math.ceil(diaries.length / entriesPerPage);
-  
-  // 기본 페이지는 1로 설정
-  let page = parseInt(req.query.page) || 1;
-  
-  // 페이지 범위 체크
-  page = Math.max(1, Math.min(page, totalPages));
-
-  // 시작과 끝 인덱스 계산
-  const startIndex = (page - 1) * entriesPerPage;
-  const endIndex = startIndex + entriesPerPage;
-  
-  // 현재 페이지에 해당하는 다이어리 가져오기
-  const diariesOnPage = diaries.slice(startIndex, endIndex);
-
-  res.json({
-    total_pages: totalPages,
-    current_page: page,
-    data: diariesOnPage
-  });
+  try {
+    const diaries = await readDiaryFile();
+    const entriesPerPage = 10;
+    const totalPages = Math.ceil(diaries.length / entriesPerPage);
+    let page = parseInt(req.query.page) || 1;
+    page = Math.max(1, Math.min(page, totalPages));
+    const startIndex = (page - 1) * entriesPerPage;
+    const endIndex = startIndex + entriesPerPage;
+    const diariesOnPage = diaries.slice(startIndex, endIndex);
+    res.json({
+      total_pages: totalPages,
+      current_page: page,
+      data: diariesOnPage
+    });
+  } catch (error) {
+    res.status(500).send({ error: 'Server error' });
+  }
 });
-// 이미지를 서버에 저장하는 경로와 파일 이름 설정
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads');
@@ -100,79 +98,65 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const extension = path.extname(file.originalname);
     const timestamp = Date.now();
-    const randomNumber = Math.floor(Math.random() * 1000); // 0-999 사이의 랜덤한 숫자 생성
+    const randomNumber = Math.floor(Math.random() * 1000);
     cb(null, `${timestamp}-${randomNumber}${extension}`);
-  }});
+  }
+});
 
 const upload = multer({ storage: storage });
 
 app.post('/upload', upload.single('img'), (req, res) => {
-  // 이미지가 서버에 저장된 후 해당 이미지의 URL을 클라이언트에게 반환
   res.json({ imgUrl: `http://localhost:3000/uploads/${req.file.filename}` });
 });
 
 app.post('/diary', async (req, res) => {
-  const { title, content } = req.body;
-  const cleanContent = sanitizeHtml(content,{allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])});
-  if (!title || !cleanContent) {
-    return res.status(400).json({ message: 'Title and content are required' });
+  try {
+    const { title, content } = req.body;
+    const cleanContent = sanitizeHtml(content,{allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])});
+    if (!title || !cleanContent) {
+      return res.status(400).json({ message: 'Title and content are required' });
+    }
+    const diaries = await readDiaryFile();
+    const newDiary = {
+      id: Math.round(Math.random() * 10000).toString(),
+      title: title,
+      content: cleanContent,
+      hasImage: cleanContent.includes('<img'),
+    };
+    diaries.push(newDiary);
+    await fs.writeFile('./data/diary.json', JSON.stringify(diaries));
+    res.json({ diary: newDiary });
+  } catch (error) {
+    res.status(500).send({ error: 'Server error' });
   }
-
-  const diaryFileContent = await fs.readFile('./data/diary.json');
-  const diaries = JSON.parse(diaryFileContent);
-
-  const newDiary = {
-    id: Math.round(Math.random() * 10000).toString(),
-    title: title,
-    content: cleanContent,
-    hasImage: cleanContent.includes('<img'),
-    // 필요한 경우 추가 필드를 여기에 추가할 수 있습니다.
-  };
-
-  diaries.push(newDiary);
-
-  await fs.writeFile('./data/diary.json', JSON.stringify(diaries));
-
-  res.json({ diary: newDiary });
 });
 
 app.get('/diary-with-images', async (req, res) => {
-  // 데이터 파일에서 다이어리 정보를 읽어옵니다.
-  const diaryFileContent = await fs.readFile(path.join(__dirname, './data/diary.json'));
-  const diaries = JSON.parse(diaryFileContent);
-
-  // 'hasImage' 필드가 'true'인 다이어리만 필터링합니다.
-  const diariesWithImages = diaries.filter((diary) => diary.hasImage);
-  // 페이지 계산
-  const entriesPerPage = 6; // 한 페이지에 6개의 게시물을 보여줍니다.
-  const totalPages = Math.ceil(diariesWithImages.length / entriesPerPage);
-
-  // 기본 페이지는 1로 설정
-  let page = parseInt(req.query.page) || 1;
-
-  // 페이지 범위 체크
-  page = Math.max(1, Math.min(page, totalPages));
-
-  // 시작과 끝 인덱스 계산
-  const startIndex = (page - 1) * entriesPerPage;
-  const endIndex = startIndex + entriesPerPage;
-
-  // 현재 페이지에 해당하는 다이어리 가져오기
-  const diariesOnPage = diariesWithImages.slice(startIndex, endIndex);
-
-  res.json({
-    total_pages: totalPages,
-    current_page: page,
-    data: diariesOnPage
-  });
+  try {
+    const diaries = await readDiaryFile();
+    const diariesWithImages = diaries.filter((diary) => diary.hasImage);
+    const entriesPerPage = 6;
+    const totalPages = Math.ceil(diariesWithImages.length / entriesPerPage);
+    let page = parseInt(req.query.page) || 1;
+    page = Math.max(1, Math.min(page, totalPages));
+    const startIndex = (page - 1) * entriesPerPage;
+    const endIndex = startIndex + entriesPerPage;
+    const diariesOnPage = diariesWithImages.slice(startIndex, endIndex);
+    res.json({
+      total_pages: totalPages,
+      current_page: page,
+      data: diariesOnPage
+    });
+  } catch (error) {
+    res.status(500).send({ error: 'Server error' });
+  }
 });
-
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
