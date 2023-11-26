@@ -5,6 +5,7 @@ module.exports = {
   entry: "./src/index.tsx",
   mode: "development",
   output: {
+    publicPath: '/',
     path: path.resolve(__dirname, "./dist"),
     filename: "index_bundle.js",
   },
@@ -17,18 +18,26 @@ module.exports = {
     open: true,
     hot: true,
     liveReload: true,
+    historyApiFallback: true,
+    devMiddleware: {
+      publicPath: '/',
+    },
   },
   resolve: {
-    extensions: [".js", ".ts", ".tsx", ".json"],
+    extensions: [".tsx", ".ts", ".js", ".json"],
   },
   module: {
     rules: [
       {
-        test: /.tsx?$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: "babel-loader",
+        use: ["babel-loader", "ts-loader"],
       },
       { test: /\.css$/, use: ["style-loader", "css-loader"] },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        type: "asset/resource",
+      },
     ],
   },
   plugins: [

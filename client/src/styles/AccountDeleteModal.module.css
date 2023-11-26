@@ -1,0 +1,34 @@
+.mypage__delete_modal_con {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  margin: 2.8125rem 3.125rem 6.5625rem 3.125rem;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--warning-color);
+}
+
+.mypage__delete_modal_btn_con {
+  display: flex;
+  align-items: center;
+  gap: 4.375rem;
+}
+
+.mypage__delete_modal_btn_con button {
+  width: 11.25rem;
+  height: 2.875rem;
+  font-size: 1.4375rem;
+  background-color: var(--warning-color);
+}
+
+.mypage__delete_modal_btn_con button:first-child {
+  background-color: transparent;
+  color: var(--warning-color);
+  transition: all 0.3s;
+}
+
+.mypage__delete_modal_btn_con button:first-child:hover {
+  background-color: var(--main-color);
+}

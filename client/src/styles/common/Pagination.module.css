@@ -1,0 +1,24 @@
+.pagination{
+    display: flex;
+    justify-content: center;
+    border: 0;
+    > button {
+        background-color: transparent;
+        padding: 0;
+        margin: 16px 3px;
+        color: var(--font-color-black);
+        font-size: 18px;
+        border-bottom: 1px solid transparent;
+        border-radius: 0;
+        &:hover:not(:first-child, :last-child){
+          border-color: var(--font-color-black);
+        }
+        &.clicked {
+          border-color: var(--font-color-black);
+        }
+        .disabled {
+          display: none;
+        }
+    }
+    
+}

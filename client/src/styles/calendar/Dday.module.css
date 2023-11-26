@@ -1,0 +1,69 @@
+/* Dday 컴포넌트 스타일 */
+.dday__con {
+  width: 301px;
+  height: 36.3125rem;
+  border: 2px solid #c7d6eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.9375rem 1.1875rem;
+}
+
+.dday__title {
+  width: 100%;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.0625rem;
+  color: #a9bbd4;
+  margin-bottom: 1.25rem;
+}
+
+.dday__contents {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: scroll;
+
+  /* 스크롤바 없애는 속성 */
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+/* 크롬, 사파리, 오페라, 엣지 */
+.dday__contents::-webkit-scrollbar {
+  display: none;
+}
+
+/* DdayCard 컴포넌트 스타일 */
+.dday__card_con {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  background-color: var(--main-color);
+  padding: 1.125rem 1.25rem;
+}
+
+.dday__card_con:not(:last-child) {
+  margin-bottom: 0.9375rem;
+}
+
+.dday__card_top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #414141;
+  margin-bottom: 8px;
+}
+
+.dday__card_bottom {
+  font-size: 1.25rem;
+  color: #414141;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

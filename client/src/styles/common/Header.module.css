@@ -1,0 +1,68 @@
+.header__bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 4.375rem;
+  background-color: #eff1f3;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.25rem;
+}
+
+.header__empty {
+  width: 18.75rem;
+}
+
+.header__logo_con {
+  width: 18.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.header__logo_name {
+  width: 7.75rem;
+  height: 2.125rem;
+  display: flex;
+  align-items: flex-end;
+}
+
+.header__menu_con {
+  width: 13.3125rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.header__menu {
+  cursor: pointer;
+}
+
+.header__btn_con {
+  width: 18.75rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.9375rem;
+}
+
+.header__btn {
+  width: 10.875rem;
+  font-size: 1.4375rem;
+}
+
+.header__btn_reverse {
+  width: 9.625rem;
+  font-size: 1.4375rem;
+  background-color: transparent;
+  color: #4f709c;
+  transition: 0.2s;
+}
+
+.header__btn_reverse:hover {
+  background-color: #e2e3e4;
+  transition: 0.2s;
+}

@@ -1,0 +1,24 @@
+
+.diaryListPage__bg {
+  width: 100vw;
+  height: 100vh;
+  padding-top: 4.375rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.diaryData {
+  flex: 2;
+  width: 1000px;
+  margin-top: 50px;
+  margin-left: 100px;
+  margin-right: 70px;
+}
+
+.diaryGallery {
+  flex: 1;
+  margin-top: 50px;
+  margin-right: 100px;
+  margin-left: 70px;
+}
