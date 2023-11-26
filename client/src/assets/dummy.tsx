@@ -12,7 +12,7 @@ interface Dummy {
 const dummy: Dummy[] = [
   {
     id: 1,
-    date: "2023-11-21T15:00:00.000Z",
+    date: "2023-11-21",
     startTime: 48,
     endTime: 52,
     title: "테스트 일정1",
@@ -22,7 +22,7 @@ const dummy: Dummy[] = [
   },
   {
     id: 2,
-    date: "2023-11-22T00:00:00.000Z",
+    date: "2023-11-22",
     startTime: 48,
     endTime: 56,
     title: "테스트 일정2",
@@ -32,7 +32,7 @@ const dummy: Dummy[] = [
   },
   {
     id: 3,
-    date: "2023-11-30T00:00:00.000Z",
+    date: "2023-11-30",
     startTime: 40,
     endTime: 64,
     title: "테스트 일정3",
@@ -42,7 +42,7 @@ const dummy: Dummy[] = [
   },
   {
     id: 4,
-    date: "2023-11-30T00:00:00.000Z",
+    date: "2023-11-30",
     startTime: 44,
     endTime: 49,
     title: "테스트 일정4",
@@ -52,7 +52,7 @@ const dummy: Dummy[] = [
   },
   {
     id: 5,
-    date: "2023-11-21T15:00:00.000Z",
+    date: "2023-11-21",
     startTime: 36,
     endTime: 44,
     title: "테스트 일정5",
@@ -62,7 +62,7 @@ const dummy: Dummy[] = [
   },
   {
     id: 6,
-    date: "2023-11-21T15:00:00.000Z",
+    date: "2023-11-21",
     startTime: 60,
     endTime: 68,
     title: "테스트 일정6",
@@ -72,7 +72,7 @@ const dummy: Dummy[] = [
   },
   {
     id: 7,
-    date: "2023-11-26T00:00:00.000Z",
+    date: "2023-11-26",
     startTime: 48,
     endTime: 56,
     title: "테스트 일정7",
@@ -82,7 +82,7 @@ const dummy: Dummy[] = [
   },
   {
     id: 8,
-    date: "2023-12-02T00:00:00.000Z",
+    date: "2023-12-02",
     startTime: 52,
     endTime: 56,
     title: "테스트 일정8",

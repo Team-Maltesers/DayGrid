@@ -124,7 +124,7 @@ export default function PlanWriteModalForm({
     e.preventDefault();
     console.log({
       ...formData,
-      date: new Date(displayDate).toISOString(),
+      date: formatDay(new Date(displayDate)),
       color: selectedColor,
       startTime: [timeOptions[displayStartTime].text, displayStartTime],
       endTime: [timeOptions[displayEndTime].text, displayEndTime],

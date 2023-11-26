@@ -15,7 +15,6 @@ function PlanCheckModal(): JSX.Element | null {
   const data = dummy.filter((el) => el.id === planId);
 
   if (data.length === 0) {
-    console.error("No matching planId found in the dummy data.");
     return null;
   }
 
