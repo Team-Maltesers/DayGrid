@@ -3,17 +3,18 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { planIdState } from "../../store/modal/calendarSlice";
 import Modal from "../common/Modal";
+import createTimeOptions from "../../utils/createTimeOptions";
 import classes from "../../styles/calendar/PlanCheckModal.module.css";
 import calendarIcon from "../../assets/image/calendar.png";
 import dummy from "../../assets/dummy";
 
 function PlanCheckModal(): JSX.Element | null {
+  const timeOptions = createTimeOptions();
   const isOpen = useSelector((state: RootState) => state.modal.modalType);
   const planId = useSelector(planIdState);
   const data = dummy.filter((el) => el.id === planId);
 
   if (data.length === 0) {
-    console.error("No matching planId found in the dummy data.");
     return null;
   }
 
@@ -40,9 +41,9 @@ function PlanCheckModal(): JSX.Element | null {
               day: "numeric",
             })}
           </div>
-          <div>{planData.startTime[0]}</div>
+          <div>{timeOptions[planData.startTime].text}</div>
           <span>-</span>
-          <div>{planData.endTime[0]}</div>
+          <div>{timeOptions[planData.endTime].text}</div>
         </div>
         {planData.ddayChecked && (
           <div className={classes.plancheck__dday}>

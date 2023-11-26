@@ -63,23 +63,23 @@ function WeeklyBody(): JSX.Element {
     "6": {},
   };
   for (let i = 0; i < dummy.length; i++) {
-    const top = `${dummy[i].startTime[1] * 15}px`;
-    const height = `${(dummy[i].endTime[1] - dummy[i].startTime[1]) * 15}px`;
+    const top = `${dummy[i].startTime * 15}px`;
+    const height = `${(dummy[i].endTime - dummy[i].startTime) * 15}px`;
 
     const today = new Date(dummy[i].date).getDay().toString();
-    const hour = dummy[i].startTime[1];
+    const hour = dummy[i].startTime;
     arrangeBoxes[today][hour] ? arrangeBoxes[today][hour]++ : (arrangeBoxes[today][hour] = 1);
 
     const width = `${193 / arrangeBoxes[today][hour]}px`;
     let left = `${new Date(dummy[i].date).getDay() * 194.9}px`;
-    let index = 96 - (dummy[i].endTime[1] - dummy[i].startTime[1]);
+    let index = 96 - (dummy[i].endTime - dummy[i].startTime);
 
     if (arrangeBoxes[today][hour] > 1) {
       left = `${
         new Date(dummy[i].date).getDay() * 194.9 +
         (193 / arrangeBoxes[today][hour]) * (arrangeBoxes[today][hour] - 1)
       }px`;
-      index = 96 - (dummy[i - 1].endTime[1] - dummy[i - 1].startTime[1]) + 1;
+      index = 96 - (dummy[i - 1].endTime - dummy[i - 1].startTime) + 1;
     }
 
     newDummy.push({
