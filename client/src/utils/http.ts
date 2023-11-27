@@ -143,6 +143,27 @@ export async function postPlan({
   }
 }
 
+export async function editPlan({ id, data }: { id: number | undefined; data: PostPlanData }) {
+  if (!id) {
+    throw new Error("id is required");
+  }
+  try {
+    const response = await axios.patch(`http://localhost:3000/calendar`, {
+      id: id,
+      title: data.title,
+      description: data.description,
+      date: data.date,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      ddayChecked: data.ddayChecked,
+      color: data.color,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function deletePlan({ id }: { id: number | undefined }) {
   if (!id) {
     throw new Error("id is required");

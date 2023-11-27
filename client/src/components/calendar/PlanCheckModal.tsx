@@ -2,7 +2,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
 import { planIdState } from "../../store/modal/calendarSlice";
-import { closeModal } from "../../store/modal/modalSlice";
+import { closeModal, openModal } from "../../store/modal/modalSlice";
+import { changeIsEditing } from "../../store/modal/calendarSlice";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deletePlan } from "../../utils/http";
 import Modal from "../common/Modal";
@@ -41,6 +42,25 @@ function PlanCheckModal({ planData }: CalendarProps): JSX.Element | null {
     return null;
   }
 
+  function handlePlanEdit() {
+    dispatch(
+      changeIsEditing([
+        true,
+        {
+          planId: planId,
+          title: planScheduleData.title,
+          description: planScheduleData.description,
+          date: planScheduleData.date,
+          startTime: planScheduleData.startTime,
+          endTime: planScheduleData.endTime,
+          ddayChecked: planScheduleData.ddayChecked,
+          color: planScheduleData.color,
+        },
+      ]),
+    );
+    dispatch(openModal("planWrite"));
+  }
+
   function handlePlanDelete() {
     if (confirm("정말로 일정을 삭제하시겠습니까?")) {
       mutate({ id: planId });
@@ -77,7 +97,7 @@ function PlanCheckModal({ planData }: CalendarProps): JSX.Element | null {
           )}
         </div>
         <div className={classes.plancheck__btn_con}>
-          <button>수정</button>
+          <button onClick={handlePlanEdit}>수정</button>
           <button className={classes.plancheck__warning_btn} onClick={handlePlanDelete}>
             삭제
           </button>

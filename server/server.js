@@ -196,6 +196,24 @@ app.post("/calendar", async (req, res) => {
   res.json();
 });
 
+app.patch("/calendar", async (req, res) => {
+  const data = [
+    req.body.title,
+    req.body.description,
+    req.body.date,
+    req.body.startTime,
+    req.body.endTime,
+    req.body.ddayChecked,
+    req.body.color,
+    req.body.id,
+  ];
+  const query = `UPDATE plan SET title=(?), description=(?), date=(?), startTime=(?), endTime=(?), ddayChecked=(?), color=(?)  WHERE planId = (?);`;
+
+  await db.query(query, data);
+
+  res.json({ message: "Schedule has been successfully edited." });
+});
+
 app.delete("/calendar", async (req, res) => {
   const id = req.query.id;
 

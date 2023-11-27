@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postPlan } from "../../utils/http";
+import { editPlan, postPlan } from "../../utils/http";
 import { closeModal } from "../../store/modal/modalSlice";
+import { editingState } from "../../store/modal/calendarSlice";
 import { RootState } from "../../store/store";
 import createTimeOptions from "../../utils/createTimeOptions";
 import { currentDateState, clickedTimeState } from "../../store/modal/calendarSlice";
@@ -33,6 +34,7 @@ export default function PlanWriteModalForm({
   const [selectedTime, setSelectedTime] = useState({ date: new Date(), time: 0 });
   const [selectedColor, setSelectedColor] = useState<string>("#BAE7AB");
   const [ddayChecked, setDdayChecked] = useState<boolean>(false);
+  const [initialDday, setInitialDday] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
     title: "",
     date: "",
@@ -40,16 +42,21 @@ export default function PlanWriteModalForm({
   });
 
   const isOpen = useSelector((state: RootState) => state.modal.modalType);
+  const isEditing = useSelector(editingState);
   const currentDate = new Date(useSelector(currentDateState));
   const clickedTime = useSelector(clickedTimeState);
   const timeOptions = createTimeOptions();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const { mutate } = useMutation({
+  const editMutation = useMutation({
+    mutationFn: editPlan,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["planContent"] });
+    },
+  });
+  const postMutation = useMutation({
     mutationFn: postPlan,
     onSuccess: () => {
-      dispatch(closeModal());
-      console.log("Success!");
       queryClient.invalidateQueries({ queryKey: ["planContent"] });
     },
   });
@@ -73,6 +80,23 @@ export default function PlanWriteModalForm({
     setDisplayEndTime(selectedTime.time + 1);
     setDisplayDate(selectedTime.date.toDateString());
   }, [selectedTime, isOpen]);
+
+  useEffect(() => {
+    if (isEditing[0]) {
+      setFormData({
+        ...formData,
+        title: isEditing[1].title,
+        description: isEditing[1].description,
+      });
+
+      setDisplayDate(isEditing[1].date);
+      setDisplayStartTime(isEditing[1].startTime);
+      setDisplayEndTime(isEditing[1].endTime);
+      setSelectedColor(isEditing[1].color);
+      setDdayChecked(isEditing[1].ddayChecked);
+      setInitialDday(isEditing[1].ddayChecked);
+    }
+  }, []);
 
   function handleSelectStartTime(i: number) {
     setDisplayStartTime(i);
@@ -132,8 +156,14 @@ export default function PlanWriteModalForm({
       endTime: displayEndTime,
       ddayChecked: ddayChecked,
     };
+    const id = isEditing[1].planId;
 
-    mutate({ ...planData });
+    if (isEditing[0]) {
+      editMutation.mutate({ id, data: { ...planData } });
+    } else {
+      postMutation.mutate({ ...planData });
+    }
+    dispatch(closeModal());
   }
 
   const handleChange = (
@@ -155,6 +185,7 @@ export default function PlanWriteModalForm({
           name="title"
           placeholder="제목"
           required
+          value={formData.title}
           className={classes.planwrite__title_input}
           onChange={(e) => handleChange(e)}
         />
@@ -232,13 +263,18 @@ export default function PlanWriteModalForm({
       <textarea
         name="description"
         placeholder="설명"
+        value={formData.description}
         className={classes.planwrite__description}
         onChange={(e) => handleChange(e)}
       ></textarea>
       <div className={classes.planwrite__checkbox_con}>
         <input
           type="checkbox"
-          className={classes.planwrite__checkbox}
+          className={`${
+            initialDday
+              ? classes.planwrite__checkbox_checked
+              : classes.planwrite__checkbox_unchecked
+          }`}
           onChange={(e) => {
             setDdayChecked(!ddayChecked);
             handleChange(e);
