@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { calendarTypeState, currentDateState } from "../store/modal/calendarSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../store/store";
+import { calendarTypeState, currentDateState, changeIsEditing } from "../store/modal/calendarSlice";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPlans } from "../utils/http";
 import { FetchPlanData } from "../ts/PlanData";
@@ -22,6 +23,28 @@ function CalendarPage(): JSX.Element {
   const [end, setEnd] = useState<Date>(new Date());
   const calendarType = useSelector(calendarTypeState);
   const currentDate = new Date(useSelector(currentDateState));
+  const isOpen = useSelector((state: RootState) => state.modal.modalType);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isOpen) {
+      dispatch(
+        changeIsEditing([
+          false,
+          {
+            planId: 0,
+            title: "",
+            description: "",
+            date: "",
+            startTime: 0,
+            endTime: 0,
+            ddayChecked: false,
+            color: "",
+          },
+        ]),
+      );
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const newStart =
