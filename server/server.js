@@ -1,6 +1,6 @@
 const fs = require("fs/promises");
 const express = require("express");
-const db = require("../data/database");
+const db = require("./data/databasejy");
 const sanitizeHtml = require("sanitize-html");
 const multer = require("multer");
 const bodyParser = require("body-parser");
@@ -172,9 +172,36 @@ app.get("/diary-with-images", async (req, res) => {
 });
 
 app.get("/calendar", async (req, res) => {
-  const plans = await db.query("SELECT * FROM plan");
+  const start = new Date(req.query.start);
+  const end = new Date(req.query.end);
+  const query = `SELECT * FROM plan WHERE date BETWEEN (?) AND (?)`;
+  const plans = await db.query(query, [start, end]);
 
-  res.json(plans);
+  res.json(plans[0]);
+});
+
+app.post("/calendar", async (req, res) => {
+  const data = [
+    req.body.title,
+    req.body.description,
+    req.body.date,
+    req.body.startTime,
+    req.body.endTime,
+    req.body.ddayChecked,
+    req.body.color,
+  ];
+  const query = `INSERT INTO plan (title, description, date, startTime, endTime, ddayChecked, color) VALUES (?)`;
+  await db.query(query, [data]);
+
+  res.json();
+});
+
+app.delete("/calendar", async (req, res) => {
+  const id = req.query.id;
+
+  await db.query(`DELETE FROM plan WHERE planId = (?)`, id);
+
+  res.json({ message: "Schedule has been successfully deleted." });
 });
 
 app.get("*", (req, res) => {
