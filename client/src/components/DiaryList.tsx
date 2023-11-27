@@ -11,10 +11,11 @@ interface DiaryListData {
   current_page: number;
 }
 interface DiaryDataType {
-  id: number;
+  diaryId: number;
   title: string;
-  date: string;
+  date?: string;
   content: string;
+  hasImage: boolean;
 }
 const DiaryList: React.FC = () => {
   const {
@@ -45,7 +46,7 @@ const DiaryList: React.FC = () => {
       {isLoading && <div className={classes["diary-list__loading"]}>Loading...</div>}
       {!isLoading &&
         diaryListData &&
-        diaryListData.data.map((diary) => <DiaryItem key={diary.id} data={diary} />)}
+        diaryListData.data.map((diary) => <DiaryItem key={diary.diaryId} data={diary} />)}
       <Pagination
         currentPage={currentPage}
         onPrevPage={onPrevPageHandler}

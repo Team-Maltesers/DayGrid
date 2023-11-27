@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store.js";
 import DiaryData from "./DiaryData";
 import { closeModal } from "../store/modal/modalSlice";
+import { setEditingDiaryId } from "../store/diary/editingDiarySlice";
 
 export default function DiaryDetailModal() {
   const navigate = useNavigate();
@@ -32,11 +33,16 @@ export default function DiaryDetailModal() {
       id: diaryId,
     });
   };
+  const EditHandler = () => {
+    dispatch(setEditingDiaryId(diaryId));
+    dispatch(closeModal());
+    navigate("/diary-write");
+  };
 
-  const isOpen = useSelector((state: RootState) => state.modal.modalType); // 현재 모달 상태(열림/닫힘)를 가져옵니다.
+  const isOpen = useSelector((state: RootState) => state.modal.modalType);
 
   if (!(isOpen === "diarydetail")) {
-    return null; // 모달 상태가 '닫힘'이면 렌더링하지 않습니다.
+    return null;
   }
 
   let content: ReactElement = <div></div>;
@@ -44,7 +50,7 @@ export default function DiaryDetailModal() {
     content = <div>로딩중이에요.</div>;
   }
   if (diaryData) {
-    content = <DiaryData diaryData={diaryData} onDelete={deleteHandler} onEdit={() => {}} />;
+    content = <DiaryData diaryData={diaryData} onDelete={deleteHandler} onEdit={EditHandler} />;
   }
 
   return <Modal>{content}</Modal>;

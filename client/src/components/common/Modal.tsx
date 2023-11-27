@@ -9,7 +9,7 @@ interface ModalProp {
 const Modal = ({ children }: ModalProp): JSX.Element => {
   const dispatch = useDispatch();
   const closeModalHandler = (event: React.MouseEvent<HTMLElement>) => {
-    if (event.target === event.currentTarget) dispatch(closeModal()); // 클릭 시 모달 상태를 토글합니다.
+    if (event.target === event.currentTarget) dispatch(closeModal());
   };
   return (
     <div className={classes.modal} onClick={closeModalHandler}>
