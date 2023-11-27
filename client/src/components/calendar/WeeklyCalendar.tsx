@@ -1,12 +1,13 @@
 import React from "react";
 import WeeklyHead from "./WeeklyHead";
 import WeeklyBody from "./WeeklyBody";
+import { CalendarProps } from "../../ts/PlanData";
 
-function WeeklyCalendar(): JSX.Element {
+function WeeklyCalendar({ planData }: CalendarProps): JSX.Element {
   return (
     <div>
       <WeeklyHead />
-      <WeeklyBody />
+      <WeeklyBody planData={planData} />
     </div>
   );
 }

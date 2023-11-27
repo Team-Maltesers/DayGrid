@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postPlan } from "../../utils/http";
+import { closeModal } from "../../store/modal/modalSlice";
 import { RootState } from "../../store/store";
 import createTimeOptions from "../../utils/createTimeOptions";
 import { currentDateState, clickedTimeState } from "../../store/modal/calendarSlice";
@@ -8,22 +11,12 @@ import formatDay from "../../utils/formatDay";
 import classes from "../../styles/calendar/PlanWriteModal.module.css";
 import calendarIcon from "../../assets/image/calendar.png";
 import downArrow from "../../assets/image/arrow-down.png";
+import { PlanWriteModalFormProps } from "../../ts/PlanData";
 
 export interface FormData {
   title: string;
   date: string;
   description: string;
-}
-
-interface PlanWriteModalFormProps {
-  isStartTimeSelected: boolean;
-  setIsStartTimeSelected: (value: boolean) => void;
-  isEndTimeSelected: boolean;
-  setIsEndTimeSelected: (value: boolean) => void;
-  isColorOptionOpened: boolean;
-  setIsColorOptionOpened: (value: boolean) => void;
-  children: React.ReactNode;
-  // onSubmit: (formData: FormData) => void;
 }
 
 export default function PlanWriteModalForm({
@@ -33,7 +26,6 @@ export default function PlanWriteModalForm({
   setIsEndTimeSelected,
   isColorOptionOpened,
   setIsColorOptionOpened,
-  children, // onSubimt
 }: PlanWriteModalFormProps) {
   const [displayStartTime, setDisplayStartTime] = useState<number>(0);
   const [displayEndTime, setDisplayEndTime] = useState<number>(0);
@@ -51,6 +43,16 @@ export default function PlanWriteModalForm({
   const currentDate = new Date(useSelector(currentDateState));
   const clickedTime = useSelector(clickedTimeState);
   const timeOptions = createTimeOptions();
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: postPlan,
+    onSuccess: () => {
+      dispatch(closeModal());
+      console.log("Success!");
+      queryClient.invalidateQueries({ queryKey: ["planContent"] });
+    },
+  });
 
   useEffect(() => {
     if (clickedTime[0] === 1) {
@@ -122,15 +124,16 @@ export default function PlanWriteModalForm({
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log({
+    const planData = {
       ...formData,
-      date: formatDay(new Date(displayDate)),
+      date: formatDay(new Date(displayDate)).slice(0, 11),
       color: selectedColor,
-      startTime: [timeOptions[displayStartTime].text, displayStartTime],
-      endTime: [timeOptions[displayEndTime].text, displayEndTime],
+      startTime: displayStartTime,
+      endTime: displayEndTime,
       ddayChecked: ddayChecked,
-    });
-    // onSubmit({ ...formData });
+    };
+
+    mutate({ ...planData });
   }
 
   const handleChange = (
@@ -243,7 +246,12 @@ export default function PlanWriteModalForm({
         />
         <span className={classes.planwrite__checkbox_label}>D-Day 설정하기</span>
       </div>
-      {children}
+      <div className={classes.planwrite__btn_con}>
+        <button className={classes.planwrite__btn_reverse} onClick={() => dispatch(closeModal())}>
+          취소
+        </button>
+        <button type="submit">저장</button>
+      </div>
     </form>
   );
 }
