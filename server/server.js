@@ -1,12 +1,14 @@
 const fs = require("fs/promises");
 const express = require("express");
-const db = require("./data/databasejy");
 const sanitizeHtml = require("sanitize-html");
 const multer = require("multer");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const app = express();
+const calendarRoutes = require("./routes/calendar");
+const mypageRoutes = require("./routes/mypage");
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/uploads", express.static("uploads"));
@@ -103,7 +105,6 @@ const storage = multer.diskStorage({
     const timestamp = Date.now();
     const randomNumber = Math.floor(Math.random() * 1000);
     cb(null, `${timestamp}-${randomNumber}${extension}`);
-
   },
 });
 
@@ -172,56 +173,8 @@ app.get("/diary-with-images", async (req, res) => {
   });
 });
 
-app.get("/calendar", async (req, res) => {
-  const start = new Date(req.query.start);
-  const end = new Date(req.query.end);
-  const query = `SELECT * FROM plan WHERE date BETWEEN (?) AND (?)`;
-  const plans = await db.query(query, [start, end]);
-
-  res.json(plans[0]);
-});
-
-app.post("/calendar", async (req, res) => {
-  const data = [
-    req.body.title,
-    req.body.description,
-    req.body.date,
-    req.body.startTime,
-    req.body.endTime,
-    req.body.ddayChecked,
-    req.body.color,
-  ];
-  const query = `INSERT INTO plan (title, description, date, startTime, endTime, ddayChecked, color) VALUES (?)`;
-  await db.query(query, [data]);
-
-  res.json();
-});
-
-app.patch("/calendar", async (req, res) => {
-  const data = [
-    req.body.title,
-    req.body.description,
-    req.body.date,
-    req.body.startTime,
-    req.body.endTime,
-    req.body.ddayChecked,
-    req.body.color,
-    req.body.id,
-  ];
-  const query = `UPDATE plan SET title=(?), description=(?), date=(?), startTime=(?), endTime=(?), ddayChecked=(?), color=(?)  WHERE planId = (?);`;
-
-  await db.query(query, data);
-
-  res.json({ message: "Schedule has been successfully edited." });
-});
-
-app.delete("/calendar", async (req, res) => {
-  const id = req.query.id;
-
-  await db.query(`DELETE FROM plan WHERE planId = (?)`, id);
-
-  res.json({ message: "Schedule has been successfully deleted." });
-});
+app.use("/calendar", calendarRoutes);
+app.use("/my-page", mypageRoutes);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));

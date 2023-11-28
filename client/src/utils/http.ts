@@ -120,6 +120,7 @@ export async function updateDiary({
     throw error;
   }
 }
+
 export async function fetchPlans({ start, end }: { start: Date; end: Date }) {
   try {
     const response = await axios.get(`http://localhost:3000/calendar`, {
@@ -183,6 +184,55 @@ export async function deletePlan({ id }: { id: number | undefined }) {
   }
   try {
     const response = await axios.delete(`http://localhost:3000/calendar`, { params: { id: id } });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function fetchUserInfo({ id }: { id: number }) {
+  try {
+    const response = await axios.get(`http://localhost:3000/my-page`, {
+      params: { id: id },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function editUserInfo({
+  id,
+  name,
+  password,
+  birthday,
+}: {
+  id: number;
+  name?: string;
+  password?: string;
+  birthday?: string;
+}) {
+  try {
+    let response;
+    if (name) {
+      response = await axios.patch(`http://localhost:3000/mypage`, {
+        id: id,
+        name: name,
+      });
+    } else if (password) {
+      response = await axios.patch(`http://localhost:3000/mypage`, {
+        id: id,
+        password: password,
+      });
+    } else if (birthday) {
+      response = await axios.patch(`http://localhost:3000/mypage`, {
+        id: id,
+        birthday: birthday,
+      });
+    } else {
+      return "입력된 정보가 없습니다.";
+    }
+
     return response.data;
   } catch (error) {
     throw error;

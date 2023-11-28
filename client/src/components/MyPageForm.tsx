@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserInfo } from "../utils/http";
 import classes from "../styles/MyPage.module.css";
 import formatDay from "../utils/formatDay";
 import editIcon from "../assets/image/edit-button.png";
@@ -6,16 +8,32 @@ import check from "../assets/image/change-check.png";
 import cross from "../assets/image/cancel.png";
 import lock from "../assets/image/lock.png";
 
+interface UserInfo {
+  name: string;
+  password: string;
+  birthday: string;
+}
+
 function MyPageForm(): JSX.Element {
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    name: "",
+    password: "",
+    birthday: new Date().toISOString(),
+  });
   const [isNameEdited, setIsNameEdited] = useState<boolean>(false);
-  const [name, setName] = useState<string>("홍길동");
   const [changeName, setChangeName] = useState<string>("");
   const [isPasswordEdited, setIsPasswordEdited] = useState<boolean>(false);
-  const [password, setPassword] = useState<string>("");
   const [changePassword, setChangePassword] = useState<string>("");
   const [isBirthdayEdited, setIsBirthdayEdited] = useState<boolean>(false);
-  const [birthday, setBirthday] = useState<string>(new Date().toISOString());
   const [changeBirthday, setChangeBirthday] = useState<string>("");
+
+  const { data } = useQuery<UserInfo>({
+    queryKey: ["userInfo", 1],
+    queryFn: () =>
+      fetchUserInfo({
+        id: 1,
+      }),
+  });
 
   function handleEditBtnClick(e: React.MouseEvent<HTMLImageElement>) {
     const target = e.target as HTMLElement;
@@ -42,33 +60,33 @@ function MyPageForm(): JSX.Element {
       if (changeName === "") {
         alert("이름을 입력해주세요.");
       } else {
-        setName(changeName);
+        setUserInfo({ ...userInfo, name: changeName });
         setIsNameEdited(false);
       }
     } else if (target.id === "editPassword") {
       if (changePassword === "") {
         alert("비밀번호를 입력해주세요.");
       } else {
-        setPassword(changePassword);
+        setUserInfo({ ...userInfo, password: changePassword });
         setIsPasswordEdited(false);
       }
     } else {
-      setBirthday(changeBirthday);
+      setUserInfo({ ...userInfo, birthday: changeBirthday });
       setIsBirthdayEdited(false);
     }
   }
 
   useEffect(() => {
-    setChangeName(name);
-  }, [name]);
+    setChangeName(userInfo.name);
+  }, [userInfo.name]);
 
   useEffect(() => {
     setChangePassword("");
-  }, [password]);
+  }, [userInfo?.password]);
 
   useEffect(() => {
-    setChangeBirthday(birthday);
-  }, [birthday]);
+    setChangeBirthday(userInfo.birthday);
+  }, [userInfo.birthday]);
 
   return (
     <div className={classes.mypage__info_con}>
@@ -83,7 +101,7 @@ function MyPageForm(): JSX.Element {
               onChange={(e) => setChangeName(e.target.value)}
             />
           ) : (
-            <div>{name}</div>
+            <div>{userInfo.name}</div>
           )}
         </div>
         {isNameEdited ? (
@@ -98,7 +116,7 @@ function MyPageForm(): JSX.Element {
               src={cross}
               alt="수정 취소 버튼"
               onClick={() => {
-                setChangeName(name);
+                setChangeName(userInfo.name);
                 setIsNameEdited(false);
               }}
             />
@@ -171,7 +189,7 @@ function MyPageForm(): JSX.Element {
             />
           ) : (
             <div>
-              {new Date(birthday).toLocaleString("ko-KR", {
+              {new Date().toLocaleString("ko-KR", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -187,7 +205,7 @@ function MyPageForm(): JSX.Element {
               id="editBirthday"
               alt="수정 취소 버튼"
               onClick={() => {
-                setChangeBirthday(birthday);
+                setChangeBirthday(userInfo.birthday);
                 setIsBirthdayEdited(false);
               }}
             />
