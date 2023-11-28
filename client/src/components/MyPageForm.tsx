@@ -15,6 +15,11 @@ interface UserInfo {
 }
 
 function MyPageForm(): JSX.Element {
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    name: "",
+    password: "",
+    birthday: new Date().toISOString(),
+  });
   const [isNameEdited, setIsNameEdited] = useState<boolean>(false);
   const [changeName, setChangeName] = useState<string>("");
   const [isPasswordEdited, setIsPasswordEdited] = useState<boolean>(false);
@@ -22,7 +27,7 @@ function MyPageForm(): JSX.Element {
   const [isBirthdayEdited, setIsBirthdayEdited] = useState<boolean>(false);
   const [changeBirthday, setChangeBirthday] = useState<string>("");
 
-  const { data: userInfo } = useQuery<UserInfo>({
+  const { data } = useQuery<UserInfo>({
     queryKey: ["userInfo", 1],
     queryFn: () =>
       fetchUserInfo({
@@ -55,33 +60,33 @@ function MyPageForm(): JSX.Element {
       if (changeName === "") {
         alert("이름을 입력해주세요.");
       } else {
-        // setUserInfo({ ...userInfo, name: changeName });
+        setUserInfo({ ...userInfo, name: changeName });
         setIsNameEdited(false);
       }
     } else if (target.id === "editPassword") {
       if (changePassword === "") {
         alert("비밀번호를 입력해주세요.");
       } else {
-        // setUserInfo({ ...userInfo, password: changePassword });
+        setUserInfo({ ...userInfo, password: changePassword });
         setIsPasswordEdited(false);
       }
     } else {
-      // setUserInfo({ ...userInfo, birthday: changeBirthday });
+      setUserInfo({ ...userInfo, birthday: changeBirthday });
       setIsBirthdayEdited(false);
     }
   }
 
-  // useEffect(() => {
-  //   setChangeName(userInfo.name);
-  // }, [userInfo.name]);
+  useEffect(() => {
+    setChangeName(userInfo.name);
+  }, [userInfo.name]);
 
-  // useEffect(() => {
-  //   setChangePassword("");
-  // }, [userInfo?.password]);
+  useEffect(() => {
+    setChangePassword("");
+  }, [userInfo?.password]);
 
-  // useEffect(() => {
-  //   setChangeBirthday(userInfo.birthday);
-  // }, [userInfo.birthday]);
+  useEffect(() => {
+    setChangeBirthday(userInfo.birthday);
+  }, [userInfo.birthday]);
 
   return (
     <div className={classes.mypage__info_con}>
@@ -96,7 +101,7 @@ function MyPageForm(): JSX.Element {
               onChange={(e) => setChangeName(e.target.value)}
             />
           ) : (
-            <div>{userInfo?.name}</div>
+            <div>{userInfo.name}</div>
           )}
         </div>
         {isNameEdited ? (
@@ -111,7 +116,7 @@ function MyPageForm(): JSX.Element {
               src={cross}
               alt="수정 취소 버튼"
               onClick={() => {
-                setChangeName(userInfo?.name);
+                setChangeName(userInfo.name);
                 setIsNameEdited(false);
               }}
             />
@@ -200,7 +205,7 @@ function MyPageForm(): JSX.Element {
               id="editBirthday"
               alt="수정 취소 버튼"
               onClick={() => {
-                // setChangeBirthday(userInfo.birthday);
+                setChangeBirthday(userInfo.birthday);
                 setIsBirthdayEdited(false);
               }}
             />
