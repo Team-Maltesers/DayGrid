@@ -206,7 +206,7 @@
   margin-bottom: 1.375rem;
 }
 
-.planwrite__checkbox {
+.planwrite__checkbox_unchecked {
   width: 1.5625rem;
   height: 1.5625rem;
   margin-right: 0.625rem;
@@ -216,11 +216,26 @@
   cursor: pointer;
 }
 
-.planwrite__checkbox:checked {
+.planwrite__checkbox_unchecked:checked {
   background-image: url("../../assets/image/check.png");
 }
 
-.planwrite__checkbox:focus {
+.planwrite__checkbox_checked {
+  width: 1.5625rem;
+  height: 1.5625rem;
+  margin-right: 0.625rem;
+  appearance: none;
+  border: none;
+  background-image: url("../../assets/image/check.png");
+  cursor: pointer;
+}
+
+.planwrite__checkbox_checked:checked {
+  background-image: url("../../assets/image/uncheck.png");
+}
+
+.planwrite__checkbox_unchecked:focus,
+.planwrite__checkbox_checked:focus {
   box-shadow: none;
   border: none !important;
   outline: none;
