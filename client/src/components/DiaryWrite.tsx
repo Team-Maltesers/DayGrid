@@ -1,13 +1,17 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import classes from "../styles/DiaryWrite.module.css";
 import "quill/dist/quill.snow.css";
-import { postDiary, queryClient } from "../utils/http";
+import { fetchDiaryDetail, postDiary, queryClient, updateDiary } from "../utils/http";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import useImageUpload from "../hooks/useImageUpload";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { setEditingDiaryId } from "../store/diary/editingDiarySlice";
 
 function DiaryWrite() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const quillRef = useRef<ReactQuill | null>(null);
   const [text, setText] = useState("");
@@ -16,15 +20,36 @@ function DiaryWrite() {
   const [isUpdating, setIsUpdating] = useState(false);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const imageHandler = useImageUpload(quillRef);
-  const { mutate } = useMutation({
+  const postMutation = useMutation({
     mutationFn: postDiary,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["diary"] });
       navigate("/diary-list");
     },
   });
+  const updateMutation = useMutation({
+    mutationFn: updateDiary,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["diarydetail"] });
+      dispatch(setEditingDiaryId(null));
+      navigate("/diary-list");
+    },
+  });
+  const editingDiaryId = useSelector((state: RootState) => state.editingDiary.editingDiaryId);
+  useEffect(() => {
+    if (editingDiaryId) {
+      fetchDiaryDetail({ id: editingDiaryId }).then((data) => {
+        setTitle(data.title);
+        setText(data.content);
+      });
+    }
+  }, [editingDiaryId]);
   const submitHandler = () => {
-    mutate({ title: title, content: text });
+    if (editingDiaryId) {
+      updateMutation.mutate({ id: editingDiaryId, title: title, content: text });
+    } else {
+      postMutation.mutate({ title: title, content: text });
+    }
   };
   const ContentChangeHandler = (value: string) => {
     setText(value);

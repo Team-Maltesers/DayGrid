@@ -27,13 +27,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ children, onSubmit }) => {
       password: "",
     };
 
-    // 이메일 유효성 검사
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
     if (!emailRegex.test(LoginFormData.email)) {
       errors.email = "유효한 이메일 주소를 입력해주세요.";
     }
 
-    // 비밀번호 유효성 검사
     if (!LoginFormData.password) {
       errors.password = "비밀번호를 입력해주세요.";
     }

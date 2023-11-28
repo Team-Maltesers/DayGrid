@@ -8,13 +8,13 @@ interface DiaryDataFormData {
 }
 
 interface DiaryDataProps {
-  diaryData: DiaryDataFormData; // 서버에서 받아온 데이터
-  onDelete: () => void; // 삭제 버튼 클릭 시 실행할 함수
-  onEdit: () => void; // 수정 버튼 클릭 시 실행할 함수
+  diaryData: DiaryDataFormData;
+  onDelete: () => void;
+  onEdit: () => void;
 }
 
 const DiaryData: React.FC<DiaryDataProps> = ({ diaryData, onDelete, onEdit }) => {
-  const { date, title, content } = diaryData; // 서버에서 받아온 데이터를 분해 할당
+  const { date, title, content } = diaryData;
 
   return (
     <article className={classes.diary__data}>
