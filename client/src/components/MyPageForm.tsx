@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserInfo } from "../utils/http";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { fetchUserInfo, editUserInfo } from "../utils/http";
 import classes from "../styles/MyPage.module.css";
 import formatDay from "../utils/formatDay";
 import editIcon from "../assets/image/edit-button.png";
@@ -10,30 +11,43 @@ import lock from "../assets/image/lock.png";
 
 interface UserInfo {
   name: string;
-  password: string;
+  email: string;
   birthday: string;
 }
 
-function MyPageForm(): JSX.Element {
-  const [userInfo, setUserInfo] = useState<UserInfo>({
-    name: "",
-    password: "",
-    birthday: new Date().toISOString(),
-  });
+function MyPageForm(): JSX.Element | null {
   const [isNameEdited, setIsNameEdited] = useState<boolean>(false);
   const [changeName, setChangeName] = useState<string>("");
   const [isPasswordEdited, setIsPasswordEdited] = useState<boolean>(false);
   const [changePassword, setChangePassword] = useState<string>("");
   const [isBirthdayEdited, setIsBirthdayEdited] = useState<boolean>(false);
   const [changeBirthday, setChangeBirthday] = useState<string>("");
+  const queryClient = useQueryClient();
+  const editInfoMutation = useMutation({
+    mutationFn: editUserInfo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userInfo"] });
+    },
+  });
 
-  const { data } = useQuery<UserInfo>({
+  const { data: userInfo } = useQuery<UserInfo>({
     queryKey: ["userInfo", 1],
     queryFn: () =>
       fetchUserInfo({
         id: 1,
       }),
   });
+
+  useEffect(() => {
+    if (userInfo !== undefined) {
+      setChangeName(userInfo.name);
+      setChangeBirthday(userInfo.birthday);
+    }
+  }, [userInfo]);
+
+  if (userInfo === undefined) {
+    return null;
+  }
 
   function handleEditBtnClick(e: React.MouseEvent<HTMLImageElement>) {
     const target = e.target as HTMLElement;
@@ -60,33 +74,33 @@ function MyPageForm(): JSX.Element {
       if (changeName === "") {
         alert("이름을 입력해주세요.");
       } else {
-        setUserInfo({ ...userInfo, name: changeName });
-        setIsNameEdited(false);
+        if (userInfo !== undefined) {
+          editInfoMutation.mutate({ id: 1, name: changeName });
+          setIsNameEdited(false);
+        } else {
+          console.log("유저 정보가 제대로 입력되지 않았습니다.");
+        }
       }
     } else if (target.id === "editPassword") {
       if (changePassword === "") {
         alert("비밀번호를 입력해주세요.");
       } else {
-        setUserInfo({ ...userInfo, password: changePassword });
-        setIsPasswordEdited(false);
+        if (userInfo !== undefined) {
+          editInfoMutation.mutate({ id: 1, password: changePassword });
+          setIsPasswordEdited(false);
+        } else {
+          console.log("유저 정보가 제대로 입력되지 않았습니다.");
+        }
       }
     } else {
-      setUserInfo({ ...userInfo, birthday: changeBirthday });
-      setIsBirthdayEdited(false);
+      if (userInfo !== undefined) {
+        editInfoMutation.mutate({ id: 1, birthday: changeBirthday });
+        setIsBirthdayEdited(false);
+      } else {
+        console.log("유저 정보가 제대로 입력되지 않았습니다.");
+      }
     }
   }
-
-  useEffect(() => {
-    setChangeName(userInfo.name);
-  }, [userInfo.name]);
-
-  useEffect(() => {
-    setChangePassword("");
-  }, [userInfo?.password]);
-
-  useEffect(() => {
-    setChangeBirthday(userInfo.birthday);
-  }, [userInfo.birthday]);
 
   return (
     <div className={classes.mypage__info_con}>
@@ -133,7 +147,7 @@ function MyPageForm(): JSX.Element {
       <div className={classes.mypage__info_row}>
         <div className={classes.mypage__info}>
           <div>이메일</div>
-          <div>test123@gmail.com</div>
+          <div>{userInfo.email}</div>
         </div>
       </div>
       <div className={classes.mypage__info_row}>
@@ -189,7 +203,7 @@ function MyPageForm(): JSX.Element {
             />
           ) : (
             <div>
-              {new Date().toLocaleString("ko-KR", {
+              {new Date(userInfo.birthday).toLocaleString("ko-KR", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
