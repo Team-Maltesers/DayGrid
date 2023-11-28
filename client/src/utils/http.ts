@@ -29,7 +29,7 @@ export async function fetchDiaryDetail({
   signal,
 }: {
   id: number | undefined;
-  signal: AbortSignal;
+  signal?: AbortSignal;
 }) {
   if (!id) {
     throw new Error("id is required");
@@ -67,18 +67,15 @@ export async function fetchDiaryList({ page, signal }: { page: number; signal: A
   }
 }
 export async function imageApi({ img }: { img: File }) {
-  // FormData 객체 생성
   const formData = new FormData();
   formData.append("img", img);
 
-  // 서버로 이미지 업로드
   const response = await axios.post(`http://localhost:3000/upload`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
 
-  // 서버로부터 이미지 URL 응답 받기
   return response;
 }
 
@@ -107,6 +104,22 @@ export async function fetchDiaryWithImages({
   }
 }
 
+export async function updateDiary({
+  id,
+  title,
+  content,
+}: {
+  id: number;
+  title: string;
+  content: string;
+}) {
+  try {
+    const response = await axios.put(`http://localhost:3000/diary/${id}`, { title, content });    
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
 export async function fetchPlans({ start, end }: { start: Date; end: Date }) {
   try {
     const response = await axios.get(`http://localhost:3000/calendar`, {

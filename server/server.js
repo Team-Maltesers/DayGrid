@@ -93,7 +93,7 @@ app.get("/diary", async (req, res) => {
     data: diariesOnPage,
   });
 });
-// 이미지를 서버에 저장하는 경로와 파일 이름 설정
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./uploads");
@@ -101,8 +101,9 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const extension = path.extname(file.originalname);
     const timestamp = Date.now();
-    const randomNumber = Math.floor(Math.random() * 1000); // 0-999 사이의 랜덤한 숫자 생성
+    const randomNumber = Math.floor(Math.random() * 1000);
     cb(null, `${timestamp}-${randomNumber}${extension}`);
+
   },
 });
 

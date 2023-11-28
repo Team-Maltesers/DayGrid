@@ -23,10 +23,10 @@ export default function LoginModal() {
   function handleSubmit(formData: LoginFormData) {
     mutate(formData);
   }
-  const isOpen = useSelector((state: RootState) => state.modal.modalType); // 현재 모달 상태(열림/닫힘)를 가져옵니다.
+  const isOpen = useSelector((state: RootState) => state.modal.modalType);
 
   if (!(isOpen === "login")) {
-    return null; // 모달 상태가 '닫힘'이면 렌더링하지 않습니다.
+    return null;
   }
 
   return (
