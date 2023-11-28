@@ -1,6 +1,7 @@
 import { QueryClient } from "@tanstack/react-query";
 import { FormData } from "../components/SignUpForm";
 import { LoginFormData } from "../components/LoginForm";
+import { PostPlanData } from "../ts/PlanData";
 import axios from "axios";
 
 export const queryClient = new QueryClient();
@@ -100,6 +101,75 @@ export async function fetchDiaryWithImages({
     const response = await axios.get(`http://localhost:3000/diary-with-images?page=${page}`, {
       signal,
     });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function fetchPlans({ start, end }: { start: Date; end: Date }) {
+  try {
+    const response = await axios.get(`http://localhost:3000/calendar`, {
+      params: { start: new Date(start).toISOString(), end: new Date(end).toISOString() },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function postPlan({
+  title,
+  description,
+  date,
+  startTime,
+  endTime,
+  ddayChecked,
+  color,
+}: PostPlanData) {
+  try {
+    const response = await axios.post(`http://localhost:3000/calendar`, {
+      title: title,
+      description: description,
+      date: date,
+      startTime: startTime,
+      endTime: endTime,
+      ddayChecked: ddayChecked,
+      color: color,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function editPlan({ id, data }: { id: number | undefined; data: PostPlanData }) {
+  if (!id) {
+    throw new Error("id is required");
+  }
+  try {
+    const response = await axios.patch(`http://localhost:3000/calendar`, {
+      id: id,
+      title: data.title,
+      description: data.description,
+      date: data.date,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      ddayChecked: data.ddayChecked,
+      color: data.color,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deletePlan({ id }: { id: number | undefined }) {
+  if (!id) {
+    throw new Error("id is required");
+  }
+  try {
+    const response = await axios.delete(`http://localhost:3000/calendar`, { params: { id: id } });
     return response.data;
   } catch (error) {
     throw error;

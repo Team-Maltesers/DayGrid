@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { closeModal } from "../../store/modal/modalSlice";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import Modal from "../common/Modal";
 import PlanWriteModalForm from "./PlanWriteModalForm";
@@ -12,7 +11,6 @@ export default function PlanWriteModal(): JSX.Element | null {
   const [isColorOptionOpened, setIsColorOptionOpened] = useState<boolean>(false);
 
   const isOpen = useSelector((state: RootState) => state.modal.modalType);
-  const dispatch = useDispatch();
 
   if (!(isOpen === "planWrite")) {
     return null;
@@ -36,17 +34,7 @@ export default function PlanWriteModal(): JSX.Element | null {
             setIsEndTimeSelected={setIsEndTimeSelected}
             isColorOptionOpened={isColorOptionOpened}
             setIsColorOptionOpened={setIsColorOptionOpened}
-          >
-            <div className={classes.planwrite__btn_con}>
-              <button
-                className={classes.planwrite__btn_reverse}
-                onClick={() => dispatch(closeModal())}
-              >
-                취소
-              </button>
-              <button type="submit">저장</button>
-            </div>
-          </PlanWriteModalForm>
+          ></PlanWriteModalForm>
         </div>
       </Modal>
     </div>

@@ -1,6 +1,11 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { calendarTypeState } from "../store/modal/calendarSlice";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../store/store";
+import { calendarTypeState, currentDateState, changeIsEditing } from "../store/modal/calendarSlice";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPlans } from "../utils/http";
+import { FetchPlanData } from "../ts/PlanData";
+import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from "date-fns";
 import classes from "../styles/calendar/Calendar.module.css";
 import MiniCalendar from "../components/calendar/MiniCalendar";
 import DdayList from "../components/calendar/DdayList";
@@ -14,7 +19,56 @@ import plus from "../assets/image/plus.png";
 
 function CalendarPage(): JSX.Element {
   const [isAddPlanModalOpen, setIsAddPlanModalOpen] = useState<boolean>(false);
+  const [start, setStart] = useState<Date>(new Date());
+  const [end, setEnd] = useState<Date>(new Date());
   const calendarType = useSelector(calendarTypeState);
+  const currentDate = new Date(useSelector(currentDateState));
+  const isOpen = useSelector((state: RootState) => state.modal.modalType);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isOpen) {
+      dispatch(
+        changeIsEditing([
+          false,
+          {
+            planId: 0,
+            title: "",
+            description: "",
+            date: "",
+            startTime: 0,
+            endTime: 0,
+            ddayChecked: false,
+            color: "",
+          },
+        ]),
+      );
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const newStart =
+      calendarType === "월" ? startOfWeek(startOfMonth(currentDate)) : startOfWeek(currentDate);
+    const newEnd =
+      calendarType === "월" ? endOfWeek(endOfMonth(currentDate)) : endOfWeek(currentDate);
+
+    if (+newStart !== +start) {
+      setStart(newStart);
+    }
+
+    if (+newEnd !== +end) {
+      setEnd(newEnd);
+    }
+  }, [calendarType, currentDate]);
+
+  const { data: planData } = useQuery<FetchPlanData[]>({
+    queryKey: ["planContent", start, end],
+    queryFn: () =>
+      fetchPlans({
+        start: start,
+        end: end,
+      }),
+  });
 
   function handleAddPlanBtnClick(e: React.MouseEvent<HTMLDivElement>) {
     e.stopPropagation();
@@ -35,7 +89,11 @@ function CalendarPage(): JSX.Element {
           </div>
           <div className={classes.calendar__main}>
             <CalendarHead />
-            {calendarType === "월" ? <MonthlyCalendar /> : <WeeklyCalendar />}
+            {calendarType === "월" ? (
+              <MonthlyCalendar planData={planData || []} />
+            ) : (
+              <WeeklyCalendar planData={planData || []} />
+            )}
             <div className={classes.calendar__add_btn} onClick={(e) => handleAddPlanBtnClick(e)}>
               <img src={plus} />
               <AddPlanModal isAddPlanModalOpen={isAddPlanModalOpen} />
@@ -44,7 +102,7 @@ function CalendarPage(): JSX.Element {
         </div>
       </div>
       <PlanWriteModal />
-      <PlanCheckModal />
+      <PlanCheckModal planData={planData || []} />
     </>
   );
 }
