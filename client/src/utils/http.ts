@@ -6,9 +6,26 @@ import axios from "axios";
 
 export const queryClient = new QueryClient();
 
+const instance = axios.create({
+  baseURL: process.env.BASE_URL,
+});
+
+instance.interceptors.request.use(
+  (config) => {
+    const token = "your token";
+    if (token) {
+      config.headers["Authorization"] = "Bearer " + token;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
 export async function signup(eventData: FormData) {
   try {
-    const response = await axios.post(`http://localhost:3000/signup`, eventData);
+    const response = await instance.post(`/signup`, eventData);
     return response.data;
   } catch (error) {
     throw error;
@@ -17,7 +34,7 @@ export async function signup(eventData: FormData) {
 
 export async function login(eventData: LoginFormData) {
   try {
-    const response = await axios.post(`http://localhost:3000/login`, eventData);
+    const response = await instance.post(`/login`, eventData);
     return response.data;
   } catch (error) {
     throw error;
@@ -35,7 +52,7 @@ export async function fetchDiaryDetail({
     throw new Error("id is required");
   }
   try {
-    const response = await axios.get(`http://localhost:3000/diary/${id}`, { signal });
+    const response = await instance.get(`/diary/${id}`, { signal });
     const content = {
       title: response.data.title,
       date: response.data.date,
@@ -52,7 +69,7 @@ export async function deleteDiary({ id }: { id: number | undefined }) {
     throw new Error("id is required");
   }
   try {
-    const response = await axios.delete(`http://localhost:3000/diary/${id}`);
+    const response = await instance.delete(`/diary/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -60,7 +77,7 @@ export async function deleteDiary({ id }: { id: number | undefined }) {
 }
 export async function fetchDiaryList({ page, signal }: { page: number; signal: AbortSignal }) {
   try {
-    const response = await axios.get(`http://localhost:3000/diary?page=${page}`, { signal });
+    const response = await instance.get(`/diary?page=${page}`, { signal });
     return response.data;
   } catch (error) {
     throw error;
@@ -70,7 +87,7 @@ export async function imageApi({ img }: { img: File }) {
   const formData = new FormData();
   formData.append("img", img);
 
-  const response = await axios.post(`http://localhost:3000/upload`, formData, {
+  const response = await instance.post(`/upload`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -80,7 +97,7 @@ export async function imageApi({ img }: { img: File }) {
 }
 
 export async function postDiary({ title, content }: { title: string; content: string }) {
-  const response = await axios.post("http://localhost:3000/diary", {
+  const response = await instance.post("/diary", {
     title: title,
     content: content,
   });
@@ -95,7 +112,7 @@ export async function fetchDiaryWithImages({
   signal: AbortSignal;
 }) {
   try {
-    const response = await axios.get(`http://localhost:3000/gallery?page=${page}`, {
+    const response = await instance.get(`/gallery?page=${page}`, {
       signal,
     });
     return response.data;
@@ -114,7 +131,7 @@ export async function updateDiary({
   content: string;
 }) {
   try {
-    const response = await axios.put(`http://localhost:3000/diary/${id}`, { title, content });
+    const response = await instance.put(`/diary/${id}`, { title, content });
     return response.data;
   } catch (error) {
     throw error;
@@ -123,7 +140,7 @@ export async function updateDiary({
 
 export async function fetchPlans({ start, end }: { start: Date; end: Date }) {
   try {
-    const response = await axios.get(`http://localhost:3000/calendar`, {
+    const response = await instance.get(`/calendar`, {
       params: { start: new Date(start).toISOString(), end: new Date(end).toISOString() },
     });
     return response.data;
@@ -142,7 +159,7 @@ export async function postPlan({
   color,
 }: PostPlanData) {
   try {
-    const response = await axios.post(`http://localhost:3000/calendar`, {
+    const response = await instance.post(`/calendar`, {
       title: title,
       description: description,
       date: date,
@@ -162,7 +179,7 @@ export async function editPlan({ id, data }: { id: number | undefined; data: Pos
     throw new Error("id is required");
   }
   try {
-    const response = await axios.patch(`http://localhost:3000/calendar`, {
+    const response = await instance.patch(`/calendar`, {
       id: id,
       title: data.title,
       description: data.description,
@@ -183,7 +200,9 @@ export async function deletePlan({ id }: { id: number | undefined }) {
     throw new Error("id is required");
   }
   try {
-    const response = await axios.delete(`http://localhost:3000/calendar`, { params: { id: id } });
+    const response = await instance.delete(`/calendar`, {
+      params: { id: id },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -192,7 +211,7 @@ export async function deletePlan({ id }: { id: number | undefined }) {
 
 export async function fetchUserInfo({ id }: { id: number }) {
   try {
-    const response = await axios.get(`http://localhost:3000/my-page`, {
+    const response = await axios.get(`/my-page`, {
       params: { id: id },
     });
     return response.data;
@@ -215,17 +234,17 @@ export async function editUserInfo({
   try {
     let response;
     if (name) {
-      response = await axios.patch(`http://localhost:3000/my-page`, {
+      response = await instance.patch(`http://localhost:3000/my-page`, {
         id: id,
         name: name,
       });
     } else if (password) {
-      response = await axios.patch(`http://localhost:3000/my-page`, {
+      response = await instance.patch(`http://localhost:3000/my-page`, {
         id: id,
         password: password,
       });
     } else if (birthday) {
-      response = await axios.patch(`http://localhost:3000/my-page`, {
+      response = await instance.patch(`http://localhost:3000/my-page`, {
         id: id,
         birthday: birthday,
       });
@@ -244,7 +263,7 @@ export async function deleteUserInfo({ id }: { id: number | undefined }) {
     throw new Error("id is required");
   }
   try {
-    const response = await axios.delete(`http://localhost:3000/my-page`, { params: { id: id } });
+    const response = await instance.delete(`http://localhost:3000/my-page`, { params: { id: id } });
     return response.data;
   } catch (error) {
     throw error;
