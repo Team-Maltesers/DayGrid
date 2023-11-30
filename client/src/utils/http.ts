@@ -215,17 +215,17 @@ export async function editUserInfo({
   try {
     let response;
     if (name) {
-      response = await axios.patch(`http://localhost:3000/mypage`, {
+      response = await axios.patch(`http://localhost:3000/my-page`, {
         id: id,
         name: name,
       });
     } else if (password) {
-      response = await axios.patch(`http://localhost:3000/mypage`, {
+      response = await axios.patch(`http://localhost:3000/my-page`, {
         id: id,
         password: password,
       });
     } else if (birthday) {
-      response = await axios.patch(`http://localhost:3000/mypage`, {
+      response = await axios.patch(`http://localhost:3000/my-page`, {
         id: id,
         birthday: birthday,
       });
@@ -233,6 +233,18 @@ export async function editUserInfo({
       return "입력된 정보가 없습니다.";
     }
 
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteUserInfo({ id }: { id: number | undefined }) {
+  if (!id) {
+    throw new Error("id is required");
+  }
+  try {
+    const response = await axios.delete(`http://localhost:3000/my-page`, { params: { id: id } });
     return response.data;
   } catch (error) {
     throw error;
