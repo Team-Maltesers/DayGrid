@@ -95,7 +95,7 @@ export async function fetchDiaryWithImages({
   signal: AbortSignal;
 }) {
   try {
-    const response = await axios.get(`http://localhost:3000/diary-with-images?page=${page}`, {
+    const response = await axios.get(`http://localhost:3000/gallery?page=${page}`, {
       signal,
     });
     return response.data;
@@ -114,7 +114,7 @@ export async function updateDiary({
   content: string;
 }) {
   try {
-    const response = await axios.put(`http://localhost:3000/diary/${id}`, { title, content });    
+    const response = await axios.put(`http://localhost:3000/diary/${id}`, { title, content });
     return response.data;
   } catch (error) {
     throw error;
