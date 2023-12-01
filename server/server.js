@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const app = express();
+const authRoutes = require("./routes/auth");
 const calendarRoutes = require("./routes/calendar");
 const mypageRoutes = require("./routes/mypage");
 const uploadRoutes = require("./routes/upload");
@@ -13,6 +14,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "build")));
 app.use("/uploads", express.static(path.resolve(__dirname, "./uploads")));
+
+app.use("/", authRoutes);
 
 app.use("/diary", diaryRoutes);
 app.use("/gallery", galleryRoutes);
