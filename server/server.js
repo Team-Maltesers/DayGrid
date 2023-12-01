@@ -3,19 +3,26 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const app = express();
-const authRoutes = require("./routes/auth");
+const verifyRoutes = require("./routes/userVerify");
 const calendarRoutes = require("./routes/calendar");
 const mypageRoutes = require("./routes/mypage");
 const uploadRoutes = require("./routes/upload");
 const diaryRoutes = require("./routes/diary");
 const galleryRoutes = require("./routes/gallery");
+const refreshRoutes = require("./routes/refresh");
+const auth = require("./data/auth");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "build")));
 app.use("/uploads", express.static(path.resolve(__dirname, "./uploads")));
 
-app.use("/", authRoutes);
+app.use("/", verifyRoutes);
+app.use("/refresh", refreshRoutes);
+
+app.use((req, res, next) => {
+  auth(req, res, next);
+});
 
 app.use("/diary", diaryRoutes);
 app.use("/gallery", galleryRoutes);
