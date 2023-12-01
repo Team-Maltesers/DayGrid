@@ -61,7 +61,6 @@ router.post("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const [rows] = await pool.query("SELECT * FROM diary WHERE diaryId = ?", [id]);
     const diary = rows[0];
     if (!diary) {

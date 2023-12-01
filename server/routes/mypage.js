@@ -15,11 +15,20 @@ router.patch("/", async (req, res) => {
   let userInfo;
 
   if (req.body.name) {
-    userInfo = await db.query(`UPDATE member SET name=(?) WHERE memberId = (?)`, [req.body.name, id]);
+    userInfo = await db.query(`UPDATE member SET name=(?) WHERE memberId = (?)`, [
+      req.body.name,
+      id,
+    ]);
   } else if (req.body.password) {
-    userInfo = await db.query(`UPDATE member SET password=(?) WHERE memberId = (?)`, [req.body.password, id]);
+    userInfo = await db.query(`UPDATE member SET password=(?) WHERE memberId = (?)`, [
+      req.body.password,
+      id,
+    ]);
   } else if (req.body.birthday) {
-    userInfo = await db.query(`UPDATE member SET birthday=(?) WHERE memberId = (?)`, [req.body.birthday, id]);
+    userInfo = await db.query(`UPDATE member SET birthday=(?) WHERE memberId = (?)`, [
+      req.body.birthday,
+      id,
+    ]);
   }
 
   res.json(userInfo[0]);
