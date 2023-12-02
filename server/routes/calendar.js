@@ -1,5 +1,6 @@
 const express = require("express");
 const db = require("../data/databasejy");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -12,6 +13,10 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  const token = req.headers.authorization.split("Bearer ")[1];
+  const decoded = jwt.verify(token, process.env.JWT_KEY);
+  const memberId = decoded.id;
+
   const data = [
     req.body.title,
     req.body.description,
@@ -20,14 +25,18 @@ router.post("/", async (req, res) => {
     req.body.endTime,
     req.body.ddayChecked,
     req.body.color,
+    memberId,
   ];
-  const query = `INSERT INTO plan (title, description, date, startTime, endTime, ddayChecked, color) VALUES (?)`;
+  const query = `INSERT INTO plan (title, description, date, startTime, endTime, ddayChecked, color, memberId) VALUES (?)`;
   await db.query(query, [data]);
 
   res.json();
 });
 
 router.patch("/", async (req, res) => {
+  const token = req.headers.authorization.split("Bearer ")[1];
+  const decoded = jwt.verify(token, process.env.JWT_KEY);
+  const memberId = decoded.id;
   const data = [
     req.body.title,
     req.body.description,
@@ -37,8 +46,9 @@ router.patch("/", async (req, res) => {
     req.body.ddayChecked,
     req.body.color,
     req.body.id,
+    memberId,
   ];
-  const query = `UPDATE plan SET title=(?), description=(?), date=(?), startTime=(?), endTime=(?), ddayChecked=(?), color=(?)  WHERE planId = (?);`;
+  const query = `UPDATE plan SET title=(?), description=(?), date=(?), startTime=(?), endTime=(?), ddayChecked=(?), color=(?), memberId=(?)  WHERE planId = (?);`;
 
   await db.query(query, data);
 
