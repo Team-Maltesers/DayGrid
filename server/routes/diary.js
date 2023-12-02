@@ -1,23 +1,37 @@
 const express = require("express");
 const pool = require("../data/db");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const sanitizeHtml = require("sanitize-html");
 
 router.get("/", async (req, res) => {
   try {
+    if (!req.headers.authorization) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+    const token = req.headers.authorization.split("Bearer ")[1];
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_KEY);
+    } catch (error) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+    const memberId = decoded.id;
     let page = parseInt(req.query.page) || 1;
     page = Math.max(1, page);
     const entriesPerPage = 10;
     const offset = (page - 1) * entriesPerPage;
 
-    const [totalRows] = await pool.query("SELECT COUNT(*) as count FROM diary");
+    const [totalRows] = await pool.query("SELECT COUNT(*) as count FROM diary WHERE memberId = ?", [
+      memberId,
+    ]);
     const totalDiaries = totalRows[0].count;
     const totalPages = Math.ceil(totalDiaries / entriesPerPage);
     page = Math.min(page, totalPages);
 
     const [diaries] = await pool.query(
-      "SELECT * FROM diary ORDER BY diaryId DESC LIMIT ? OFFSET ?",
-      [entriesPerPage, offset],
+      "SELECT * FROM diary WHERE memberId = ? ORDER BY diaryId DESC LIMIT ? OFFSET ?",
+      [memberId, entriesPerPage, offset],
     );
     res.json({
       total_pages: totalPages,
@@ -32,6 +46,10 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
+    const token = req.headers.authorization.split("Bearer ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_KEY);
+    const memberId = decoded.id;
+
     const { title, content } = req.body;
     const cleanContent = sanitizeHtml(content, {
       allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
@@ -43,10 +61,11 @@ router.post("/", async (req, res) => {
       title: title,
       content: cleanContent,
       hasImage: cleanContent.includes("<img"),
+      memberId: memberId,
     };
     const [result] = await pool.query(
-      "INSERT INTO diary (title, content, hasImage) VALUES (?, ?, ?)",
-      [newDiary.title, newDiary.content, newDiary.hasImage],
+      "INSERT INTO diary (title, content, hasImage, memberId) VALUES (?, ?, ?, ?)",
+      [newDiary.title, newDiary.content, newDiary.hasImage, memberId],
     );
     if (result.affectedRows === 0) {
       return res.status(500).json({ message: "Insert failed" });
@@ -61,7 +80,6 @@ router.post("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const [rows] = await pool.query("SELECT * FROM diary WHERE diaryId = ?", [id]);
     const diary = rows[0];
     if (!diary) {
@@ -76,6 +94,12 @@ router.get("/:id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
+    if (!req.headers.authorization) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+    const token = req.headers.authorization.split("Bearer ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_KEY);
+    const memberId = decoded.id;
     const { id } = req.params;
     const { title, content } = req.body;
     const cleanContent = sanitizeHtml(content, {
@@ -90,8 +114,8 @@ router.put("/:id", async (req, res) => {
       hasImage: cleanContent.includes("<img"),
     };
     const [result] = await pool.query(
-      "UPDATE diary SET title = ?, content = ?, hasImage = ? WHERE diaryId = ?",
-      [updatedDiary.title, updatedDiary.content, updatedDiary.hasImage, id],
+      "UPDATE diary SET title = ?, content = ?, hasImage = ?, memberId = ?, WHERE diaryId = ?",
+      [updatedDiary.title, updatedDiary.content, updatedDiary.hasImage, memberId, id],
     );
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Diary not found" });

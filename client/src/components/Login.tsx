@@ -8,13 +8,15 @@ import { RootState } from "../store/store.js";
 import LoginForm, { LoginFormData } from "./LoginForm";
 import { openModal } from "../store/modal/modalSlice";
 import classes from "../styles/Login.module.css";
+import { setToken } from "../store/auth/authSlice";
 
 export default function LoginModal() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { mutate } = useMutation({
     mutationFn: login,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      dispatch(setToken(data.accessToken));
       queryClient.invalidateQueries({ queryKey: ["login"] });
       navigate("/");
     },

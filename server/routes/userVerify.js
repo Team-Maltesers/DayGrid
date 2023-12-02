@@ -11,7 +11,6 @@ router.post("/signup", async (req, res) => {
     if (!data) {
       return res.status(400).json({ message: "Signup data is required" });
     }
-
     const validation = await db.query(`SELECT email FROM member WHERE email = (?)`, data.email);
     if (validation[0].length !== 0) {
       return res.status(409).json({ messgae: "이미 존재하는 이메일 입니다." });
@@ -51,7 +50,9 @@ router.post("/login", async (req, res) => {
       const accessToken = jwt.sign({ id: user[0].memberId }, process.env.JWT_KEY, {
         expiresIn: "1h",
       });
-      const refreshToken = jwt.sign({}, process.env.JWT_KEY, { expiresIn: "7d" });
+      const refreshToken = jwt.sign({ id: user[0].memberId }, process.env.JWT_KEY, {
+        expiresIn: "7d",
+      });
       await db.query(`UPDATE member SET refreshToken = (?) WHERE email=(?)`, [
         refreshToken,
         req.body.email,
@@ -59,7 +60,6 @@ router.post("/login", async (req, res) => {
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        sameSite: "strict",
       });
       return res.status(200).json({ accessToken: accessToken });
     } else {

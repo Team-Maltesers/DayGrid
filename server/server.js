@@ -11,9 +11,16 @@ const diaryRoutes = require("./routes/diary");
 const galleryRoutes = require("./routes/gallery");
 const refreshRoutes = require("./routes/refresh");
 const auth = require("./data/auth");
+const cookieParser = require("cookie-parser");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5001",
+    credentials: true,
+  }),
+);
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "build")));
 app.use("/uploads", express.static(path.resolve(__dirname, "./uploads")));
 
@@ -23,7 +30,6 @@ app.use("/refresh", refreshRoutes);
 app.use((req, res, next) => {
   auth(req, res, next);
 });
-
 app.use("/diary", diaryRoutes);
 app.use("/gallery", galleryRoutes);
 app.use("/upload", uploadRoutes);

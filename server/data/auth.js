@@ -22,7 +22,7 @@ const auth = (req, res, next) => {
   if (req.headers.authorization) {
     const token = req.headers.authorization.split("Bearer ")[1];
     const result = verify(token);
-    if (result.ok) {
+    if (result.ok || token) {
       req.memberId = result.id;
       next();
     } else {
@@ -31,6 +31,11 @@ const auth = (req, res, next) => {
         message: result.message,
       });
     }
+  } else {
+    res.status(401).send({
+      ok: false,
+      message: result.message,
+    });
   }
 };
 

@@ -8,10 +8,10 @@ router.get("/", async (req, res) => {
     const entriesPerPage = 6;
     const offset = (page - 1) * entriesPerPage;
 
-    const [rows] = await pool.query(`SELECT * FROM diary WHERE hasImage = true LIMIT ? OFFSET ?`, [
-      entriesPerPage,
-      offset,
-    ]);
+    const [rows] = await pool.query(
+      `SELECT * FROM diary  WHERE hasImage = true ORDER BY diaryId DESC LIMIT ? OFFSET ?`,
+      [entriesPerPage, offset],
+    );
 
     const [totalRows] = await pool.query(
       `SELECT COUNT(*) as count FROM diary WHERE hasImage = true`,

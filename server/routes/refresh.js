@@ -1,7 +1,6 @@
 const express = require("express");
-const db = require("../data/databasejy");
+const db = require("../data/db");
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
 const router = express.Router();
 
 async function refreshVerify(token, id) {
@@ -24,15 +23,20 @@ async function refreshVerify(token, id) {
 }
 
 router.get("/", async (req, res) => {
-  if (req.headers.authorization && req.cookies.refreshToken) {
-    const accessToken = req.headers.authorization.split("Bearer ")[1];
-    const decoded = jwt.decode(accessToken);
+  if (req.cookies.refreshToken | req.headers.authorization) {
+    let decoded;
+    if (req.headers.authorization) {
+      const accessToken = req.headers.authorization.split("Bearer ")[1];
+      decoded = jwt.decode(accessToken);
+    } else {
+      const refreshToken = req.cookies.refreshToken;
+      decoded = jwt.decode(refreshToken);
+    }
 
-    const refreshToken = req.cookies.refreshToken;
     const result = refreshVerify(refreshToken, decoded.id);
 
     if (result) {
-      const newAccessToken = jwt.sign({ id: user[0].memberId }, process.env.JWT_KEY, {
+      const newAccessToken = jwt.sign({ id: decoded.id }, process.env.JWT_KEY, {
         expiresIn: "1h",
       });
 
