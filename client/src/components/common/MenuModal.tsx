@@ -49,8 +49,8 @@ const MenuModal = (): JSX.Element => {
       <div className={classes.menu__con}>
         <div className={classes.menu__link_con}>
           <Link to="/calendar">달력</Link>
-          <Link to="/diary-list">마이페이지</Link>
-          <Link to="/my-page">다이어리</Link>
+          <Link to="/my-page">마이페이지</Link>
+          <Link to="/diary-list">다이어리</Link>
           <div>로그아웃</div>
         </div>
         <div className={classes.menu__bottom}>Made by. Team Maltesers 🐶</div>
