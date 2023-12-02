@@ -4,47 +4,50 @@ import { LoginFormData } from "../components/LoginForm";
 import { PostPlanData } from "../ts/PlanData";
 import axios from "axios";
 import store from "../store/store";
+import logout from "./logout";
+import { setToken } from "../store/auth/authSlice";
 export const queryClient = new QueryClient();
 
 const instance = axios.create({
   baseURL: process.env.BASE_URL,
 });
 
-instance.interceptors.request.use(
-  (config) => {
-    const token = store.getState().auth.accessToken;
-    if (token) {
-      config.headers["Authorization"] = "Bearer " + token;
-    }
-    return config;
-  },
-  async function (error) {
-    /*
+instance.interceptors.request.use((config) => {
+  const token = store.getState().auth.accessToken;
+  console.log(token);
+  if (token) {
+    config.headers["Authorization"] = "Bearer " + token["accessToken"];
+  }
+  return config;
+});
+instance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
     const originalRequest = error.config;
 
-    // 1. Unauthorized 상태이고, 이전에 토큰 갱신 요청이 아니었을 경우
     if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true; // 토큰 갱신 요청 플래그를 true로 설정
-
-      // 2. 토큰 갱신 요청
-      const access_token = await refreshAccessToken();
-
-      // 3. 새로운 토큰을 headers에 설정
-      axios.defaults.headers.common["Authorization"] = "Bearer " + access_token;
-
-      // 4. 이전에 실패했던 요청을 다시 보내기
-      return instance(originalRequest);
+      originalRequest._retry = true;
+      try {
+        const access_token = await refreshAccessToken();
+        store.dispatch(setToken(access_token));
+        return instance(originalRequest);
+      } catch {
+        logout();
+      }
     }
-*/
+
     return Promise.reject(error);
   },
 );
-/*
+
 async function refreshAccessToken() {
-  // 여기에 리프레시 토큰을 이용하여 새로운 엑세스 토큰을 발급받는 API 요청 로직을 작성하세요.
-  // 발급받은 엑세스 토큰을 반환해야 합니다.
+  try {
+    const response = await instance.get(`/refresh`, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 }
-*/
 
 export async function signup(eventData: FormData) {
   try {
@@ -57,7 +60,7 @@ export async function signup(eventData: FormData) {
 
 export async function login(eventData: LoginFormData) {
   try {
-    const response = await instance.post(`/login`, eventData);
+    const response = await instance.post(`/login`, eventData, { withCredentials: true });
     return response.data;
   } catch (error) {
     throw error;
