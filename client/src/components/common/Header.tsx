@@ -23,7 +23,12 @@ const Header = (): JSX.Element => {
       <MenuModal />
       <div className={classes.header__bg}>
         <div className={classes.header__empty}></div>
-        <div className={classes.header__logo_con} onClick={() => navigate("/info")}>
+        <div
+          className={classes.header__logo_con}
+          onClick={() => {
+            isLoggedIn ? navigate("calendar") : navigate("/info");
+          }}
+        >
           <div className={classes.header__logo}>
             {smallLogoList[new Date().getDate() - 1].logo()}
           </div>
