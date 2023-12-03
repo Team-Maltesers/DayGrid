@@ -1,13 +1,17 @@
 const express = require("express");
-const db = require("../data/databasejy");
+const db = require("../data/db");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+  const token = req.headers.authorization.split("Bearer ")[1];
+  const decoded = jwt.verify(token, process.env.JWT_KEY);
+
   const start = new Date(req.query.start);
   const end = new Date(req.query.end);
-  const query = `SELECT * FROM plan WHERE date BETWEEN (?) AND (?)`;
-  const plans = await db.query(query, [start, end]);
+
+  const query = `SELECT * FROM plan WHERE (date BETWEEN (?) AND (?)) AND memberId = (?)`;
+  const plans = await db.query(query, [start, end, decoded.id]);
 
   res.json(plans[0]);
 });

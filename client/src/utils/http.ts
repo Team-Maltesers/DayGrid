@@ -237,7 +237,7 @@ export async function deletePlan({ id }: { id: number | undefined }) {
 
 export async function fetchUserInfo({ id }: { id: number }) {
   try {
-    const response = await axios.get(`/my-page`, {
+    const response = await instance.get(`/my-page`, {
       params: { id: id },
     });
     return response.data;
