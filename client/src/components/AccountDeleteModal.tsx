@@ -24,7 +24,7 @@ function AccountDeleteModal(): JSX.Element | null {
   }
 
   function handleDeleteInfo() {
-    deleteInfoMutation.mutate({ id: 1 });
+    deleteInfoMutation.mutate();
   }
 
   return (

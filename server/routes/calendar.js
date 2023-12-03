@@ -67,4 +67,15 @@ router.delete("/", async (req, res) => {
   res.json({ message: "Schedule has been successfully deleted." });
 });
 
+router.get("/dday", async (req, res) => {
+  const token = req.headers.authorization.split("Bearer ")[1];
+  const decoded = jwt.verify(token, process.env.JWT_KEY);
+  const data = await db.query(
+    `SELECT planId, title, date FROM plan WHERE ddaychecked = true AND memberId = (?)`,
+    decoded.id,
+  );
+
+  res.json(data[0]);
+});
+
 module.exports = router;

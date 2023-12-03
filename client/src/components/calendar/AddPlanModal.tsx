@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../store/modal/modalSlice";
+import { changeCurrentDate } from "../../store/modal/calendarSlice";
 import { changeClickedTime } from "../../store/modal/calendarSlice";
 import { Link } from "react-router-dom";
 import classes from "../../styles/calendar/Calendar.module.css";
@@ -43,6 +44,7 @@ function AddPlanModal({ isAddPlanModalOpen }: AddPlanModalProps): JSX.Element {
   function handlePlanModalOpen() {
     dispatch(openModal("planWrite"));
     dispatch(changeClickedTime([0, 0, 0]));
+    dispatch(changeCurrentDate(new Date().toISOString()));
   }
 
   return (

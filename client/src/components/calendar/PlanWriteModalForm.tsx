@@ -52,12 +52,14 @@ export default function PlanWriteModalForm({
     mutationFn: editPlan,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["planContent"] });
+      queryClient.invalidateQueries({ queryKey: ["ddayData"] });
     },
   });
   const postMutation = useMutation({
     mutationFn: postPlan,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["planContent"] });
+      queryClient.invalidateQueries({ queryKey: ["ddayData"] });
     },
   });
 
@@ -78,7 +80,11 @@ export default function PlanWriteModalForm({
 
     setDisplayStartTime(selectedTime.time);
     setDisplayEndTime(selectedTime.time + 1);
-    setDisplayDate(selectedTime.date.toDateString());
+    if (clickedTime[0] === 1) {
+      setDisplayDate(selectedTime.date.toDateString());
+    } else {
+      setDisplayDate(currentDate.toDateString());
+    }
   }, [selectedTime, isOpen]);
 
   useEffect(() => {

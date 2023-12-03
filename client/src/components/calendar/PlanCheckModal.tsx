@@ -25,6 +25,7 @@ function PlanCheckModal({ planData }: CalendarProps): JSX.Element | null {
     onSuccess: () => {
       dispatch(closeModal());
       queryClient.invalidateQueries({ queryKey: ["planContent"] });
+      queryClient.invalidateQueries({ queryKey: ["ddayData"] });
     },
   });
 

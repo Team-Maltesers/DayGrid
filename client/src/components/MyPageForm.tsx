@@ -32,10 +32,7 @@ function MyPageForm(): JSX.Element | null {
 
   const { data: userInfo } = useQuery<UserInfo>({
     queryKey: ["userInfo", 1],
-    queryFn: () =>
-      fetchUserInfo({
-        id: 1,
-      }),
+    queryFn: () => fetchUserInfo(),
   });
 
   useEffect(() => {
@@ -75,7 +72,7 @@ function MyPageForm(): JSX.Element | null {
         alert("이름을 입력해주세요.");
       } else {
         if (userInfo !== undefined) {
-          editInfoMutation.mutate({ id: 1, name: changeName });
+          editInfoMutation.mutate({ name: changeName });
           setIsNameEdited(false);
         } else {
           console.log("유저 정보가 제대로 입력되지 않았습니다.");
@@ -86,7 +83,7 @@ function MyPageForm(): JSX.Element | null {
         alert("비밀번호를 입력해주세요.");
       } else {
         if (userInfo !== undefined) {
-          editInfoMutation.mutate({ id: 1, password: changePassword });
+          editInfoMutation.mutate({ password: changePassword });
           setIsPasswordEdited(false);
         } else {
           console.log("유저 정보가 제대로 입력되지 않았습니다.");
@@ -94,7 +91,7 @@ function MyPageForm(): JSX.Element | null {
       }
     } else {
       if (userInfo !== undefined) {
-        editInfoMutation.mutate({ id: 1, birthday: changeBirthday });
+        editInfoMutation.mutate({ birthday: changeBirthday });
         setIsBirthdayEdited(false);
       } else {
         console.log("유저 정보가 제대로 입력되지 않았습니다.");

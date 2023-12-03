@@ -73,11 +73,16 @@
 }
 
 .info__img {
-  width: 650px;
-  height: 700px;
-  background-color: rgb(186, 186, 186);
+  width: 40.625rem;
+  height: 43.75rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 27px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9375rem;
+}
+
+.info__img > img {
+  width: 100%;
 }
