@@ -43,6 +43,7 @@
   border-radius: 4px;
   background-color: var(--main-color);
   padding: 1.125rem 1.25rem;
+  cursor: pointer;
 }
 
 .dday__card_con:not(:last-child) {

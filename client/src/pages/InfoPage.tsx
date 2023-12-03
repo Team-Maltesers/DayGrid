@@ -2,6 +2,8 @@ import React from "react";
 import classes from "../styles/Info.module.css";
 import bigLogoList from "../assets/header/logo-big";
 import logoName from "../assets/header/logo-name.svg";
+import info from "../assets/image/info.png";
+import info2 from "../assets/image/info2.png";
 
 function InfoPage(): JSX.Element {
   return (
@@ -26,7 +28,10 @@ function InfoPage(): JSX.Element {
           </div>
         </div>
       </div>
-      <div className={classes.info__img}>웹사이트 사진</div>
+      <div className={classes.info__img}>
+        <img src={info}></img>
+        <img src={info2}></img>
+      </div>
     </div>
   );
 }

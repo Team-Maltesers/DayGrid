@@ -32,4 +32,21 @@ interface PlanWriteModalFormProps {
   setIsColorOptionOpened: (value: boolean) => void;
 }
 
-export { FetchPlanData, PostPlanData, CalendarProps, PlanWriteModalFormProps };
+interface DdayData {
+  planId: number;
+  title: string;
+  date: string;
+}
+
+interface DdayCardProps {
+  data: DdayData;
+}
+
+export {
+  FetchPlanData,
+  PostPlanData,
+  CalendarProps,
+  PlanWriteModalFormProps,
+  DdayData,
+  DdayCardProps,
+};

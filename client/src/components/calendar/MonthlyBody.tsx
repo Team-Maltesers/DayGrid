@@ -1,6 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { currentDateState } from "../../store/modal/calendarSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { openModal } from "../../store/modal/modalSlice";
+import { currentDateState, changeCurrentDate } from "../../store/modal/calendarSlice";
 import {
   startOfMonth,
   endOfMonth,
@@ -20,6 +21,7 @@ function MonthlyBody({ planData }: CalendarProps): JSX.Element {
   const monthEnd = endOfMonth(currentDate);
   const calendarStart = startOfWeek(monthStart);
   const calendarEnd = endOfWeek(monthEnd);
+  const dispatch = useDispatch();
 
   let curDay = calendarStart;
   let week = [];
@@ -45,6 +47,8 @@ function MonthlyBody({ planData }: CalendarProps): JSX.Element {
       style.background = "var(--sub-color)";
     }
 
+    const clickedDay = curDay;
+
     week.push(
       <div key={key} className={classes.monthly__body_cell}>
         <div
@@ -54,6 +58,10 @@ function MonthlyBody({ planData }: CalendarProps): JSX.Element {
             backgroundColor: style.background,
           }}
           className={classes.monthly__body_cell_number}
+          onClick={() => {
+            dispatch(changeCurrentDate(clickedDay.toISOString()));
+            dispatch(openModal("planWrite"));
+          }}
         >
           {day}
         </div>
