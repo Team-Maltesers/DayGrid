@@ -23,16 +23,9 @@ async function refreshVerify(token, id) {
 }
 
 router.get("/", async (req, res) => {
-  if (req.cookies.refreshToken | req.headers.authorization) {
-    let decoded;
-    if (req.headers.authorization) {
-      const accessToken = req.headers.authorization.split("Bearer ")[1];
-      decoded = jwt.decode(accessToken);
-    } else {
-      const refreshToken = req.cookies.refreshToken;
-      decoded = jwt.decode(refreshToken);
-    }
-
+  if (req.cookies.refreshToken) {
+    const refreshToken = req.cookies.refreshToken;
+    const decoded = jwt.decode(refreshToken);
     const result = refreshVerify(refreshToken, decoded.id);
 
     if (result) {
