@@ -14,7 +14,6 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
   const token = store.getState().auth.accessToken;
-  console.log(token);
   if (token) {
     config.headers["Authorization"] = "Bearer " + token["accessToken"];
   }
@@ -61,6 +60,15 @@ export async function signup(eventData: FormData) {
 export async function login(eventData: LoginFormData) {
   try {
     const response = await instance.post(`/login`, eventData, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function info() {
+  try {
+    const response = await instance.get(`/info`);
     return response.data;
   } catch (error) {
     throw error;
@@ -235,11 +243,18 @@ export async function deletePlan({ id }: { id: number | undefined }) {
   }
 }
 
-export async function fetchUserInfo({ id }: { id: number }) {
+export async function fetchDday() {
   try {
-    const response = await instance.get(`/my-page`, {
-      params: { id: id },
-    });
+    const response = await instance.get(`/calendar/dday`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function fetchUserInfo() {
+  try {
+    const response = await instance.get(`/my-page`);
     return response.data;
   } catch (error) {
     throw error;
@@ -247,12 +262,10 @@ export async function fetchUserInfo({ id }: { id: number }) {
 }
 
 export async function editUserInfo({
-  id,
   name,
   password,
   birthday,
 }: {
-  id: number;
   name?: string;
   password?: string;
   birthday?: string;
@@ -261,17 +274,14 @@ export async function editUserInfo({
     let response;
     if (name) {
       response = await instance.patch(`/my-page`, {
-        id: id,
         name: name,
       });
     } else if (password) {
       response = await instance.patch(`/my-page`, {
-        id: id,
         password: password,
       });
     } else if (birthday) {
       response = await instance.patch(`/my-page`, {
-        id: id,
         birthday: birthday,
       });
     } else {
@@ -284,12 +294,9 @@ export async function editUserInfo({
   }
 }
 
-export async function deleteUserInfo({ id }: { id: number | undefined }) {
-  if (!id) {
-    throw new Error("id is required");
-  }
+export async function deleteUserInfo() {
   try {
-    const response = await instance.delete(`/my-page`, { params: { id: id } });
+    const response = await instance.delete(`/my-page`);
     return response.data;
   } catch (error) {
     throw error;

@@ -11,18 +11,27 @@ import SignUpModal from "../SignUp";
 import LoginModal from "../Login";
 import DiaryDetailModal from "../DiaryDetail";
 import { RootState } from "../../store/store";
+import { useNavigate } from "react-router-dom";
 
 const Header = (): JSX.Element => {
   const isLoggedIn = !!useSelector((state: RootState) => state.auth.accessToken);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <>
       <MenuModal />
       <div className={classes.header__bg}>
         <div className={classes.header__empty}></div>
-        <div className={classes.header__logo_con}>
-          <div className={classes.header__logo}>{smallLogoList[0].logo()}</div>
+        <div
+          className={classes.header__logo_con}
+          onClick={() => {
+            isLoggedIn ? navigate("calendar") : navigate("/info");
+          }}
+        >
+          <div className={classes.header__logo}>
+            {smallLogoList[new Date().getDate() - 1].logo()}
+          </div>
           <div className={classes.header__logo_name}>
             <img src={logoName} />
           </div>
