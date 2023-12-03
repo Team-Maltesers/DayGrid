@@ -51,11 +51,11 @@ const MenuModal = (): JSX.Element => {
           <Link to="/calendar" onClick={() => dispatch(toggleMenuModal())}>
             달력
           </Link>
-          <Link to="/my-page" onClick={() => dispatch(toggleMenuModal())}>
-            마이페이지
-          </Link>
           <Link to="/diary-list" onClick={() => dispatch(toggleMenuModal())}>
             다이어리
+          </Link>
+          <Link to="/my-page" onClick={() => dispatch(toggleMenuModal())}>
+            마이페이지
           </Link>
           <div>로그아웃</div>
         </div>

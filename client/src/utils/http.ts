@@ -14,7 +14,6 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
   const token = store.getState().auth.accessToken;
-  console.log(token);
   if (token) {
     config.headers["Authorization"] = "Bearer " + token["accessToken"];
   }
@@ -61,6 +60,15 @@ export async function signup(eventData: FormData) {
 export async function login(eventData: LoginFormData) {
   try {
     const response = await instance.post(`/login`, eventData, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function info() {
+  try {
+    const response = await instance.get(`/info`);
     return response.data;
   } catch (error) {
     throw error;
