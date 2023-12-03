@@ -38,8 +38,10 @@ function MonthlyBody({ planData }: CalendarProps): JSX.Element {
     if (!isSameMonth(curDay, monthStart)) {
       style.fontColor = "var(--font-color-gray)";
     } else if (isSameDay(curDay, new Date())) {
-      style.fontColor = "#FFFFFF";
       style.fontWeight = "500";
+      style.background = "#b6c6db";
+    } else if (isSameDay(curDay, currentDate)) {
+      style.fontColor = "#FFFFFF";
       style.background = "var(--sub-color)";
     }
 
