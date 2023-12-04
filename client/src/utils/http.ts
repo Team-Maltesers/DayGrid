@@ -81,6 +81,15 @@ export async function check() {
   }
 }
 
+export async function info() {
+  try {
+    const response = await instance.get(`/info`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function fetchDiaryDetail({
   id,
   signal,
