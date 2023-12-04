@@ -6,7 +6,7 @@ import { queryClient, login } from "../utils/http";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store.js";
 import LoginForm, { LoginFormData } from "./LoginForm";
-import { openModal } from "../store/modal/modalSlice";
+import { closeModal, openModal } from "../store/modal/modalSlice";
 import classes from "../styles/Login.module.css";
 import { setToken } from "../store/auth/authSlice";
 
@@ -18,7 +18,8 @@ export default function LoginModal() {
     onSuccess: (data) => {
       dispatch(setToken(data.accessToken));
       queryClient.invalidateQueries({ queryKey: ["login"] });
-      navigate("/");
+      navigate("/calendar");
+      dispatch(closeModal());
     },
   });
 
