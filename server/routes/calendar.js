@@ -49,8 +49,8 @@ router.patch("/", async (req, res) => {
     req.body.endTime,
     req.body.ddayChecked,
     req.body.color,
-    req.body.id,
     memberId,
+    req.body.id,
   ];
   const query = `UPDATE plan SET title=(?), description=(?), date=(?), startTime=(?), endTime=(?), ddayChecked=(?), color=(?), memberId=(?)  WHERE planId = (?);`;
 
