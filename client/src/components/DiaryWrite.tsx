@@ -115,6 +115,7 @@ function DiaryWrite() {
           </button>
         </div>
       </div>
+      <div className={classes.diaryWrite__line}></div>
       <div className={classes.diaryWrite__preview}>
         <h1 className={classes.diaryWrite__preview__title}>{title}</h1>
         <ReactQuill

@@ -23,6 +23,13 @@
     justify-content: space-between;
     background-color: var(--main-color);
 }
+.diaryWrite__line{
+    
+  margin: 100px 0;
+  width: 1px;
+  height: 70%;
+  border-right: 3px solid rgb(238, 238, 238);
+}
 .diaryWrite__preview{
     overflow: auto;
 }
