@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenuModal } from "../../store/modal/menuModalSlice";
 import MenuModal from "./MenuModal";
@@ -12,11 +12,15 @@ import LoginModal from "../Login";
 import DiaryDetailModal from "../DiaryDetail";
 import { RootState } from "../../store/store";
 import { useNavigate } from "react-router-dom";
+import { check } from "../../utils/http";
 
 const Header = (): JSX.Element => {
   const isLoggedIn = !!useSelector((state: RootState) => state.auth.accessToken);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => {
+    check();
+  }, []);
 
   return (
     <>

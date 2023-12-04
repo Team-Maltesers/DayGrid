@@ -28,13 +28,18 @@ const auth = (req, res, next) => {
     } else {
       res.status(401).send({
         ok: false,
-        message: result.message,
+        message: "hi",
       });
     }
+  } else if (req.cookies.refreshToken) {
+    res.status(401).send({
+      ok: false,
+      message: "hi",
+    });
   } else {
     res.status(401).send({
       ok: false,
-      message: result.message,
+      message: "hello",
     });
   }
 };

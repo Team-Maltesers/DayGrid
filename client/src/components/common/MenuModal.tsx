@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenuModal, menuModalState } from "../../store/modal/menuModalSlice";
 import classes from "../../styles/common/MenuModal.module.css";
+import { logout } from "../../utils/http";
 
 interface ModalStyle {
   opacity: number;
@@ -57,7 +58,14 @@ const MenuModal = (): JSX.Element => {
           <Link to="/my-page" onClick={() => dispatch(toggleMenuModal())}>
             마이페이지
           </Link>
-          <div>로그아웃</div>
+          <div
+            onClick={() => {
+              window.location.href = "/";
+              return logout();
+            }}
+          >
+            로그아웃
+          </div>
         </div>
         <div className={classes.menu__bottom}>Made by. Team Maltesers 🐶</div>
       </div>

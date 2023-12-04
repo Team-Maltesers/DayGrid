@@ -27,21 +27,11 @@ app.use("/uploads", express.static(path.resolve(__dirname, "./uploads")));
 app.use("/", verifyRoutes);
 app.use("/refresh", refreshRoutes);
 
-app.get("/info", (req, res) => {
-  if (req.headers.authorization === undefined) {
-    return res.status(401).send({ message: "Access token needed" });
-  } else if (req.headers.authorization) {
-    return res.status(200).send({ message: "connected!" });
-  }
-});
-app.use((req, res, next) => {
-  auth(req, res, next);
-});
-app.use("/diary", diaryRoutes);
-app.use("/gallery", galleryRoutes);
-app.use("/upload", uploadRoutes);
-app.use("/calendar", calendarRoutes);
-app.use("/my-page", mypageRoutes);
+app.use("/diary", auth, diaryRoutes);
+app.use("/gallery", auth, galleryRoutes);
+app.use("/upload", auth, uploadRoutes);
+app.use("/calendar", auth, calendarRoutes);
+app.use("/my-page", auth, mypageRoutes);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));

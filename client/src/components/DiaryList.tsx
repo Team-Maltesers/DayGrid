@@ -13,7 +13,7 @@ interface DiaryListData {
 interface DiaryDataType {
   diaryId: number;
   title: string;
-  date?: string;
+  createdAt: string;
   content: string;
   hasImage: boolean;
 }

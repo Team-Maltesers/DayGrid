@@ -1,8 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../store/modal/modalSlice";
-import { useQuery } from "@tanstack/react-query";
-import { info } from "../utils/http";
 import classes from "../styles/Info.module.css";
 import bigLogoList from "../assets/header/logo-big";
 import logoName from "../assets/header/logo-name.svg";
@@ -11,10 +9,6 @@ import info2 from "../assets/image/info2.png";
 
 function InfoPage(): JSX.Element {
   const dispatch = useDispatch();
-  const { data } = useQuery<string[]>({
-    queryKey: ["info"],
-    queryFn: () => info(),
-  });
 
   return (
     <div className={classes.info__bg}>

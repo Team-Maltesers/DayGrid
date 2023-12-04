@@ -4,7 +4,6 @@ import { LoginFormData } from "../components/LoginForm";
 import { PostPlanData } from "../ts/PlanData";
 import axios from "axios";
 import store from "../store/store";
-import logout from "./logout";
 import { setToken } from "../store/auth/authSlice";
 export const queryClient = new QueryClient();
 
@@ -15,24 +14,32 @@ const instance = axios.create({
 instance.interceptors.request.use((config) => {
   const token = store.getState().auth.accessToken;
   if (token) {
-    config.headers["Authorization"] = "Bearer " + token["accessToken"];
+    config.headers["Authorization"] = "Bearer " + token;
   }
   return config;
 });
 instance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
-
-    if (error.response.status === 401 && !originalRequest._retry) {
+    console.log(error.response.data.message);
+    if (
+      error.response.status === 401 &&
+      error.response.data.message === "hi" &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
       try {
         const access_token = await refreshAccessToken();
-        store.dispatch(setToken(access_token));
+        store.dispatch(setToken(access_token.accessToken));
         return instance(originalRequest);
       } catch {
         logout();
       }
+    } else if (error.response.status === 401) {
+      logout();
     }
 
     return Promise.reject(error);
@@ -65,6 +72,14 @@ export async function login(eventData: LoginFormData) {
     throw error;
   }
 }
+export async function check() {
+  try {
+    const response = await instance.get(`/check`, { withCredentials: true });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function info() {
   try {
@@ -89,7 +104,7 @@ export async function fetchDiaryDetail({
     const response = await instance.get(`/diary/${id}`, { signal });
     const content = {
       title: response.data.title,
-      date: response.data.date,
+      createdAt: response.data.createdAt,
       content: response.data.content,
     };
     return content;
@@ -136,6 +151,14 @@ export async function postDiary({ title, content }: { title: string; content: st
     content: content,
   });
   return response.data;
+}
+
+export async function logout() {
+  const response = await instance.get("/logout", { withCredentials: true });
+  if (response.status === 200) {
+    window.location.href = "/";
+  }
+  return response;
 }
 
 export async function fetchDiaryWithImages({
