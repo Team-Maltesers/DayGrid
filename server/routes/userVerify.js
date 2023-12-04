@@ -34,6 +34,26 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+router.get("/check", async (req, res, next) => {
+  if (req.cookies.refreshToken) {
+    const refreshToken = req.cookies.refreshToken;
+    if (req.headers.authorization) {
+      return res.status(200).json({ message: "good" });
+    }
+    try {
+      jwt.verify(refreshToken, process.env.JWT_KEY);
+      return res.status(401).send({
+        ok: false,
+        message: "hi",
+      });
+    } catch (err) {
+      return res.status(401);
+    }
+  } else {
+    return res.status(401);
+  }
+});
+
 router.get("/logout", async (req, res) => {
   try {
     res.cookie("refreshToken", "", { expires: new Date(0) });

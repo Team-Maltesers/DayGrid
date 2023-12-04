@@ -27,14 +27,11 @@ app.use("/uploads", express.static(path.resolve(__dirname, "./uploads")));
 app.use("/", verifyRoutes);
 app.use("/refresh", refreshRoutes);
 
-app.use((req, res, next) => {
-  auth(req, res, next);
-});
-app.use("/diary", diaryRoutes);
-app.use("/gallery", galleryRoutes);
-app.use("/upload", uploadRoutes);
-app.use("/calendar", calendarRoutes);
-app.use("/my-page", mypageRoutes);
+app.use("/diary", auth, diaryRoutes);
+app.use("/gallery", auth, galleryRoutes);
+app.use("/upload", auth, uploadRoutes);
+app.use("/calendar", auth, calendarRoutes);
+app.use("/my-page", auth, mypageRoutes);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));

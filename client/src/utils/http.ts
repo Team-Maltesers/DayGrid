@@ -24,7 +24,12 @@ instance.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    console.log(error.response.data.message);
+    if (
+      error.response.status === 401 &&
+      error.response.data.message === "hi" &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
       try {
         const access_token = await refreshAccessToken();
@@ -33,6 +38,8 @@ instance.interceptors.response.use(
       } catch {
         logout();
       }
+    } else if (error.response.status === 401) {
+      logout();
     }
 
     return Promise.reject(error);
@@ -61,6 +68,14 @@ export async function login(eventData: LoginFormData) {
   try {
     const response = await instance.post(`/login`, eventData, { withCredentials: true });
     return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function check() {
+  try {
+    const response = await instance.get(`/check`, { withCredentials: true });
+    return response;
   } catch (error) {
     throw error;
   }
@@ -131,6 +146,9 @@ export async function postDiary({ title, content }: { title: string; content: st
 
 export async function logout() {
   const response = await instance.get("/logout", { withCredentials: true });
+  if (response.status === 200) {
+    window.location.href = "/";
+  }
   return response;
 }
 
