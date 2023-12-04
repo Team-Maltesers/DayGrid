@@ -34,6 +34,16 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+router.get("/logout", async (req, res) => {
+  try {
+    res.cookie("refreshToken", "", { expires: new Date(0) });
+    res.status(200).json();
+  } catch (error) {
+    console.error(error);
+    res.status(400).json();
+  }
+});
+
 router.post("/login", async (req, res) => {
   try {
     const [user] = await db.query(
