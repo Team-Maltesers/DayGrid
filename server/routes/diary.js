@@ -114,7 +114,7 @@ router.put("/:id", async (req, res) => {
       hasImage: cleanContent.includes("<img"),
     };
     const [result] = await pool.query(
-      "UPDATE diary SET title = ?, content = ?, hasImage = ?, memberId = ?, WHERE diaryId = ?",
+      "UPDATE diary SET title = ?, content = ?, hasImage = ?, memberId = ? WHERE diaryId = ?",
       [updatedDiary.title, updatedDiary.content, updatedDiary.hasImage, memberId, id],
     );
     if (result.affectedRows === 0) {
