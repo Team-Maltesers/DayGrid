@@ -10,7 +10,7 @@ const initialState: ModalState = {
 
 const modalSlice = createSlice({
   name: "modal",
-  initialState, // 모달 초기 상태는 '닫힘'으로 설정
+  initialState,
   reducers: {
     openModal: (state, action: PayloadAction<string>) => {
       state.modalType = action.payload;

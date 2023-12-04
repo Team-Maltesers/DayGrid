@@ -8,10 +8,10 @@
 }
 
 .calendar__con {
-  height: 55.625rem;
+  height: 53.125rem;
   display: flex;
   align-items: center;
-  gap: 4.125rem;
+  gap: 3.75rem;
 }
 
 .calendar__side,
@@ -53,7 +53,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.4375rem;
+  margin-bottom: 1.25rem;
 }
 
 .calendar__head_left {
@@ -64,6 +64,8 @@
 }
 
 .calendar__head_left img {
+  width: 2.6875rem;
+  height: 2.6875rem;
   cursor: pointer;
 }
 

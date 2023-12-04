@@ -9,10 +9,9 @@
     }
 }
 .diary-item__img{
-    width: 20px;
-    height: 20px;
-    margin: 10px;
-    background-color: black;
+    width: 30px;
+    height: 30px;
+    margin: 5px 8px;
 }
 .diary-item__checkbox{
     flex:1;

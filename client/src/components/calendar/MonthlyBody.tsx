@@ -1,6 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { currentDateState } from "../../store/modal/calendarSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { openModal } from "../../store/modal/modalSlice";
+import { currentDateState, changeCurrentDate } from "../../store/modal/calendarSlice";
 import {
   startOfMonth,
   endOfMonth,
@@ -12,14 +13,15 @@ import {
 } from "date-fns";
 import classes from "../../styles/calendar/MonthlyCalendar.module.css";
 import MonthlyPlanCard from "./MonthlyPlanCard";
-import dummy from "../../assets/dummy";
+import { CalendarProps } from "../../ts/PlanData";
 
-function MonthlyBody(): JSX.Element {
+function MonthlyBody({ planData }: CalendarProps): JSX.Element {
   const currentDate = new Date(useSelector(currentDateState));
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
   const calendarStart = startOfWeek(monthStart);
   const calendarEnd = endOfWeek(monthEnd);
+  const dispatch = useDispatch();
 
   let curDay = calendarStart;
   let week = [];
@@ -27,7 +29,7 @@ function MonthlyBody(): JSX.Element {
   let key = 0;
 
   while (curDay <= calendarEnd) {
-    const newDummy = dummy.filter((v) => isSameDay(curDay, new Date(v.date)));
+    const newPlanData = planData.filter((v) => isSameDay(curDay, new Date(v.date)));
     const day = curDay.getDate();
     const style = {
       fontColor: "",
@@ -38,10 +40,14 @@ function MonthlyBody(): JSX.Element {
     if (!isSameMonth(curDay, monthStart)) {
       style.fontColor = "var(--font-color-gray)";
     } else if (isSameDay(curDay, new Date())) {
-      style.fontColor = "#FFFFFF";
       style.fontWeight = "500";
+      style.background = "#b6c6db";
+    } else if (isSameDay(curDay, currentDate)) {
+      style.fontColor = "#FFFFFF";
       style.background = "var(--sub-color)";
     }
+
+    const clickedDay = curDay;
 
     week.push(
       <div key={key} className={classes.monthly__body_cell}>
@@ -52,29 +58,33 @@ function MonthlyBody(): JSX.Element {
             backgroundColor: style.background,
           }}
           className={classes.monthly__body_cell_number}
+          onClick={() => {
+            dispatch(changeCurrentDate(clickedDay.toISOString()));
+            dispatch(openModal("planWrite"));
+          }}
         >
           {day}
         </div>
-        {newDummy.length < 4 ? (
-          newDummy.map((v, i) => (
-            <MonthlyPlanCard id={v.id} planTitle={v.title} color={v.color} key={i} />
+        {newPlanData.length < 4 ? (
+          newPlanData.map((v, i) => (
+            <MonthlyPlanCard id={v.planId} planTitle={v.title} color={v.color} key={i} />
           ))
         ) : (
           <>
             <MonthlyPlanCard
-              planTitle={newDummy[0].title}
-              id={newDummy[0].id}
-              color={newDummy[0].color}
+              planTitle={newPlanData[0].title}
+              id={newPlanData[0].planId}
+              color={newPlanData[0].color}
               key="1"
             />
             <MonthlyPlanCard
-              planTitle={newDummy[1].title}
-              id={newDummy[1].id}
-              color={newDummy[1].color}
+              planTitle={newPlanData[1].title}
+              id={newPlanData[1].planId}
+              color={newPlanData[1].color}
               key="2"
             />
             <MonthlyPlanCard
-              planTitle={`+${newDummy.length - 2} 일정`}
+              planTitle={`+${newPlanData.length - 2} 일정`}
               curDay={curDay}
               moveToWeekly={true}
               key="3"

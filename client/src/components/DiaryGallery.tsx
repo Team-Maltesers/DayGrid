@@ -9,8 +9,9 @@ import { diaryId } from "../store/diary/diarySlice";
 import { openModal } from "../store/modal/modalSlice";
 
 interface DiaryDataType {
-  id: number;
+  diaryId: number;
   title: string;
+  createdAt: string;
   content: string;
   hasImage: boolean;
 }
@@ -62,9 +63,9 @@ const DiaryGallery: React.FC = () => {
             return (
               <div
                 className={classes.gallery__item}
-                key={diary.id}
+                key={diary.diaryId}
                 onClick={() => {
-                  dispatch(diaryId(diary.id));
+                  dispatch(diaryId(diary.diaryId));
                   dispatch(openModal("diarydetail"));
                 }}
               >

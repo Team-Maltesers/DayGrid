@@ -8,7 +8,7 @@ import {
   selectedPlanId,
 } from "../../store/modal/calendarSlice";
 import classes from "../../styles/calendar/WeeklyCalendar.module.css";
-import dummy from "../../assets/dummy";
+import { CalendarProps } from "../../ts/PlanData";
 
 interface ArrangeTime {
   [key: string]: number;
@@ -18,7 +18,7 @@ interface ArrangeBoxes {
   [key: string]: ArrangeTime;
 }
 
-function WeeklyBody(): JSX.Element {
+function WeeklyBody({ planData }: CalendarProps): JSX.Element {
   const currentDate = new Date(useSelector(currentDateState));
   const dispatch = useDispatch();
 
@@ -52,7 +52,7 @@ function WeeklyBody(): JSX.Element {
     weekCellArr.push(tmp);
   }
 
-  const newDummy = [];
+  const newPlanData = [];
   const arrangeBoxes: ArrangeBoxes = {
     "0": {},
     "1": {},
@@ -62,28 +62,28 @@ function WeeklyBody(): JSX.Element {
     "5": {},
     "6": {},
   };
-  for (let i = 0; i < dummy.length; i++) {
-    const top = `${dummy[i].startTime * 15}px`;
-    const height = `${(dummy[i].endTime - dummy[i].startTime) * 15}px`;
+  for (let i = 0; i < planData.length; i++) {
+    const top = `${planData[i].startTime * 15}px`;
+    const height = `${(planData[i].endTime - planData[i].startTime) * 15}px`;
 
-    const today = new Date(dummy[i].date).getDay().toString();
-    const hour = dummy[i].startTime;
+    const today = new Date(planData[i].date).getDay().toString();
+    const hour = planData[i].startTime;
     arrangeBoxes[today][hour] ? arrangeBoxes[today][hour]++ : (arrangeBoxes[today][hour] = 1);
 
     const width = `${193 / arrangeBoxes[today][hour]}px`;
-    let left = `${new Date(dummy[i].date).getDay() * 194.9}px`;
-    let index = 96 - (dummy[i].endTime - dummy[i].startTime);
+    let left = `${new Date(planData[i].date).getDay() * 194.9}px`;
+    let index = 96 - (planData[i].endTime - planData[i].startTime);
 
     if (arrangeBoxes[today][hour] > 1) {
       left = `${
-        new Date(dummy[i].date).getDay() * 194.9 +
+        new Date(planData[i].date).getDay() * 194.9 +
         (193 / arrangeBoxes[today][hour]) * (arrangeBoxes[today][hour] - 1)
       }px`;
-      index = 96 - (dummy[i - 1].endTime - dummy[i - 1].startTime) + 1;
+      index = 96 - (planData[i - 1].endTime - planData[i - 1].startTime) + 1;
     }
 
-    newDummy.push({
-      ...dummy[i],
+    newPlanData.push({
+      ...planData[i],
       top: top,
       left: left,
       height: height,
@@ -108,7 +108,7 @@ function WeeklyBody(): JSX.Element {
             {v}
           </div>
         ))}
-        {newDummy.map((v, i) =>
+        {newPlanData.map((v, i) =>
           isSameWeek(new Date(v.date), currentDate) ? (
             <div
               className={classes.weekly__body_plan}
@@ -122,7 +122,7 @@ function WeeklyBody(): JSX.Element {
               }}
               key={i}
               onClick={() => {
-                dispatch(selectedPlanId(v.id));
+                dispatch(selectedPlanId(v.planId));
                 dispatch(openModal("planCheck"));
               }}
             >

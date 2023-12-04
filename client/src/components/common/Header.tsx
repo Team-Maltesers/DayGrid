@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenuModal } from "../../store/modal/menuModalSlice";
 import MenuModal from "./MenuModal";
 import classes from "../../styles/common/Header.module.css";
@@ -10,18 +10,32 @@ import { openModal } from "../../store/modal/modalSlice";
 import SignUpModal from "../SignUp";
 import LoginModal from "../Login";
 import DiaryDetailModal from "../DiaryDetail";
+import { RootState } from "../../store/store";
+import { useNavigate } from "react-router-dom";
+import { check } from "../../utils/http";
 
 const Header = (): JSX.Element => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const isLoggedIn = !!useSelector((state: RootState) => state.auth.accessToken);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    check();
+  }, []);
 
   return (
     <>
       <MenuModal />
       <div className={classes.header__bg}>
         <div className={classes.header__empty}></div>
-        <div className={classes.header__logo_con}>
-          <div className={classes.header__logo}>{smallLogoList[0].logo()}</div>
+        <div
+          className={classes.header__logo_con}
+          onClick={() => {
+            isLoggedIn ? navigate("calendar") : navigate("/info");
+          }}
+        >
+          <div className={classes.header__logo}>
+            {smallLogoList[new Date().getDate() - 1].logo()}
+          </div>
           <div className={classes.header__logo_name}>
             <img src={logoName} />
           </div>
