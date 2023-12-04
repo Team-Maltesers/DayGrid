@@ -27,13 +27,6 @@ app.use("/uploads", express.static(path.resolve(__dirname, "./uploads")));
 app.use("/", verifyRoutes);
 app.use("/refresh", refreshRoutes);
 
-app.get("/info", (req, res) => {
-  if (req.headers.authorization === undefined) {
-    return res.status(401).send({ message: "Access token needed" });
-  } else if (req.headers.authorization) {
-    return res.status(200).send({ message: "connected!" });
-  }
-});
 app.use((req, res, next) => {
   auth(req, res, next);
 });
