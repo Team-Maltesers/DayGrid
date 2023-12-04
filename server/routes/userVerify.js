@@ -91,6 +91,7 @@ router.post("/login", async (req, res) => {
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         sameSite: "None",
+        secure: true,
       });
       return res.status(200).json({ accessToken: accessToken });
     } else {
