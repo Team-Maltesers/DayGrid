@@ -17,6 +17,7 @@ app.use(
   cors({
     origin: process.env.CORS,
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   }),
 );
 app.use(bodyParser.json());
