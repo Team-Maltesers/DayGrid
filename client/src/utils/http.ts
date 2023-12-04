@@ -57,7 +57,9 @@ async function refreshAccessToken() {
 
 export async function signup(eventData: FormData) {
   try {
-    const response = await instance.post(`/signup`, eventData);
+    const response = await instance.post(`/signup`, eventData, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -81,15 +83,6 @@ export async function check() {
   }
 }
 
-export async function info() {
-  try {
-    const response = await instance.get(`/info`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
-
 export async function fetchDiaryDetail({
   id,
   signal,
@@ -101,7 +94,7 @@ export async function fetchDiaryDetail({
     throw new Error("id is required");
   }
   try {
-    const response = await instance.get(`/diary/${id}`, { signal });
+    const response = await instance.get(`/diary/${id}`, { signal, withCredentials: true });
     const content = {
       title: response.data.title,
       createdAt: response.data.createdAt,
@@ -118,7 +111,9 @@ export async function deleteDiary({ id }: { id: number | undefined }) {
     throw new Error("id is required");
   }
   try {
-    const response = await instance.delete(`/diary/${id}`);
+    const response = await instance.delete(`/diary/${id}`, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -126,7 +121,7 @@ export async function deleteDiary({ id }: { id: number | undefined }) {
 }
 export async function fetchDiaryList({ page, signal }: { page: number; signal: AbortSignal }) {
   try {
-    const response = await instance.get(`/diary?page=${page}`, { signal });
+    const response = await instance.get(`/diary?page=${page}`, { signal, withCredentials: true });
     return response.data;
   } catch (error) {
     throw error;
@@ -140,16 +135,23 @@ export async function imageApi({ img }: { img: File }) {
     headers: {
       "Content-Type": "multipart/form-data",
     },
+    withCredentials: true,
   });
 
   return response;
 }
 
 export async function postDiary({ title, content }: { title: string; content: string }) {
-  const response = await instance.post("/diary", {
-    title: title,
-    content: content,
-  });
+  const response = await instance.post(
+    "/diary",
+    {
+      title: title,
+      content: content,
+    },
+    {
+      withCredentials: true,
+    },
+  );
   return response.data;
 }
 
@@ -171,6 +173,7 @@ export async function fetchDiaryWithImages({
   try {
     const response = await instance.get(`/gallery?page=${page}`, {
       signal,
+      withCredentials: true,
     });
     return response.data;
   } catch (error) {
@@ -188,7 +191,13 @@ export async function updateDiary({
   content: string;
 }) {
   try {
-    const response = await instance.put(`/diary/${id}`, { title, content });
+    const response = await instance.put(
+      `/diary/${id}`,
+      { title, content },
+      {
+        withCredentials: true,
+      },
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -199,6 +208,7 @@ export async function fetchPlans({ start, end }: { start: Date; end: Date }) {
   try {
     const response = await instance.get(`/calendar`, {
       params: { start: new Date(start).toISOString(), end: new Date(end).toISOString() },
+      withCredentials: true,
     });
     return response.data;
   } catch (error) {
@@ -216,15 +226,21 @@ export async function postPlan({
   color,
 }: PostPlanData) {
   try {
-    const response = await instance.post(`/calendar`, {
-      title: title,
-      description: description,
-      date: date,
-      startTime: startTime,
-      endTime: endTime,
-      ddayChecked: ddayChecked,
-      color: color,
-    });
+    const response = await instance.post(
+      `/calendar`,
+      {
+        title: title,
+        description: description,
+        date: date,
+        startTime: startTime,
+        endTime: endTime,
+        ddayChecked: ddayChecked,
+        color: color,
+      },
+      {
+        withCredentials: true,
+      },
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -236,16 +252,22 @@ export async function editPlan({ id, data }: { id: number | undefined; data: Pos
     throw new Error("id is required");
   }
   try {
-    const response = await instance.patch(`/calendar`, {
-      id: id,
-      title: data.title,
-      description: data.description,
-      date: data.date,
-      startTime: data.startTime,
-      endTime: data.endTime,
-      ddayChecked: data.ddayChecked,
-      color: data.color,
-    });
+    const response = await instance.patch(
+      `/calendar`,
+      {
+        id: id,
+        title: data.title,
+        description: data.description,
+        date: data.date,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        ddayChecked: data.ddayChecked,
+        color: data.color,
+      },
+      {
+        withCredentials: true,
+      },
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -259,6 +281,7 @@ export async function deletePlan({ id }: { id: number | undefined }) {
   try {
     const response = await instance.delete(`/calendar`, {
       params: { id: id },
+      withCredentials: true,
     });
     return response.data;
   } catch (error) {
@@ -268,7 +291,9 @@ export async function deletePlan({ id }: { id: number | undefined }) {
 
 export async function fetchDday() {
   try {
-    const response = await instance.get(`/calendar/dday`);
+    const response = await instance.get(`/calendar/dday`, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -277,7 +302,9 @@ export async function fetchDday() {
 
 export async function fetchUserInfo() {
   try {
-    const response = await instance.get(`/my-page`);
+    const response = await instance.get(`/my-page`, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -296,17 +323,35 @@ export async function editUserInfo({
   try {
     let response;
     if (name) {
-      response = await instance.patch(`/my-page`, {
-        name: name,
-      });
+      response = await instance.patch(
+        `/my-page`,
+        {
+          name: name,
+        },
+        {
+          withCredentials: true,
+        },
+      );
     } else if (password) {
-      response = await instance.patch(`/my-page`, {
-        password: password,
-      });
+      response = await instance.patch(
+        `/my-page`,
+        {
+          password: password,
+        },
+        {
+          withCredentials: true,
+        },
+      );
     } else if (birthday) {
-      response = await instance.patch(`/my-page`, {
-        birthday: birthday,
-      });
+      response = await instance.patch(
+        `/my-page`,
+        {
+          birthday: birthday,
+        },
+        {
+          withCredentials: true,
+        },
+      );
     } else {
       return "입력된 정보가 없습니다.";
     }
@@ -319,7 +364,9 @@ export async function editUserInfo({
 
 export async function deleteUserInfo() {
   try {
-    const response = await instance.delete(`/my-page`);
+    const response = await instance.delete(`/my-page`, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     throw error;
