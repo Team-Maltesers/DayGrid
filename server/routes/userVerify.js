@@ -56,7 +56,11 @@ router.get("/check", async (req, res, next) => {
 
 router.get("/logout", async (req, res) => {
   try {
-    res.clearCookie("refreshToken");
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+    });
     res.status(200).json();
   } catch (error) {
     console.error(error);
