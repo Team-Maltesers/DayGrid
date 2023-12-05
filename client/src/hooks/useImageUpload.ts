@@ -17,7 +17,7 @@ const useImageUpload = (quillRef: React.RefObject<ReactQuill>) => {
 
       try {
         const res = await imageApi({ img: file });
-        const imgUrl = res.data.imgUrl;
+        const imgUrl = res.imgUrl;
         const editor = quillRef.current?.getEditor();
         if (editor) {
           const range = editor?.getSelection();

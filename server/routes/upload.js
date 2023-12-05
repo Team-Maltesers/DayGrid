@@ -6,7 +6,7 @@ const path = require("path");
 const uploadFolder = path.resolve(__dirname, "../uploads");
 
 if (!fs.existsSync(uploadFolder)) {
-  fs.mkdirSync(uploadFolder, { recursive: true });
+  fs.mkdirSync(uploadFolder);
 }
 
 app.use("/uploads", express.static(uploadFolder));
