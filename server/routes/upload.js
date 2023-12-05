@@ -22,7 +22,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/", upload.single("img"), (req, res) => {
-  res.json({ imgUrl: `http://localhost:3000/uploads/${req.file.filename}` });
+  res.json({
+    imgUrl: `${process.env.SERVER}/uploads/${req.file.filename}`,
+  });
 });
 
 module.exports = router;
