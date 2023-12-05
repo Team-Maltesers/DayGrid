@@ -5,9 +5,14 @@ const multer = require("multer");
 const path = require("path");
 const uploadFolder = path.resolve(__dirname, "../uploads");
 
+if (!fs.existsSync(uploadFolder)) {
+  fs.mkdirSync(uploadFolder, { recursive: true });
+}
+
 app.use("/uploads", express.static(uploadFolder));
 
 const storage = multer.diskStorage({
+  limits: { fileSize: 50 * 1024 },
   destination: function (req, file, cb) {
     cb(null, uploadFolder);
   },

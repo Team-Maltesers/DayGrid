@@ -130,15 +130,19 @@ export async function fetchDiaryList({ page, signal }: { page: number; signal: A
 export async function imageApi({ img }: { img: File }) {
   const formData = new FormData();
   formData.append("img", img);
-
-  const response = await instance.post(`/upload`, formData, {
+  const token = store.getState().auth.accessToken;
+  const response = await fetch(`${process.env.BASE_URL}upload`, {
+    method: "POST",
     headers: {
-      "Content-Type": "multipart/form-data",
+      Authorization: "Bearer " + token,
     },
-    withCredentials: true,
+    body: formData,
+    credentials: "include",
   });
-
-  return response;
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
 }
 
 export async function postDiary({ title, content }: { title: string; content: string }) {
