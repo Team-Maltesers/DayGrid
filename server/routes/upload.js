@@ -28,7 +28,7 @@ const upload = multer({ storage: storage });
 
 router.post("/", upload.single("img"), (req, res) => {
   res.json({
-    imgUrl: `${process.env.SERVER}/uploads/${req.file.filename}`,
+    imgUrl: `${process.env.SERVER}uploads/${req.file.filename}`,
   });
 });
 
