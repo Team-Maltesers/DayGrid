@@ -27,8 +27,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/", upload.single("img"), (req, res) => {
+  const server = process.env.SERVER.endsWith("/")
+    ? process.env.SERVER.slice(0, -1)
+    : process.env.SERVER;
   res.json({
-    imgUrl: `${process.env.SERVER}uploads/${req.file.filename}`,
+    imgUrl: `${server}/uploads/${req.file.filename}`,
   });
 });
 
