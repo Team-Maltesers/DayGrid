@@ -1,10 +1,11 @@
+const fs = require("fs");
 const express = require("express");
 const app = express();
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
-const uploadFolder = path.resolve(__dirname, "../uploads");
 
+const uploadFolder = path.resolve(__dirname, "../uploads");
 if (!fs.existsSync(uploadFolder)) {
   fs.mkdirSync(uploadFolder);
 }
@@ -12,7 +13,6 @@ if (!fs.existsSync(uploadFolder)) {
 app.use("/uploads", express.static(uploadFolder));
 
 const storage = multer.diskStorage({
-  limits: { fileSize: 50 * 1024 },
   destination: function (req, file, cb) {
     cb(null, uploadFolder);
   },
@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage, limits: { fileSize: 50 * 1024 } });
 
 router.post("/", upload.single("img"), (req, res) => {
   const server = process.env.SERVER.endsWith("/")

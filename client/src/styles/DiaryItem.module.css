@@ -15,6 +15,10 @@
 }
 .diary-item__checkbox{
     flex:1;
+    display: none;
+}
+.diary-item__checkbox:focus{
+    box-shadow: none;
 }
 .diary-item__checkbox:hover{
     display: inline;

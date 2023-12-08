@@ -30,15 +30,19 @@ const Pagination = ({
       <button onClick={onPrevPage} className={currentPage === 1 ? "disabled" : ""}>
         <img src={Prev} alt="이전 페이지" />
       </button>
-      {visiblePageNumbers.map((pageNumber) => (
-        <button
-          className={currentPage === pageNumber ? classes.clicked : ""}
-          key={pageNumber}
-          onClick={(event) => onPageChange(event, pageNumber)}
-        >
-          {pageNumber}
-        </button>
-      ))}
+      {visiblePageNumbers.length === 0 ? (
+        <button className={classes.clicked}>1</button>
+      ) : (
+        visiblePageNumbers.map((pageNumber) => (
+          <button
+            className={currentPage === pageNumber ? classes.clicked : ""}
+            key={pageNumber}
+            onClick={(event) => onPageChange(event, pageNumber)}
+          >
+            {pageNumber}
+          </button>
+        ))
+      )}
       {totalPages > 0 && (
         <button onClick={onNextPage} className={currentPage === totalPages ? "disabled" : ""}>
           <img src={Next} alt="다음 페이지" />

@@ -13,7 +13,7 @@ import { setToken } from "../store/auth/authSlice";
 export default function LoginModal() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { mutate } = useMutation({
+  const { mutate, error } = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
       dispatch(setToken(data.accessToken));
@@ -35,6 +35,11 @@ export default function LoginModal() {
   return (
     <Modal>
       <LoginForm onSubmit={handleSubmit}>
+        {error && (
+          <div className={classes.login__error}>
+            로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.
+          </div>
+        )}
         <button type="submit">로그인</button>
         <Link className={classes.login__link} to="/">
           비밀번호를 잊어버리셨나요?

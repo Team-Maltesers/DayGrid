@@ -47,6 +47,11 @@ const DiaryList: React.FC = () => {
       {!isLoading &&
         diaryListData &&
         diaryListData.data.map((diary) => <DiaryItem key={diary.diaryId} data={diary} />)}
+      {!isLoading && diaryListData?.data.length === 0 && (
+        <div className={classes["diary-list__blank"]}>
+          아직 작성된 다이어리가 없어요. 첫 기록을 시작해보세요! ✏️
+        </div>
+      )}
       <Pagination
         currentPage={currentPage}
         onPrevPage={onPrevPageHandler}

@@ -21,5 +21,12 @@
     margin-right: 10px;
 }
 .diary-list__loading{
-
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+}
+.diary-list__blank{
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
 }

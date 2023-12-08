@@ -74,6 +74,11 @@ const DiaryGallery: React.FC = () => {
               </div>
             );
           })}
+        {!isLoading && galleryListData?.data.length === 0 && (
+          <div className={classes.gallery__image}>
+            갤러리가 텅 비어있어요. 다이어리에 사진을 첨부 해보세요! 😊
+          </div>
+        )}
         <div className={classes.gallery__pagination}>
           <Pagination
             currentPage={currentPage}

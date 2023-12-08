@@ -24,6 +24,7 @@ export default function DiaryDetailModal() {
     onSuccess: () => {
       dispatch(closeModal());
       queryClient.invalidateQueries({ queryKey: ["diarylist"] });
+      queryClient.invalidateQueries({ queryKey: ["gallerylist"] });
       navigate("/diary-list");
     },
   });
