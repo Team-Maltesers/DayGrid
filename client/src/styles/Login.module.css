@@ -4,6 +4,9 @@
   padding-bottom: 0.3rem;
   border-bottom: 1px solid var(--font-color-gray);
 }
+.login__error{
+  color: var(--warning-color);
+}
 
 .login__text {
   font-size: 14px;
