@@ -25,7 +25,7 @@ router.post("/signup", async (req, res) => {
       if (result.affectedRows === 0) {
         res.status(500).json({ message: "Insert failed" });
       } else {
-        res.status(200).json({ message: "Insert successful" });
+        res.status(201).json({ message: "Insert successful" });
       }
     }
   } catch (error) {

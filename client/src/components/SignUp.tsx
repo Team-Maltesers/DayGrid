@@ -7,11 +7,12 @@ import { signup, queryClient } from "../utils/http";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store.js";
 import { closeModal } from "../store/modal/modalSlice";
+import classes from "../styles/SignUp.module.css";
 
 export default function SignUpModal() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { mutate } = useMutation({
+  const { mutate, error, isError } = useMutation({
     mutationFn: signup,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["signup"] });
@@ -32,6 +33,11 @@ export default function SignUpModal() {
   return (
     <Modal>
       <SignUpForm onSubmit={handleSubmit}>
+        {isError && (
+          <div className={classes.signup__error}>
+            회원가입에 실패하였습니다. {error.message.includes("409") ? "중복된 이메일입니다" : " "}
+          </div>
+        )}
         <button type="submit">회원가입</button>
       </SignUpForm>
     </Modal>
