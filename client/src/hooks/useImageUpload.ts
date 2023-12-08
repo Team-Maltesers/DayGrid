@@ -17,10 +17,11 @@ const useImageUpload = (quillRef: React.RefObject<ReactQuill>) => {
 
       try {
         const res = await imageApi({ img: file });
-        const imgUrl = res.imgUrl;
+        let imgUrl = res.imgUrl;
         const editor = quillRef.current?.getEditor();
         if (editor) {
           const range = editor?.getSelection();
+          imgUrl = imgUrl.replace("//upload", "/upload");
           if (range) {
             editor.insertEmbed(range.index, "image", imgUrl);
           }

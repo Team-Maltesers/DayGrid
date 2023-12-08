@@ -131,7 +131,7 @@ export async function imageApi({ img }: { img: File }) {
   const formData = new FormData();
   formData.append("img", img);
   const token = store.getState().auth.accessToken;
-  const response = await fetch(`${process.env.BASE_URL}upload`, {
+  const response = await fetch(`${process.env.BASE_URL}/upload`, {
     method: "POST",
     headers: {
       Authorization: "Bearer " + token,

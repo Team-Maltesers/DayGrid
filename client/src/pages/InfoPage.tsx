@@ -12,7 +12,7 @@ function InfoPage(): JSX.Element {
 
   return (
     <div className={classes.info__bg}>
-      <div>
+      <div className={classes.info__content_box}>
         <div className={classes.info__logo}>
           <div>{bigLogoList[new Date().getDate() - 1].logo()}</div>
           <div className={classes.info__logo_name}>
