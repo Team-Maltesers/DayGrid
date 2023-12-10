@@ -45,7 +45,7 @@ router.delete("/", async (req, res) => {
 
   await db.query(`DELETE FROM member WHERE memberId = (?)`, decoded.id);
 
-  res.json({ message: "Schedule has been successfully deleted." });
+  res.status(200).json({ message: "Schedule has been successfully deleted." });
 });
 
 module.exports = router;

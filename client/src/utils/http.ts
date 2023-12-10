@@ -371,6 +371,9 @@ export async function deleteUserInfo() {
     const response = await instance.delete(`/my-page`, {
       withCredentials: true,
     });
+    if (response.status === 200) {
+      logout();
+    }
     return response.data;
   } catch (error) {
     throw error;
