@@ -5,9 +5,10 @@
 <br/>
 <strong>테스트 계정</strong>
 <br/>
-ID : <span style='pointer-events: none; color: black;'>test@test.com</span>
+ID : test@test.com
 <br/>
 PASSWORD: 12341234
+<br/>
 <br/>
 
 ## 🗓️ 서비스 소개
