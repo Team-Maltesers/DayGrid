@@ -43,9 +43,14 @@ router.delete("/", async (req, res) => {
   const token = req.headers.authorization.split("Bearer ")[1];
   const decoded = jwt.verify(token, process.env.JWT_KEY);
 
-  await db.query(`DELETE FROM member WHERE memberId = (?)`, decoded.id);
-
-  res.status(200).json({ message: "User info has been successfully deleted." });
+  try {
+    await db.query(`DELETE FROM member WHERE memberId = (?)`, decoded.id);
+    res.status(200).json({ message: "User info has been successfully deleted." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error occurred." });
+    return;
+  }
 });
 
 module.exports = router;
