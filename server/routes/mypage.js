@@ -43,9 +43,9 @@ router.delete("/", async (req, res) => {
   const token = req.headers.authorization.split("Bearer ")[1];
   const decoded = jwt.verify(token, process.env.JWT_KEY);
 
-  await db.query(`DELETE FROM member WHERE memberId = (?)`, decoded.id);
+  await db.query(`DELETE FROM member WHERE memberId = (?)`, [decoded.id]);
 
-  res.status(200).json({ message: "Schedule has been successfully deleted." });
+  res.status(200).json({ message: "User info has been successfully deleted." });
 });
 
 module.exports = router;
