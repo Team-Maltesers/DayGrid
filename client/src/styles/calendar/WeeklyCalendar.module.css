@@ -1,0 +1,127 @@
+/* WeeklyHead 컴포넌트 스타일 */
+.weekly__head_con {
+  width: 92.8125rem;
+  height: 5rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 1px solid var(--sub-color);
+}
+
+.weekly__head_empty {
+  width: 7.5rem;
+}
+
+.weekly__head_cell_con {
+  width: calc(100% - 7.5rem);
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.weekly__head_cell {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3125rem;
+}
+
+.weekly__head_cell {
+  border-left: 1px solid var(--sub-color);
+}
+
+.weekly__head_day {
+  font-size: 0.9375rem;
+  color: var(--font-color-gray);
+}
+
+.weekly__head_date {
+  width: 2.8125rem;
+  height: 2.8125rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.9375rem;
+  color: #414141;
+  border-radius: 50%;
+}
+
+/* WeeklyBody 컴포넌트 스타일 */
+.weekly__body_con {
+  width: 92.8125rem;
+  height: 43.75rem;
+  border: 1px solid var(--sub-color);
+  border-top: none;
+  display: flex;
+  overflow: scroll;
+}
+
+.weekly__body_con::-webkit-scrollbar {
+  display: none;
+}
+
+.weekly__body_side {
+  width: 7.5rem;
+  height: 90rem;
+  color: var(--font-color-gray);
+  border-right: 1px solid #d4d4d4;
+  box-sizing: content-box;
+}
+
+.weekly__body_time_section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.weekly__body_time {
+  width: 100%;
+  height: 3.75rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 3.625rem;
+}
+
+.weekly__body_time_line {
+  width: 1.5rem;
+  height: 3.75rem;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.weekly__body_planner {
+  position: relative;
+  height: 90rem;
+  width: calc(100% - 7.5rem);
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.weekly__body_planner_flex {
+  height: 90rem;
+  width: 100%;
+  border-right: 1px solid #d4d4d4;
+}
+
+.weekly__body_planner_flex > div {
+  height: 3.75rem;
+}
+
+.weekly__body_planner_flex > div:not(:last-child) {
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.weekly__body_plan {
+  position: absolute;
+  width: 12.0625rem;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  border: 1px solid #ffffff;
+  cursor: pointer;
+}

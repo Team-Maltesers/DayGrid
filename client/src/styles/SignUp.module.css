@@ -1,0 +1,4 @@
+.signup__error{
+    margin-top: 0.625rem;
+    color: var(--warning-color);
+}

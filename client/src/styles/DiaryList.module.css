@@ -1,0 +1,32 @@
+.diary-list{
+    min-width: 890px;
+    > * { 
+        border-bottom: 1px solid black;
+    }
+}
+.diary-list__title{
+    padding-bottom: 40px;
+}
+.diary-list__header{
+    color: #767676;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.diary-list__header-title{
+    margin-left: 55px;
+}
+.diary-list__header-date{
+    margin-right: 10px;
+}
+.diary-list__loading{
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+}
+.diary-list__blank{
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+}

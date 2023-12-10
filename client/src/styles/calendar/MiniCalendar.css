@@ -1,0 +1,37 @@
+/* css module로 하면 일일이 속성을 Daypicker 어트리뷰트로 지정해주어야 하기 때문에 기존 css 파일을 바로 덮어쓸 수 있도록 .css 파일로 작성하였음. */
+.rdp {
+  --rdp-cell-size: 2.0625rem;
+  margin: 0;
+}
+
+.rdp-head {
+  border-bottom: 1px solid rgba(33, 53, 84, 0.6);
+}
+
+.rdp-head_cell {
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+.rdp-cell {
+  padding: 0.25rem 0.3125rem;
+}
+
+.rdp-day_selected {
+  color: #ffffff;
+  background-color: var(--sub-color);
+}
+
+.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  background-color: var(--main-color);
+}
+
+.rdp-day_today:not(.rdp-day_selected) {
+  font-weight: bold;
+  background-color: #c7d6eb;
+}
+
+.rdp-day:hover {
+  color: inherit;
+  background-color: var(--main-color);
+}

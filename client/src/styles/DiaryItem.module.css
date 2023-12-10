@@ -1,0 +1,32 @@
+.diary-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    > *{
+        color: var(--font-color-black);
+        margin-top: 14px;
+        margin-bottom: 14px;
+    }
+}
+.diary-item__img{
+    width: 30px;
+    height: 30px;
+    margin: 5px 8px;
+}
+.diary-item__checkbox{
+    flex:1;
+    display: none;
+}
+.diary-item__checkbox:focus{
+    box-shadow: none;
+}
+.diary-item__checkbox:hover{
+    display: inline;
+}
+.diary-item__title{
+    flex:16;
+    cursor: pointer;
+}
+.diary-item__date{
+    flex:2.5
+}
