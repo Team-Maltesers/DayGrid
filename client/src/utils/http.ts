@@ -257,9 +257,8 @@ export async function editPlan({ id, data }: { id: number | undefined; data: Pos
   }
   try {
     const response = await instance.patch(
-      `/calendar`,
+      `/calendar/${id}`,
       {
-        id: id,
         title: data.title,
         description: data.description,
         date: data.date,
@@ -283,7 +282,7 @@ export async function deletePlan({ id }: { id: number | undefined }) {
     throw new Error("id is required");
   }
   try {
-    const response = await instance.delete(`/calendar`, {
+    const response = await instance.delete(`/calendar/${id}`, {
       params: { id: id },
       withCredentials: true,
     });

@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
   res.json();
 });
 
-router.patch("/", async (req, res) => {
+router.patch("/:id", async (req, res) => {
   const token = req.headers.authorization.split("Bearer ")[1];
   const decoded = jwt.verify(token, process.env.JWT_KEY);
   const memberId = decoded.id;
@@ -50,7 +50,7 @@ router.patch("/", async (req, res) => {
     req.body.ddayChecked,
     req.body.color,
     memberId,
-    req.body.id,
+    req.params.id,
   ];
   const query = `UPDATE plan SET title=(?), description=(?), date=(?), startTime=(?), endTime=(?), ddayChecked=(?), color=(?), memberId=(?)  WHERE planId = (?);`;
 
@@ -59,8 +59,8 @@ router.patch("/", async (req, res) => {
   res.json({ message: "Schedule has been successfully edited." });
 });
 
-router.delete("/", async (req, res) => {
-  const id = req.query.id;
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
 
   await db.query(`DELETE FROM plan WHERE planId = (?)`, id);
 
