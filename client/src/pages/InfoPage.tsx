@@ -22,7 +22,7 @@ function InfoPage(): JSX.Element {
         <h1 className={classes.info__title}>온라인 캘린더 및 다이어리</h1>
         <p className={classes.info__intro}>
           DayGrid는 일상을 체계적으로 관리하고 기록할 수 있는 공간입니다. <br />
-          당신의 시간을 효율적으로 활용하고, 소중한 추억도 남겨보세요!
+          당신의 시간을 효율적으로 활용하고, 소중한 추억도 남겨보세요.
         </p>
         <div className={classes.info__btn_con}>
           <div className={classes.info__btn} onClick={() => dispatch(openModal("login"))}>
