@@ -3,7 +3,7 @@ const db = require("../data/db");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/plan", async (req, res) => {
   const token = req.headers.authorization.split("Bearer ")[1];
   const decoded = jwt.verify(token, process.env.JWT_KEY);
 
@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
   res.json(plans[0]);
 });
 
-router.post("/", async (req, res) => {
+router.post("/plan", async (req, res) => {
   const token = req.headers.authorization.split("Bearer ")[1];
   const decoded = jwt.verify(token, process.env.JWT_KEY);
   const memberId = decoded.id;
@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
   res.json();
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/plan/:id", async (req, res) => {
   const token = req.headers.authorization.split("Bearer ")[1];
   const decoded = jwt.verify(token, process.env.JWT_KEY);
   const memberId = decoded.id;
@@ -59,7 +59,7 @@ router.patch("/:id", async (req, res) => {
   res.json({ message: "Schedule has been successfully edited." });
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/plan/:id", async (req, res) => {
   const { id } = req.params;
 
   await db.query(`DELETE FROM plan WHERE planId = (?)`, id);
