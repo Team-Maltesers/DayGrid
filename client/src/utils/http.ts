@@ -210,7 +210,7 @@ export async function updateDiary({
 
 export async function fetchPlans({ start, end }: { start: Date; end: Date }) {
   try {
-    const response = await instance.get(`/calendar`, {
+    const response = await instance.get(`/calendar/plan`, {
       params: { start: new Date(start).toISOString(), end: new Date(end).toISOString() },
       withCredentials: true,
     });
@@ -231,7 +231,7 @@ export async function postPlan({
 }: PostPlanData) {
   try {
     const response = await instance.post(
-      `/calendar`,
+      `/calendar/plan`,
       {
         title: title,
         description: description,
@@ -257,7 +257,7 @@ export async function editPlan({ id, data }: { id: number | undefined; data: Pos
   }
   try {
     const response = await instance.patch(
-      `/calendar/${id}`,
+      `/calendar/plan/${id}`,
       {
         title: data.title,
         description: data.description,
@@ -282,7 +282,7 @@ export async function deletePlan({ id }: { id: number | undefined }) {
     throw new Error("id is required");
   }
   try {
-    const response = await instance.delete(`/calendar/${id}`, {
+    const response = await instance.delete(`/calendar/plan/${id}`, {
       params: { id: id },
       withCredentials: true,
     });
