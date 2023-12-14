@@ -1,6 +1,7 @@
 /* Calendar 페이지 스타일 */
 .calendar__bg {
   height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,6 +13,7 @@
   display: flex;
   align-items: center;
   gap: 3.75rem;
+  overflow: scroll;
 }
 
 .calendar__side,
