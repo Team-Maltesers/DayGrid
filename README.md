@@ -312,21 +312,21 @@ PASSWORD: 12341234
 
 ### 팀 보드
 
-<strong>Notion</strong>
+Notion
 <br />
 <a href="https://quixotic-moth-78c.notion.site/DayGrid-Home-b0cc12191a64433f94ae2775ade5187c?pvs=4">https://quixotic-moth-78c.notion.site/DayGrid-Home-b0cc12191a64433f94ae2775ade5187c?pvs=4</a>
 <br />
 
 ### 페이지 기획 & 디자인
 
-<strong>Figma</strong>
+Figma
 <br />
 <a href="https://www.figma.com/file/sUKydSkFyWgV8Fc02KJmc9/%EC%BA%98%EB%A6%B0%EB%8D%94?type=design&node-id=0-1&mode=design">https://www.figma.com/file/sUKydSkFyWgV8Fc02KJmc9/%EC%BA%98%EB%A6%B0%EB%8D%94?type=design&node-id=0-1&mode=design</a>
 <br />
 
 ### 페이지 플로우, 데이터베이스 설계
 
-<strong>Miro</strong>
+Miro
 <br />
 <a href="https://miro.com/app/board/uXjVM0YuVe8=/">https://miro.com/app/board/uXjVM0YuVe8=/</a>
 <br />
