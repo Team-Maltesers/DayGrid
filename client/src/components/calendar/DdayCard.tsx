@@ -8,7 +8,7 @@ import classes from "../../styles/calendar/Dday.module.css";
 function DdayCard({ data }: DdayCardProps): JSX.Element {
   const dispatch = useDispatch();
 
-  const dday = Math.floor(
+  const dday = Math.ceil(
     (new Date(data.date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
   );
 
