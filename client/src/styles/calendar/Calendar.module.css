@@ -14,6 +14,13 @@
   align-items: center;
   gap: 3.75rem;
   overflow: scroll;
+
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+.calendar__con::-webkit-scrollbar {
+  display: none;
 }
 
 .calendar__side,
