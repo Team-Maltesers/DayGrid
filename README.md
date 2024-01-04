@@ -186,7 +186,7 @@ PASSWORD: 12341234
 
 ### Deployment
 
-![AWS S3](https://camo.githubusercontent.com/41e508fe6d07151c0dff60f1b97b031022fd5a1b40d7c148bcbf7613a6622006/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f416d617a6f6e25323053332d3631444146423f7374796c653d666f722d7468652d6261646765266c6f676f3d616d617a6f6e5333266c6f676f436f6c6f723d7768697465)
+![AWS S3](https://img.shields.io/badge/AWS%20S3-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
 ![CLOUDTYPE](https://shields.io/badge/CLOUDTYPE-black?style=for-the-badge)
 <br/>
 <br/>
