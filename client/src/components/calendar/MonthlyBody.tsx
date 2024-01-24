@@ -24,7 +24,6 @@ function MonthlyBody({ planData }: CalendarProps): JSX.Element {
   const dispatch = useDispatch();
 
   let curDay = calendarStart;
-  let week = [];
   const month = [];
   let key = 0;
 
@@ -49,7 +48,7 @@ function MonthlyBody({ planData }: CalendarProps): JSX.Element {
 
     const clickedDay = curDay;
 
-    week.push(
+    month.push(
       <div key={key} className={classes.monthly__body_cell}>
         <div
           style={{
@@ -94,24 +93,11 @@ function MonthlyBody({ planData }: CalendarProps): JSX.Element {
       </div>,
     );
 
-    if (week.length === 7) {
-      month.push(week);
-      week = [];
-    }
-
     curDay = addDays(curDay, 1);
     key++;
   }
 
-  return (
-    <div className={classes.monthly__body}>
-      {month.map((week, idx) => (
-        <div className={classes.monthly__body_row} key={idx}>
-          {week}
-        </div>
-      ))}
-    </div>
-  );
+  return <div className={classes.monthly__body}>{month.map((day) => day)}</div>;
 }
 
 export default MonthlyBody;

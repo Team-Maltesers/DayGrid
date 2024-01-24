@@ -105,6 +105,9 @@
 .weekly__body_planner_flex {
   height: 90rem;
   width: 100%;
+}
+
+.weekly__body_planner_flex:not(:last-child) {
   border-right: 1px solid #d4d4d4;
 }
 
