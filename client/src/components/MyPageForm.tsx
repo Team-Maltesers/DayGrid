@@ -33,6 +33,7 @@ function MyPageForm(): JSX.Element | null {
   const { data: userInfo } = useQuery<UserInfo>({
     queryKey: ["userInfo", 1],
     queryFn: () => fetchUserInfo(),
+    staleTime: Infinity,
   });
 
   useEffect(() => {

@@ -1,12 +1,12 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
-const Dotenv = require('dotenv-webpack');
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   entry: "./src/index.tsx",
   mode: "development",
   output: {
-    publicPath: '/',
+    publicPath: "/",
     path: path.resolve(__dirname, "./dist"),
     filename: "index_bundle.js",
   },
@@ -21,7 +21,7 @@ module.exports = {
     liveReload: true,
     historyApiFallback: true,
     devMiddleware: {
-      publicPath: '/',
+      publicPath: "/",
     },
   },
   resolve: {
@@ -47,4 +47,5 @@ module.exports = {
     }),
     new Dotenv(),
   ],
+  devtool: "eval-cheap-source-map",
 };
