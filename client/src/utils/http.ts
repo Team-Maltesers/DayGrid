@@ -1,5 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
-import { FormData } from "../components/SignUpForm";
+import { SignupFormData } from "../components/SignUpForm";
 import { LoginFormData } from "../components/LoginForm";
 import { PostPlanData } from "../ts/PlanData";
 import axios from "axios";
@@ -55,7 +55,7 @@ async function refreshAccessToken() {
   }
 }
 
-export async function signup(eventData: FormData) {
+export async function signup(eventData: SignupFormData) {
   try {
     const response = await instance.post(`/signup`, eventData, {
       withCredentials: true,

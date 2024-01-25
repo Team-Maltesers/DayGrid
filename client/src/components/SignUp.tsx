@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { useMutation } from "@tanstack/react-query";
-import SignUpForm, { FormData } from "./SignUpForm";
+import SignUpForm, { SignupFormData } from "./SignUpForm";
 import Modal from "./common/Modal";
 import { signup, queryClient } from "../utils/http";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,7 @@ export default function SignUpModal() {
     },
   });
 
-  function handleSubmit(formData: FormData) {
+  function handleSubmit(formData: SignupFormData) {
     mutate(formData);
   }
   const isOpen = useSelector((state: RootState) => state.modal.modalType);
