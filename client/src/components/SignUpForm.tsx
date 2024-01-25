@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classes from "../styles/SignUpForm.module.css";
 
-export interface FormData {
+export interface SignupFormData {
   name: string;
   email: string;
   birthDate: string;
@@ -21,11 +21,11 @@ export interface FormErrors {
 
 interface SignUpFormProps {
   children: React.ReactNode;
-  onSubmit: (formData: FormData) => void;
+  onSubmit: (formData: SignupFormData) => void;
 }
 
 const SignUpForm: React.FC<SignUpFormProps> = ({ children, onSubmit }) => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<SignupFormData>({
     name: "",
     email: "",
     birthDate: "",

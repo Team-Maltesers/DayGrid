@@ -1,8 +1,11 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 const path = require("path");
 const Dotenv = require("dotenv-webpack");
+const smp = new SpeedMeasurePlugin();
 
-module.exports = {
+module.exports = smp.wrap({
   entry: "./src/index.tsx",
   mode: "development",
   output: {
@@ -31,8 +34,10 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: ["babel-loader", "ts-loader"],
+        loader: "esbuild-loader",
+        options: {
+          target: "es2015",
+        },
       },
       { test: /\.css$/, use: ["style-loader", "css-loader"] },
       {
@@ -45,7 +50,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "public", "index.html"),
     }),
+    new ForkTsCheckerWebpackPlugin(),
     new Dotenv(),
   ],
   devtool: "eval-cheap-source-map",
-};
+});
